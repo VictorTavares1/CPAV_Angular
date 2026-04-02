@@ -1,1 +1,79 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+    <div class="container-fluid navbar-custom">
+
+        <a class="navbar-brand m-0" routerLink="/">
+            <img src="/images/CPAVLogo2.png" alt="CPAV" width="250" height="80" class="d-inline-block align-text-top" />
+        </a>
+
+        <button class="navbar-toggler mb-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav w-100 justify-content-between align-items-center mb-2 mb-lg-0 ps-3 pe-3">
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Início</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        A Instituição
+                    </a>
+                    <ul class="dropdown-menu dropdown-animate">
+                        <li><a class="dropdown-item" routerLink="/quem-somos">Quem Somos</a></li>
+                        <li><a class="dropdown-item" routerLink="/objetivos">Objetivos</a></li>
+                        <li><a class="dropdown-item" routerLink="/orgaos-sociais">Órgãos Sociais</a></li>
+                        <li><a class="dropdown-item" routerLink="/relatorio-contas">Relatório de Contas</a></li>
+                        <li><a class="dropdown-item" routerLink="/contactos">Contactos</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Pré-Escolar
+                    </a>
+                    <ul class="dropdown-menu dropdown-animate">
+                        <li><a class="dropdown-item" routerLink="/pre-escolar">Centro Social Paroquial S. Lourenço</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/centro-social-nsp">Centro Social Nossa Senhora da
+                                Paz</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/apoio-domiciliario" routerLinkActive="active">Apoio
+                        Domiciliário</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/centro-comunitario" routerLinkActive="active">Centro
+                        Comunitário</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        CATL
+                    </a>
+                    <ul class="dropdown-menu dropdown-animate">
+                        <li><a class="dropdown-item" routerLink="/centro-social-nsp/atl">Centro Social Nossa Senhora da
+                                Paz</a></li>
+                        <li><a class="dropdown-item" routerLink="/centro-comunitario/atl">Centro Comunitário
+                                P.A.R.A.G.E.M</a></li>
+                        <li><a class="dropdown-item" routerLink="/atl-belem">Centro Social Nossa Senhora de Belém</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/sala-arco-iris">Sala Arco-Íris</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/noticias" routerLinkActive="active">Notícias</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
