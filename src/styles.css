@@ -1,1 +1,431 @@
-/* You can add global styles to this file, and also import other style files */
+.navbar-custom {
+    display: flex;
+    /* REMOVED default flex column */
+}
+
+/* Centra os itens do menu no desktop e mantém o formulário à direita */
+@media (min-width: 992px) {
+    .navbar-collapse {
+        width: 100%;
+    }
+
+    .navbar-nav {
+        margin: 0;
+    }
+
+    /* Opcional: mantém o formulário na ponta direita */
+    #formPesquisarNoticia {
+        position: absolute;
+        right: 0;
+        /* REMOVED absolute positioning */
+    }
+}
+
+/* Ajuste para o dropdown não ficar desalinhado no mobile */
+.dropdown-menu {
+    text-align: center;
+}
+
+footer {
+    /* Garante que o footer não fica colado ao conteúdo acima */
+    margin-top: 50px;
+}
+
+footer a {
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    color: #0d64c1 !important;
+    /* Cor de destaque ao passar o rato */
+}
+
+
+
+/* Se quiseres que o footer fique sempre no fundo da página mesmo com pouco conteúdo */
+div.container-principal {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    /* make body flex container */
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+    /* main content expands */
+}
+
+
+/* 3. Garante que o footer não tem margens estranhas */
+footer {
+    margin-top: auto;
+}
+
+/* Animação para Dropdowns */
+@keyframes fadeInDrop {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-animate.show {
+    animation: fadeInDrop 0.3s ease-in-out forwards;
+}
+
+/* Custom Hover Colors */
+
+/* Remove Dropdown Arrow/Caret */
+.dropdown-toggle::after {
+    display: none;
+    content: none;
+}
+
+/* Navbar Link Hover - Minimalist Style */
+.navbar-nav .nav-link {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    /* Slightly larger */
+    color: #333;
+    /* Darker grey for better contrast */
+    padding: 10px 15px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 2px solid transparent;
+    /* Prepare for hover underline */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-item.dropdown:hover .nav-link.dropdown-toggle,
+.navbar-nav .nav-link.dropdown-toggle.show {
+    background-color: #0d64c1 !important;
+    color: #ffffff !important;
+    border-radius: 5px;
+    border-bottom: 2px solid transparent;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle border */
+    border-top: 3px solid #0d64c1;
+    /* Brand highlight on top */
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-top: 0;
+}
+
+.dropdown-item {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    font-weight: 400;
+    padding: 10px 20px;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: #0d64c1;
+    color: #ffffff;
+}
+
+
+
+/* Open Dropdown on Hover (Desktop only) */
+@media (min-width: 992px) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+
+
+}
+
+/* --- New Aesthetic Improvements --- */
+
+/* Card Hover Effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    /* Remove default border for cleaner look */
+    overflow: hidden;
+    /* Keep image corners rounded */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Service Card Specifics */
+.service-card-img {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .service-card-img {
+    transform: scale(1.05);
+}
+
+/* Typography Enhancements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Example modern font stack if not using external */
+}
+
+.text-primary-custom {
+    color: #0d64c1 !important;
+}
+
+.btn-custom {
+    background-color: #0d64c1;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    /* Pill shape */
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #0a4b90;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Custom Primary Outline Button */
+.btn-outline-primary {
+    color: #0d64c1;
+    border-color: #0d64c1;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d64c1;
+    color: white;
+    border-color: #0d64c1;
+}
+
+/* Logo Hover Effect */
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.03);
+}
+
+/* --- Dynamic Animations --- */
+
+/* Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animation Utilities */
+.animate-fade-in-up {
+    animation-name: fadeInUp;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.animate-fade-in {
+    animation-name: fadeIn;
+    animation-duration: 1.5s;
+    animation-fill-mode: both;
+}
+
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.delay-3 {
+    animation-delay: 0.6s;
+}
+
+/* Glassmorphism for Captions */
+.glass-caption {
+    background: rgba(0, 0, 0, 0.45) !important;
+    /* Semi-transparent black */
+    backdrop-filter: blur(10px);
+    /* Blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px !important;
+    padding: 20px;
+}
+
+/* Tab Selection Buttons */
+.btn-tab {
+    background-color: #ffffff !important;
+    color: #0d64c1 !important;
+    border: 2px solid #0d64c1 !important;
+    font-weight: 600;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+/* Force hover and active states */
+a.btn-tab:hover,
+a.btn-tab:focus,
+a.btn-tab.active {
+    background-color: #0d64c1 !important;
+    color: #ffffff !important;
+    border-color: #0d64c1 !important;
+}
+
+/* Testimonial Cards */
+.testimonial-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-user-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #e9ecef;
+    color: #0d64c1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.section-title {
+    color: #0d64c1;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.content-text {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    text-align: justify;
+}
+
+.custom-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.custom-list li::before {
+    content: "•";
+    color: #0d64c1;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.axis-title {
+    color: #0d64c1;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.axis-desc {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-3px);
+    /* box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important; */
+}
+
+.icon-box-small {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: circle;
+    background: #e7f1ff;
+    color: #0d6efd;
+    margin-right: 15px;
+    transition: all 0.3s;
+    border-radius: 50%;
+}
+
+.list-group-item:hover .icon-box-small {
+    background: #0d6efd;
+    color: white;
+}
+
+.role-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.person-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
