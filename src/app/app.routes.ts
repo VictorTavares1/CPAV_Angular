@@ -6,6 +6,7 @@ import { Noticias } from './pages/noticias/noticias';
 import { Eventos } from './pages/eventos/eventos';
 import { Contactos } from './pages/contactos/contactos';
 import { ComoAjudar } from './pages/como-ajudar/como-ajudar';
+import { Relatorios } from './pages/relatorios/relatorios';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -15,5 +16,6 @@ export const routes: Routes = [
     { path: 'eventos', component: Eventos },
     { path: 'contactos', component: Contactos },
     { path: 'como-ajudar', component: ComoAjudar },
+    { path: 'relatorios', component: Relatorios },
     { path: '**', redirectTo: '' }
 ];

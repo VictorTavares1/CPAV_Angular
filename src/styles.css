@@ -3406,3 +3406,16 @@ a {
         padding: 50px 0;
     }
 }
+
+.nav-links .dropdown-menu {
+    display: block !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.nav-links .dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
