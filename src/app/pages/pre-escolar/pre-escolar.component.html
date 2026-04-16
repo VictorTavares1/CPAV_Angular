@@ -1,0 +1,187 @@
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-inner">
+            <h1>Pré-Escolar</h1>
+            <p>"Laços que os ligam! Quando brincamos com a imaginação."</p>
+            <p>Um espaço educativo e seguro para crianças dos 3 aos 6 anos, focado no desenvolvimento emocional, social,
+                cognitivo e motor, preparando-as para a entrada no 1º ciclo.</p>
+        </div>
+    </div>
+</section>
+
+<main class="page-content">
+    <div class="container">
+
+        <!-- Informação Geral -->
+        <section class="section-card">
+            <h2>O Pré-Escolar na Instituição</h2>
+            <p class="section-lead">
+                A nossa instituição assegura a resposta de Pré-Escolar em dois equipamentos distintos, promovendo o
+                desenvolvimento integral da criança através de uma pedagogia ativa, lúdica e centrada nas necessidades
+                individuais de cada criança.
+            </p>
+            <table class="info-table info-table--kv">
+                <tbody>
+                    <tr>
+                        <th>Público-Alvo</th>
+                        <td>Crianças dos 3 aos 6 anos</td>
+                    </tr>
+                    <tr>
+                        <th>Horário</th>
+                        <td>Das 7h30 às 19h30 (segunda a sexta-feira)</td>
+                    </tr>
+                    <tr>
+                        <th>Componentes</th>
+                        <td>Atividades pedagógicas, refeições (pequeno-almoço, almoço e lanche), recreio, descanso</td>
+                    </tr>
+                    <tr>
+                        <th>Equipa</th>
+                        <td>Educadoras(es) de infância, auxiliares de ação educativa, técnicos especializados</td>
+                    </tr>
+                    <tr>
+                        <th>Objetivos</th>
+                        <td>Promover autonomia, socialização, desenvolvimento psicomotor e aprendizagens significativas
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Projeto Pedagógico -->
+        <section class="section-card">
+            <h2>Projeto Pedagógico</h2>
+            <div class="section-lead">
+                <p>O nosso projeto educativo baseia-se nos seguintes princípios fundamentais:</p>
+                <ul class="clean-list" style="margin-top: 12px;">
+                    <li><strong>Desenvolvimento Integral:</strong> Atendimento harmonioso às dimensões físicas,
+                        emocionais, sociais e cognitivas</li>
+                    <li><strong>Brincar como Aprendizagem:</strong> Valorização do jogo e da brincadeira como principais
+                        veículos de aprendizagem</li>
+                    <li><strong>Individualização:</strong> Respeito pelo ritmo e características únicas de cada criança
+                    </li>
+                    <li><strong>Inclusão:</strong> Criação de ambientes acolhedores e adaptados a todas as crianças</li>
+                    <li><strong>Participação Familiar:</strong> Envolvimento ativo das famílias no processo educativo
+                    </li>
+                    <li><strong>Contacto com a Natureza:</strong> Promoção de atividades ao ar livre e educação
+                        ambiental</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Equipamentos com Tabs -->
+        <section class="section-card">
+            <h2>Equipamentos Pré-Escolar</h2>
+
+            <div class="gallery-tabs" role="tablist" aria-label="Galerias por edifício">
+                <button *ngFor="let b of buildings" type="button" class="gallery-tab"
+                    [class.is-active]="activeTab === b.key" [attr.aria-selected]="activeTab === b.key"
+                    (click)="setTab(b.key)">
+                    {{ b.tab }}
+                </button>
+            </div>
+
+            <ng-container *ngFor="let b of buildings">
+                <div class="building-panel" [class.is-active]="activeTab === b.key" role="tabpanel">
+
+                    <div class="building-meta">
+                        <h3 class="building-title">{{ b.name }}</h3>
+                        <p class="building-desc">{{ b.desc }}</p>
+
+                        <table class="info-table info-table--kv" style="margin-top: 12px;">
+                            <tbody>
+                                <tr *ngFor="let row of b.table">
+                                    <th>{{ row.label }}</th>
+                                    <td>
+                                        <a *ngIf="row.href; else plainValue" [href]="row.href">{{ row.value }}</a>
+                                        <ng-template #plainValue>{{ row.value }}</ng-template>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="building-map">
+                            <iframe [src]="getSafeUrl(b.mapSrc)" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
+                            </iframe>
+                        </div>
+
+                        <div class="building-note" *ngIf="b.note" style="margin-top: 12px;">
+                            <strong>Nota:</strong> {{ b.note }}
+                        </div>
+                    </div>
+
+                    <!-- Galeria (placeholder até API estar pronta) -->
+                    <p
+                        style="text-align: center; padding: 20px; color: #666; background: #f8f9fa; border-radius: 8px; margin-top: 16px;">
+                        Não existem imagens disponíveis para este edifício.
+                    </p>
+
+                </div>
+            </ng-container>
+        </section>
+
+        <!-- Inscrições -->
+        <section class="section-card">
+            <h2>Inscrições</h2>
+            <p>Para mais informações sobre vagas, inscrições e valores, contacte diretamente os nossos estabelecimentos
+                através dos contactos acima indicados ou visite as instalações durante o horário de funcionamento.</p>
+            <div
+                style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);">
+                <p style="margin: 0;"><strong>Documentação necessária para inscrição:</strong></p>
+                <ul class="clean-list" style="margin-top: 8px;">
+                    <li>Cartão de Cidadão da criança</li>
+                    <li>Cartão de Cidadão do encarregado de educação</li>
+                    <li>Comprovativo de residência</li>
+                    <li>Boletim de vacinas atualizado</li>
+                    <li>Número de identificação fiscal (NIF) da criança</li>
+                    <li>Número de utente do Serviço Nacional de Saúde</li>
+                    <li>2 fotografias tipo passe</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FAQs -->
+        <section class="section-card">
+            <h2>Perguntas Frequentes</h2>
+            <div style="margin-top: 15px;">
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">Que idade deve ter a criança para ingressar no
+                        Pré-Escolar?</h4>
+                    <p style="margin: 0; color: #555;">As crianças podem ingressar a partir dos 3 anos de idade, desde
+                        que já tenham adquirido autonomia nas rotinas básicas de higiene e alimentação.</p>
+                </div>
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">As crianças fazem sesta durante o dia?</h4>
+                    <p style="margin: 0; color: #555;">Sim, todas as crianças têm período de descanso após o almoço,
+                        adequado à idade e necessidades individuais de cada uma.</p>
+                </div>
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">Como é feita a comunicação com as famílias?</h4>
+                    <p style="margin: 0; color: #555;">Através de contactos diretos com as educadoras, reuniões
+                        periódicas, agenda diária e plataformas digitais de comunicação.</p>
+                </div>
+
+                <div>
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">Que tipo de refeições são servidas?</h4>
+                    <p style="margin: 0; color: #555;">Servimos pequeno-almoço, almoço e lanche, seguindo as orientações
+                        da Direção-Geral da Saúde para ementas escolares saudáveis e equilibradas.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" *ngIf="lightboxVisible">
+    <div class="lightbox-backdrop" (click)="closeLightbox()"></div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true">
+        <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+        <img [src]="lightboxSrc" [alt]="lightboxTitle">
+        <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+</div>
