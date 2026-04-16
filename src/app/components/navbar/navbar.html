@@ -1,0 +1,65 @@
+<header class="site-header">
+    <div class="container">
+
+        <a class="brand" routerLink="/">
+            <img class="brand-logo" src="/images/CPAVLogo.png" alt="Logo">
+            <div class="brand-text">
+                <div class="brand-top">CENTRO SOCIAL PAROQUIAL DE</div>
+                <div class="brand-name">SÃO LOURENÇO</div>
+                <div class="brand-sub">DE ALHOS VEDROS</div>
+            </div>
+        </a>
+
+        <nav class="nav-links" [class.active]="menuOpen" aria-label="Navegação principal">
+
+            <div class="nav-item dropdown">
+                <button class="nav-link nav-link--dropdown" type="button">
+                    Instituição <span class="nav-caret" aria-hidden="true"></span>
+                </button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-link" routerLink="/sobre-nos" (click)="closeMenu()">Sobre Nós</a>
+                    <a class="dropdown-link" routerLink="/relatorios" (click)="closeMenu()">Relatórios</a>
+                </div>
+            </div>
+
+            <div class="nav-item dropdown">
+                <button class="nav-link nav-link--dropdown" type="button">
+                    Serviços <span class="nav-caret" aria-hidden="true"></span>
+                </button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-link" routerLink="/servicos" (click)="closeMenu()">Todos</a>
+                    <a class="dropdown-link" routerLink="/servicos/pre-escolar" (click)="closeMenu()">Pré-Escolar</a>
+                    <a class="dropdown-link" routerLink="/servicos/catl" (click)="closeMenu()">C.A.T.L</a>
+                    <a class="dropdown-link" routerLink="/servicos/sad" (click)="closeMenu()">Serviço de Apoio
+                        Domiciliário</a>
+                    <a class="dropdown-link" routerLink="/servicos/paragem" (click)="closeMenu()">Centro Comunitário
+                        P.A.R.A.G.E.M</a>
+                    <a class="dropdown-link" routerLink="/servicos/nossa-senhora-belem" (click)="closeMenu()">Centro
+                        Social N. Sra. de Belém</a>
+                    <a class="dropdown-link" routerLink="/servicos/apoio-estudo" (click)="closeMenu()">Apoio ao
+                        Estudo</a>
+                    <a class="dropdown-link" routerLink="/servicos/po-apmc" (click)="closeMenu()">PO APMC</a>
+                </div>
+            </div>
+
+            <a class="nav-link" routerLink="/noticias" routerLinkActive="is-active" (click)="closeMenu()">Notícias</a>
+            <a class="nav-link" routerLink="/eventos" routerLinkActive="is-active" (click)="closeMenu()">Eventos</a>
+            <a class="nav-link" routerLink="/contactos" routerLinkActive="is-active" (click)="closeMenu()">Contactos</a>
+            <a class="nav-link" routerLink="/como-ajudar" routerLinkActive="is-active" (click)="closeMenu()">Como
+                ajudar</a>
+
+        </nav>
+
+        <div class="nav-actions">
+            <a class="icon-btn" routerLink="/admin" aria-label="Admin Login">
+                <img src="/images/admin-login.png" alt="Admin Login" width="20" height="20">
+            </a>
+            <button class="hamburger-btn" [class.active]="menuOpen" (click)="toggleMenu()" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="menu-overlay" [class.active]="menuOpen" (click)="closeMenu()"></div>
+</header>

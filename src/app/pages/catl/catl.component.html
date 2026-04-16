@@ -1,0 +1,222 @@
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-inner">
+            <h1>C.A.T.L. - Centro de Atividades de Tempos Livres</h1>
+            <p>"Juntos caminhamos, brincamos e crescemos."</p>
+            <p>Centro de Atividades de Tempos Livres dedicado a crianças do 1º ciclo, promovendo o desenvolvimento
+                integral através de atividades pedagógicas, lúdicas e de apoio à família.</p>
+        </div>
+    </div>
+</section>
+
+<main class="page-content">
+    <div class="container">
+
+        <!-- O CATL NA INSTITUIÇÃO -->
+        <section class="section-card">
+            <h2>O C.A.T.L. na Instituição</h2>
+            <p class="section-lead">
+                O Centro de Atividades de Tempos Livres oferece um espaço seguro e educativo para crianças fora do
+                horário escolar, combinando apoio pedagógico com atividades recreativas, desportivas e culturais.
+            </p>
+
+            <table class="info-table info-table--kv">
+                <tbody>
+                    <tr>
+                        <th>Público-Alvo</th>
+                        <td>Crianças do 1º ciclo (6 aos 10 anos)</td>
+                    </tr>
+                    <tr>
+                        <th>Horário</th>
+                        <td>Das 7h30 às 19h30 (período escolar)<br>Das 8h00 às 19h00 (férias escolares)</td>
+                    </tr>
+                    <tr>
+                        <th>Componentes</th>
+                        <td>Apoio ao estudo, refeições, atividades lúdicas, desportivas, expressões artísticas</td>
+                    </tr>
+                    <tr>
+                        <th>Equipa</th>
+                        <td>Educadores(as), auxiliares de ação educativa, monitores especializados em atividades de
+                            tempos livres</td>
+                    </tr>
+                    <tr>
+                        <th>Objetivos</th>
+                        <td>Promover o desenvolvimento social, emocional e cognitivo; apoiar as famílias no cuidado das
+                            crianças</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- PROJETO PEDAGÓGICO -->
+        <section class="section-card">
+            <h2>Projeto Pedagógico</h2>
+            <div class="section-lead">
+                <p>O nosso projeto educativo baseia-se nos seguintes princípios fundamentais:</p>
+                <ul class="clean-list" style="margin-top: 12px;">
+                    <li><strong>Apoio Escolar Integrado:</strong> Espaço para realização de trabalhos de casa e apoio às
+                        aprendizagens escolares</li>
+                    <li><strong>Desenvolvimento Social:</strong> Promoção de competências sociais através de jogos
+                        cooperativos e atividades em grupo</li>
+                    <li><strong>Educação para a Saúde:</strong> Hábitos de higiene, alimentação saudável e atividade
+                        física regular</li>
+                    <li><strong>Criatividade e Expressão:</strong> Atividades artísticas, musicais e dramáticas que
+                        estimulam a criatividade</li>
+                    <li><strong>Educação Ambiental:</strong> Contacto com a natureza e sensibilização para a proteção do
+                        ambiente</li>
+                    <li><strong>Participação Familiar:</strong> Envolvimento ativo das famílias no desenvolvimento das
+                        crianças</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ATIVIDADES PRINCIPAIS -->
+        <section class="section-card">
+            <h2>Atividades Principais</h2>
+            <div class="section-lead">
+                <p>O C.A.T.L. desenvolve um plano de atividades diversificado que inclui:</p>
+                <ul class="clean-list" style="margin-top: 12px;">
+                    <li>Apoio ao estudo e realização de trabalhos de casa</li>
+                    <li>Atividades lúdico-pedagógicas</li>
+                    <li>Expressão plástica, dramática e musical</li>
+                    <li>Desporto e jogos cooperativos</li>
+                    <li>Educação para a saúde e cidadania</li>
+                    <li>Atividades ao ar livre e contacto com a natureza</li>
+                    <li>Celebração de datas festivas e tradicionais</li>
+                    <li>Visitas de estudo e passeios pedagógicos</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- EQUIPAMENTOS / TABS -->
+        <section class="section-card">
+            <h2>Equipamentos C.A.T.L.</h2>
+
+            <div class="gallery-tabs" role="tablist" aria-label="Equipamentos C.A.T.L.">
+                <button *ngFor="let b of buildings" type="button" class="gallery-tab"
+                    [class.is-active]="activeTab === b.key" [attr.aria-selected]="activeTab === b.key"
+                    (click)="setTab(b.key)">
+                    {{ b.tab }}
+                </button>
+            </div>
+
+            <div *ngFor="let b of buildings" class="building-panel" [class.is-active]="activeTab === b.key"
+                role="tabpanel">
+
+                <div class="building-meta">
+                    <h3 class="building-title">{{ b.name }}</h3>
+                    <p class="building-desc">{{ b.desc }}</p>
+
+                    <table class="info-table info-table--kv" style="margin-top: 12px;">
+                        <tbody>
+                            <tr *ngFor="let row of b.table">
+                                <th>{{ row.label }}</th>
+                                <td *ngIf="!row.isHtml">{{ row.value }}</td>
+                                <td *ngIf="row.isHtml" [innerHTML]="row.value"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="building-map">
+                        <iframe [src]="b.mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- GALERIA (placeholder até API) -->
+                <div *ngIf="b.images.length === 0"
+                    style="text-align: center; padding: 20px; color: #666; background: #f8f9fa; border-radius: 8px;">
+                    Não existem imagens disponíveis para este edifício.
+                </div>
+
+                <div *ngIf="b.images.length > 0" class="simple-gallery">
+                    <figure *ngFor="let img of b.images" class="sg-item">
+                        <button type="button" class="sg-btn" (click)="openLightbox(img, img)">
+                            <img [src]="img" [alt]="img" loading="lazy">
+                        </button>
+                        <figcaption class="sg-cap">{{ img }}</figcaption>
+                    </figure>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INSCRIÇÕES -->
+        <section class="section-card">
+            <h2>Inscrições</h2>
+            <div style="margin-top: 20px;">
+                <p>Para mais informações sobre vagas, inscrições e valores, contacte diretamente os equipamentos através
+                    dos contactos acima indicados ou visite as instalações.</p>
+                <div
+                    style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);">
+                    <p style="margin: 0;"><strong>Documentação necessária para inscrição:</strong></p>
+                    <ul class="clean-list" style="margin-top: 8px;">
+                        <li>Cartão de Cidadão da criança</li>
+                        <li>Cartão de Cidadão do encarregado de educação</li>
+                        <li>Comprovativo de residência</li>
+                        <li>Comprovativo de escalão de Ação Social Escolar</li>
+                        <li>Declaração médica de vacinas em dia</li>
+                        <li>Número de identificação fiscal (NIF) da criança</li>
+                        <li>2 fotografias tipo passe</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section-card">
+            <h2>Perguntas Frequentes</h2>
+            <div style="margin-top: 15px;">
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">Qual é a idade para ingressar no C.A.T.L.?</h4>
+                    <p style="margin: 0; color: #555;">O C.A.T.L. destina-se a crianças do 1º ciclo, ou seja, dos 6 aos
+                        10 anos de idade.</p>
+                </div>
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">O C.A.T.L. funciona durante as férias escolares?
+                    </h4>
+                    <p style="margin: 0; color: #555;">Sim, o C.A.T.L. funciona durante todo o ano, incluindo férias
+                        escolares e interrupções letivas, com um horário adaptado e programação especial de atividades.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">As refeições estão incluídas?</h4>
+                    <p style="margin: 0; color: #555;">Sim, o serviço inclui lanche durante o período escolar e almoço e
+                        lanche durante as férias e interrupções letivas, seguindo orientações de alimentação saudável.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">Como é feito o apoio ao estudo?</h4>
+                    <p style="margin: 0; color: #555;">O apoio ao estudo é realizado diariamente por
+                        educadores/monitores que acompanham as crianças na realização dos trabalhos de casa e na
+                        consolidação das aprendizagens escolares.</p>
+                </div>
+
+                <div>
+                    <h4 style="color: #1e3d6f; margin-bottom: 5px;">Há transporte disponível?</h4>
+                    <p style="margin: 0; color: #555;">O serviço de transporte está disponível em alguns equipamentos.
+                        Consulte diretamente cada equipamento para informações específicas sobre rotas e horários de
+                        transporte.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" *ngIf="lightboxVisible">
+    <div class="lightbox-backdrop" (click)="closeLightbox()"></div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true">
+        <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+        <img [src]="lightboxImg" [alt]="lightboxTitle">
+        <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+</div>
