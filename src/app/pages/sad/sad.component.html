@@ -1,237 +1,214 @@
-<!-- ============================================================
-     Página: Serviço de Apoio Domiciliário (SAD)
-     Migrado de: sad.php
-     Autor: CPAV
-     ============================================================ -->
-
-<!-- ── Herói da página ── -->
 <section class="page-hero">
-  <div class="page-hero-inner container">
-    <h1>Serviço de Apoio Domiciliário</h1>
-    <p>
-      Cuidados personalizados no conforto do seu lar, promovendo a autonomia
-      e a qualidade de vida das pessoas e famílias.
-    </p>
+  <div class="container">
+    <div class="page-hero-inner">
+      <h1>Serviço de Apoio Domiciliário (S.A.D.)</h1>
+      <p>"Cuidamos de quem já cuidou"</p>
+      <p>Um serviço de proximidade que apoia idosos e pessoas com dependência no seu próprio domicílio, promovendo a autonomia, o bem-estar e a qualidade de vida.</p>
+    </div>
   </div>
 </section>
 
-<main class="sad-page container">
+<main class="page-content">
+  <div class="container">
 
-  <!-- ── Secção 1: Missão e imagem ── -->
-  <section class="sad-intro">
-    <div class="sad-intro__media">
-      <!-- Imagem principal do SAD — carrinha de apoio domiciliário -->
-      <img
-        src="/images/apoio_domiciliario.png"
-        alt="Carrinha de Apoio Domiciliário do CPAV"
-        class="sad-intro__img"
-      />
-    </div>
-
-    <div class="sad-intro__text">
-      <h2 class="sad-intro__heading">A Nossa Missão</h2>
-      <!-- Slogan do serviço -->
-      <p class="sad-intro__slogan">"Cuidamos de quem já cuidou"</p>
-      <p>
-        O Serviço de Apoio Domiciliário (SAD) é uma resposta social que consiste
-        na prestação de cuidados e serviços a famílias e/ou pessoas que se
-        encontrem no seu domicílio, em situação de dependência física e/ou
-        psíquica e que não possam assegurar, temporária ou permanentemente,
-        a satisfação das suas necessidades básicas e/ou atividades da vida diária.
+    <!-- O SAD NA INSTITUIÇÃO -->
+    <section class="section-card">
+      <h2>O Serviço de Apoio Domiciliário na Instituição</h2>
+      <p class="section-lead">
+        O S.A.D. é uma resposta social que visa apoiar pessoas idosas ou com dependência, garantindo-lhes cuidados personalizados no seu ambiente familiar, prevenindo situações de isolamento e promovendo o envelhecimento ativo e com dignidade.
       </p>
-      <p>
-        Prestamos cuidados personalizados no conforto do seu lar,
-        promovendo a autonomia e a qualidade de vida.
-      </p>
-    </div>
-  </section>
 
-  <hr class="sad-divider" />
+      <table class="info-table info-table--kv">
+        <tbody>
+          <tr>
+            <th>Público-Alvo</th>
+            <td>Idosos (a partir dos 65 anos) e pessoas com dependência física ou cognitiva</td>
+          </tr>
+          <tr>
+            <th>Horário</th>
+            <td>Segunda a Sexta-feira: 8h00 às 20h00 e Sábados: 9h00 às 13h00 (serviço de urgência)</td>
+          </tr>
+          <tr>
+            <th>Área de Intervenção</th>
+            <td>Alhos Vedros e freguesias limítrofes do concelho da Moita</td>
+          </tr>
+          <tr>
+            <th>Equipa</th>
+            <td>Assistentes operacionais, auxiliares de geriatria, coordenador técnico, psicólogo (apoio)</td>
+          </tr>
+          <tr>
+            <th>Objetivos</th>
+            <td>Manter as pessoas no seu ambiente familiar, prevenir institucionalização, promover autonomia e qualidade de vida</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <!-- ── Secção 2: Objetivos e público-alvo ── -->
-  <section class="sad-info-grid">
-
-    <!-- Coluna esquerda: Objetivos -->
-    <div class="sad-block">
-      <h3 class="sad-block__title">
-        <!-- Ícone de alvo -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-          <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/>
-          <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-        </svg>
-        Objetivos
-      </h3>
-
-      <!-- Lista de objetivos, gerada dinamicamente a partir do componente -->
-      <ul class="sad-block__list">
-        @for (objetivo of objetivos; track objetivo.texto) {
-          <li class="sad-block__item">
-            <!-- Marca de verificação -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="sad-block__check" aria-hidden="true">
-              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-            </svg>
-            <span>{{ objetivo.texto }}</span>
-          </li>
-        }
-      </ul>
-    </div>
-
-    <!-- Coluna direita: A quem se destina -->
-    <div class="sad-block">
-      <h3 class="sad-block__title">
-        <!-- Ícone de grupo de pessoas -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-          <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.276zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
-        </svg>
-        A Quem Se Destina
-      </h3>
-
-      <div class="sad-block__callout">
-        <p>
-          A resposta social de SAD destina-se a pessoas que se encontrem
-          no seu domicílio, em situação de dependência física e/ou psíquica
-          e que não possam assegurar, temporária ou permanentemente,
-          a satisfação das suas necessidades básicas e/ou atividades da vida
-          diária, nem disponham de apoio familiar para o efeito.
-        </p>
+    <!-- SERVIÇOS PRESTADOS -->
+    <section class="section-card">
+      <h2>Serviços Prestados</h2>
+      <div class="section-lead">
+        <p>O S.A.D. disponibiliza um conjunto abrangente de serviços adaptados às necessidades específicas de cada utente:</p>
+        <ul class="clean-list" style="margin-top: 12px;">
+          @for (s of servicosPrestados; track s.titulo) {
+            <li><strong>{{ s.titulo }}:</strong> {{ s.descricao }}</li>
+          }
+        </ul>
       </div>
-    </div>
+    </section>
 
-  </section>
+    <!-- METODOLOGIA DE INTERVENÇÃO -->
+    <section class="section-card">
+      <h2>Metodologia de Intervenção</h2>
+      <div class="section-lead">
+        <p>O nosso trabalho baseia-se numa abordagem personalizada e centrada na pessoa:</p>
+        <ul class="clean-list" style="margin-top: 12px;">
+          @for (m of metodologia; track m.titulo) {
+            <li><strong>{{ m.titulo }}:</strong> {{ m.descricao }}</li>
+          }
+        </ul>
+      </div>
+    </section>
 
-  <hr class="sad-divider" />
+    <!-- EQUIPAMENTO DE COORDENAÇÃO -->
+    <section class="section-card">
+      <h2>Equipamento de Coordenação</h2>
 
-  <!-- ── Secção 3: Serviços Prestados ── -->
-  <section class="sad-servicos">
-    <div class="sad-servicos__header">
-      <h2 class="sad-servicos__title">Serviços Prestados</h2>
-      <p class="sad-servicos__sub">
-        Um conjunto de serviços abrangentes para garantir o seu bem-estar.
-      </p>
-    </div>
+      <div class="gallery-tabs" role="tablist" aria-label="Equipamentos S.A.D.">
+        @for (b of buildings; track b.key) {
+          <button type="button" class="gallery-tab"
+            [class.is-active]="activeTab === b.key"
+            [attr.aria-selected]="activeTab === b.key"
+            (click)="setTab(b.key)">
+            {{ b.tab }}
+          </button>
+        }
+      </div>
 
-    <!-- Grelha de serviços gerada dinamicamente -->
-    <div class="sad-servicos__grid">
-      @for (servico of servicosPrestados; track servico.iconeId) {
-        <div class="sad-servico-card">
+      @for (b of buildings; track b.key) {
+        <div class="building-panel" [class.is-active]="activeTab === b.key" role="tabpanel">
 
-          <!-- Ícones SVG definidos diretamente no template (sem [innerHTML])
-               para evitar avisos de segurança do Angular.
-               O @switch seleciona o ícone com base no 'iconeId' do serviço. -->
-          <div class="sad-servico-card__icon" aria-hidden="true">
-            @switch (servico.iconeId) {
+          <div class="building-meta">
+            <h3 class="building-title">{{ b.name }}</h3>
+            <p class="building-desc">{{ b.desc }}</p>
 
-              <!-- Higiene Pessoal: ícone de gota de água -->
-              @case ('higiene-pessoal') {
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M13.5 0a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V7.5h-1.5a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V15h-1.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5h-2zM7 1.5l.364-.343a.5.5 0 0 0-.728 0l-.002.002-.006.007-.022.023-.08.088a29.058 29.058 0 0 0-1.274 1.517c-.769.983-1.714 2.526-1.714 4.206 0 2.428 1.555 4 3.5 4s3.5-1.572 3.5-4c0-1.68-.945-3.223-1.714-4.206a29.062 29.062 0 0 0-1.327-1.55l-.022-.023-.006-.007-.002-.001L7 1.5z"/>
-                </svg>
-              }
+            <table class="info-table info-table--kv" style="margin-top: 12px;">
+              <tbody>
+                @for (row of b.table; track row.label) {
+                  <tr>
+                    <th>{{ row.label }}</th>
+                    @if (row.isHtml) {
+                      <td [innerHTML]="row.value"></td>
+                    } @else {
+                      <td>{{ row.value }}</td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
 
-              <!-- Refeições: ícone de chávena -->
-              @case ('refeicoes') {
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8.5 5.034v1.1l.953.55.5-.867L9 5.366V4.5a.5.5 0 0 0-1 0v.234l-.367-.225-.5.866.953.55.414-.252zM.5 4h15v2.5A6.5 6.5 0 0 1 9 12.978V14.5a.5.5 0 0 1-1 0V12.978A6.5 6.5 0 0 1 .5 6.5V4zM1 5v1.5a5.5 5.5 0 0 0 5.5 5.5A5.5 5.5 0 0 0 12 6.5V5H1z"/>
-                </svg>
-              }
+            <div class="building-map">
+              <iframe [src]="b.mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
 
-              <!-- Higiene Habitacional: ícone de casa -->
-              @case ('higiene-habitacional') {
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-4h3v4H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4H6v4H2.5z"/>
-                </svg>
-              }
-
-              <!-- Tratamento de Roupa: ícone de cesto -->
-              @case ('tratamento-roupa') {
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-                </svg>
-              }
-
-              <!-- Acompanhamento: ícone de coração -->
-              @case ('acompanhamento') {
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                </svg>
-              }
-
-              <!-- Apoio Psicossocial: ícone de cara sorridente -->
-              @case ('apoio-psicossocial') {
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                  <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
-                </svg>
-              }
-
+            @if (b.note) {
+              <div class="building-note" style="margin-top: 12px;">
+                <strong>Nota:</strong> {{ b.note }}
+              </div>
             }
           </div>
 
-          <div class="sad-servico-card__body">
-            <h4 class="sad-servico-card__title">{{ servico.titulo }}</h4>
-            <p class="sad-servico-card__desc">{{ servico.descricao }}</p>
-          </div>
+          @if (b.images.length === 0) {
+            <p class="sad-no-images">Não existem imagens disponíveis para este equipamento.</p>
+          } @else {
+            <div class="simple-gallery">
+              @for (img of b.images; track img) {
+                <figure class="sg-item">
+                  <button type="button" class="sg-btn" (click)="openLightbox(img, img)">
+                    <img [src]="img" [alt]="img" loading="lazy">
+                  </button>
+                  <figcaption class="sg-cap">{{ img }}</figcaption>
+                </figure>
+              }
+            </div>
+          }
+
         </div>
       }
-    </div>
-  </section>
+    </section>
 
-  <hr class="sad-divider" />
+    <!-- PROCESSO DE ADMISSÃO -->
+    <section class="section-card">
+      <h2>Processo de Admissão</h2>
+      <div class="section-lead">
+        <p>O acesso ao S.A.D. segue um processo criterioso que garante a adequação do serviço às reais necessidades do utente:</p>
 
-  <!-- ── Secção 4: Localização e Contactos ── -->
-  <section class="sad-localizacao">
-    <div class="sad-localizacao__header">
-      <h2 class="sad-localizacao__title">Localização &amp; Contactos</h2>
-      <p class="sad-localizacao__sub">Sediado no Centro Social Nossa Senhora da Paz</p>
-    </div>
+        <div class="sad-info-box">
+          <h3 class="sad-info-box__titulo">Documentação Necessária</h3>
+          <ul class="clean-list" style="margin-top: 8px;">
+            @for (doc of docNecessaria; track doc) {
+              <li>{{ doc }}</li>
+            }
+          </ul>
+        </div>
 
-    <div class="sad-localizacao__body">
-      <!-- Informação de morada e contactos -->
-      <div class="sad-localizacao__info">
-        <p>
-          O Serviço de Apoio Domiciliário parte das nossas instalações
-          no Bairro da Quinta da Fonte da Prata:
-        </p>
-        <address class="sad-localizacao__address">
-          Rua Fernando Pessoa, n.º 10, Bloco Q., 2860-071 Alhos Vedros
-        </address>
-
-        <ul class="sad-localizacao__contacts">
-          <li>
-            <strong>Telefone Geral:</strong>
-            <a href="tel:212892676">212 892 676</a>
-            <span class="sad-localizacao__note">(Chamada para rede fixa nacional)</span>
-          </li>
-          <li>
-            <strong>Telemóvel:</strong>
-            <a href="tel:961420037">961 420 037</a>
-            <span class="sad-localizacao__note">(Chamada para rede móvel nacional)</span>
-          </li>
-        </ul>
-
-        <p class="sad-localizacao__extra">
-          Apoio disponível para responder às suas necessidades.
-        </p>
-
-        <!-- Botão de ação para a página de contactos -->
-        <a routerLink="/contactos" class="btn">Entrar em contacto</a>
+        <div class="sad-etapas">
+          <h3 class="sad-info-box__titulo">Etapas do Processo</h3>
+          <ol class="sad-ol">
+            @for (etapa of etapasProcesso; track etapa.titulo) {
+              <li><strong>{{ etapa.titulo }}:</strong> {{ etapa.descricao }}</li>
+            }
+          </ol>
+        </div>
       </div>
+    </section>
 
-      <!-- Mapa Google Maps incorporado (URL sanitizado pelo Angular com DomSanitizer) -->
-      <div class="sad-localizacao__map">
-        <iframe
-          [src]="mapUrl"
-          title="Mapa do Centro Social Nossa Senhora da Paz — sede do SAD"
-          width="100%"
-          height="380"
-          style="border:0;"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+    <!-- PERGUNTAS FREQUENTES -->
+    <section class="section-card">
+      <h2>Perguntas Frequentes</h2>
+      <div class="sad-faq">
+        @for (item of faq; track item.pergunta; let last = $last) {
+          <div class="sad-faq__item" [class.sad-faq__item--last]="last">
+            <h4 class="sad-faq__q">{{ item.pergunta }}</h4>
+            <p class="sad-faq__a">{{ item.resposta }}</p>
+          </div>
+        }
       </div>
-    </div>
-  </section>
+    </section>
 
+    <!-- CONTACTOS E INFORMAÇÕES -->
+    <section class="section-card">
+      <h2>Contactos e Informações</h2>
+      <div style="margin-top: 15px;">
+        <p>Para mais informações sobre o Serviço de Apoio Domiciliário, candidaturas ou esclarecimentos adicionais:</p>
+
+        <div class="sad-info-box sad-info-box--accent">
+          <p class="sad-info-box__label">Contacte-nos:</p>
+          <ul class="clean-list" style="margin-top: 8px;">
+            <li><strong>Telefone:</strong> 212 892 676 (Rede Fixa Nacional)</li>
+            <li><strong>Telemóvel:</strong> 961 420 037 (Rede Móvel Nacional)</li>
+            <li><strong>Email:</strong> <a href="mailto:csnsp@hotmail.com">csnsp@hotmail.com</a></li>
+            <li><strong>Horário de Atendimento:</strong> Segunda a Sexta-feira, 9h00-12h30 e 14h00-17h30</li>
+            <li><strong>Visitas:</strong> Mediante marcação prévia</li>
+          </ul>
+        </div>
+
+        <p class="sad-nota">
+          <strong>Nota:</strong> O Serviço de Apoio Domiciliário está sujeito a vagas disponíveis. Em caso de lista de espera, os critérios de prioridade são definidos com base na gravidade da situação e no grau de dependência.
+        </p>
+      </div>
+    </section>
+
+  </div>
 </main>
+
+<!-- Lightbox -->
+@if (lightboxVisible) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+      <img [src]="lightboxImg" [alt]="lightboxTitle">
+      <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+  </div>
+}
