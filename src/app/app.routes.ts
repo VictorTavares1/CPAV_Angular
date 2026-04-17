@@ -12,6 +12,7 @@ import { CatlComponent } from './pages/catl/catl.component';
 import { SadComponent } from './pages/sad/sad.component';
 import { ApoioEstudoComponent } from './pages/apoio-estudo/apoio-estudo.component';
 import { NossaSenhoraBelemComponent } from './pages/nossa-senhora-belem/nossa-senhora-belem.component';
+import { ParagemComponent } from './pages/paragem/paragem.component';
 
 
 export const routes: Routes = [
@@ -28,6 +29,7 @@ export const routes: Routes = [
     { path: 'servicos/sad', component: SadComponent },
     { path: 'servicos/apoio-estudo', component: ApoioEstudoComponent },
     { path: 'servicos/nossa-senhora-belem', component: NossaSenhoraBelemComponent },
+    { path: 'servicos/paragem', component: ParagemComponent },
 
     { path: '**', redirectTo: '' }
 ];

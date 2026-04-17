@@ -1,0 +1,176 @@
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <h1>Centro Comunitário P.A.R.A.G.E.M</h1>
+      <p>"Partilhamos aprendizagens e saberes em comunidade"</p>
+      <p>Um espaço dinâmico de encontro, aprendizagem e desenvolvimento comunitário que promove a participação ativa, a inclusão social e o fortalecimento dos laços entre gerações.</p>
+    </div>
+  </div>
+</section>
+
+<main class="page-content">
+  <div class="container">
+
+    <!-- Informação geral -->
+    <section class="section-card">
+      <h2>O Centro Comunitário P.A.R.A.G.E.M</h2>
+      <p class="section-lead">
+        O P.A.R.A.G.E.M (Ponto de Apoio, Recursos e Aprendizagem para Gerações em Movimento) é um centro comunitário que tem como missão criar um espaço de partilha, convívio e desenvolvimento pessoal e social para todas as idades, promovendo a inclusão e a coesão social na comunidade de Alhos Vedros.
+      </p>
+
+      <table class="info-table info-table--kv">
+        <tbody>
+          <tr><th>Público-Alvo</th><td>Todas as idades (crianças, jovens, adultos, seniores)</td></tr>
+          <tr><th>Horário</th><td>Das 9h00 às 18h00 (segunda a sexta-feira) | Horário variável para atividades específicas</td></tr>
+          <tr><th>Atividades</th><td>Oficinas, workshops, grupos de convívio, atividades intergeracionais, apoio ao estudo, formação</td></tr>
+          <tr><th>Equipa</th><td>Técnicos sociais, animadores socioculturais, monitores especializados, voluntários</td></tr>
+          <tr><th>Objetivos</th><td>Promover a inclusão social, fortalecer os laços comunitários, desenvolver competências pessoais e sociais</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Projeto Comunitário -->
+    <section class="section-card">
+      <h2>Projeto Comunitário</h2>
+      <div class="section-lead">
+        <p>O nosso projeto baseia-se nos seguintes princípios fundamentais:</p>
+        <ul class="clean-list pg-principios">
+          @for (p of principios; track p.titulo) {
+            <li><strong>{{ p.titulo }}:</strong> {{ p.descricao }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Áreas de Atuação -->
+    <section class="section-card">
+      <h2>Principais Áreas de Atuação</h2>
+      <div class="pg-areas">
+        @for (area of areasAtuacao; track area.titulo; let last = $last) {
+          <div class="pg-area__item" [class.pg-area__item--last]="last">
+            <h4 class="pg-area__titulo">{{ area.titulo }}</h4>
+            <p class="pg-area__desc">{{ area.descricao }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Gallery tabs -->
+    <section class="section-card">
+      <h2>Equipamento</h2>
+
+      <div class="gallery-tabs" role="tablist" aria-label="Galerias por edifício">
+        @for (b of buildings; track b.key) {
+          <button type="button"
+            class="gallery-tab"
+            [class.is-active]="activeTab === b.key"
+            [attr.aria-selected]="activeTab === b.key"
+            (click)="setTab(b.key)">
+            {{ b.tab }}
+          </button>
+        }
+      </div>
+
+      @for (b of buildings; track b.key) {
+        <div class="building-panel" [class.is-active]="activeTab === b.key" role="tabpanel">
+
+          <div class="building-meta">
+            <h3 class="building-title">{{ b.name }}</h3>
+            <p class="building-desc">{{ b.desc }}</p>
+
+            <table class="info-table info-table--kv pg-table-top">
+              <tbody>
+                @for (row of b.table; track row.label) {
+                  <tr>
+                    <th>{{ row.label }}</th>
+                    <td>
+                      @if (row.isHtml) {
+                        <a [href]="'mailto:' + row.value">{{ row.value }}</a>
+                      } @else {
+                        {{ row.value }}
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+
+            <div class="building-map">
+              <iframe [src]="b.mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+
+            @if (b.note) {
+              <div class="pg-building-note">
+                <strong>Nota:</strong> {{ b.note }}
+              </div>
+            }
+          </div>
+
+          <p class="pg-no-images">Não existem imagens disponíveis para este equipamento.</p>
+
+        </div>
+      }
+    </section>
+
+    <!-- Como Participar -->
+    <section class="section-card">
+      <h2>Como Participar</h2>
+      <p>Para participar nas atividades do Centro Comunitário P.A.R.A.G.E.M ou obter mais informações, contacte-nos diretamente através dos contactos acima indicados ou visite as instalações durante o horário de funcionamento.</p>
+
+      <div class="pg-info-box">
+        <p><strong>Processo de participação:</strong></p>
+        <ol class="pg-ol">
+          @for (passo of processoParticipacao; track passo) {
+            <li>{{ passo }}</li>
+          }
+        </ol>
+      </div>
+
+      <div class="pg-info-box pg-info-box--accent">
+        <p><strong>Importante:</strong> A maioria das atividades do P.A.R.A.G.E.M são gratuitas ou têm custos simbólicos, com o objetivo de garantir a acessibilidade a todos os membros da comunidade.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-card">
+      <h2>Perguntas Frequentes</h2>
+      <div class="pg-faq">
+        @for (item of faq; track item.pergunta; let last = $last) {
+          <div class="pg-faq__item" [class.pg-faq__item--last]="last">
+            <h4 class="pg-faq__q">{{ item.pergunta }}</h4>
+            <p class="pg-faq__a">{{ item.resposta }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Parcerias -->
+    <section class="section-card">
+      <h2>Parcerias e Colaborações</h2>
+      <p class="section-lead">
+        O Centro Comunitário P.A.R.A.G.E.M trabalha em rede com diversas entidades locais para oferecer uma resposta mais completa e integrada à comunidade:
+      </p>
+      <ul class="clean-list pg-parcerias">
+        @for (parceiro of parcerias; track parceiro) {
+          <li>{{ parceiro }}</li>
+        }
+      </ul>
+
+      <div class="pg-info-box pg-info-box--accent pg-parcerias-cta">
+        <p><strong>Colabore connosco:</strong> Se é uma entidade ou organização que gostaria de colaborar com o P.A.R.A.G.E.M, contacte-nos para discutir possíveis parcerias.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Lightbox -->
+@if (lightboxVisible) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+      <img [src]="lightboxImg" [alt]="lightboxTitle">
+      <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+  </div>
+}

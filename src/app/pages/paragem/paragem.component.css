@@ -1,0 +1,182 @@
+/* ============================================================
+   Estilos da página: Centro Comunitário P.A.R.A.G.E.M
+   Segue o sistema de design global definido em styles.css
+   ============================================================ */
+
+.pg-principios {
+  margin-top: 12px;
+}
+
+.pg-principios li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+/* Áreas de atuação */
+.pg-areas {
+  margin-top: 15px;
+}
+
+.pg-area__item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pg-area__item--last {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pg-area__titulo {
+  color: #1e3d6f;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.pg-area__desc {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.pg-table-top {
+  margin-top: 12px;
+}
+
+.pg-building-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.pg-no-images {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Caixas de informação */
+.pg-info-box {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pg-info-box p {
+  margin: 0 0 8px;
+}
+
+.pg-info-box--accent {
+  background: rgba(44, 90, 160, 0.08);
+  border-color: rgba(44, 90, 160, 0.2);
+}
+
+.pg-info-box--accent p {
+  margin: 0;
+}
+
+.pg-ol {
+  margin: 8px 0 0 20px;
+  padding: 0;
+}
+
+.pg-ol li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+/* Parcerias */
+.pg-parcerias {
+  margin-top: 12px;
+}
+
+.pg-parcerias li {
+  margin-bottom: 4px;
+  line-height: 1.6;
+}
+
+.pg-parcerias-cta {
+  margin-top: 15px;
+}
+
+/* FAQ */
+.pg-faq {
+  margin-top: 15px;
+}
+
+.pg-faq__item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pg-faq__item--last {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pg-faq__q {
+  color: #1e3d6f;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.pg-faq__a {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.lightbox-panel {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+}
+
+.lightbox-panel img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 4px;
+  display: block;
+}
+
+.lightbox-title {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
