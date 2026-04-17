@@ -1,0 +1,91 @@
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="poa-hero-logo">
+        <img src="/images/po-apmc-logo.png" alt="Logo PO APMC - Programa Operacional de Apoio às Pessoas Mais Carenciadas">
+      </div>
+      <h1>Programa Operacional de Apoio às Pessoas Mais Carenciadas (PO APMC)</h1>
+      <p>"Combate à pobreza e exclusão social"</p>
+      <p>Um programa nacional que visa diminuir as situações de vulnerabilidade através de apoio alimentar, bens essenciais e acompanhamento social.</p>
+    </div>
+  </div>
+</section>
+
+<main class="page-content">
+  <div class="container">
+
+    <!-- O que é -->
+    <section class="section-card">
+      <h2>O Que É o PO APMC?</h2>
+      <p class="section-lead">
+        O Programa Operacional de Apoio às Pessoas Mais Carenciadas pretende ser um instrumento de combate à pobreza e à exclusão social em Portugal.
+      </p>
+      <p>O programa foi desenhado numa lógica de intervenção mediante apoio alimentar e outros bens de consumo básico, assim como no desenvolvimento de medidas de acompanhamento que capacitem as pessoas mais carenciadas a vários níveis, promovendo assim a sua inclusão.</p>
+
+      <div class="poa-objetivos-box">
+        <h3 class="poa-objetivos-box__titulo">Objetivos Principais</h3>
+        <ul class="clean-list poa-list">
+          @for (obj of objetivos; track obj) {
+            <li>{{ obj }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section class="section-card">
+      <h2>Como Funciona</h2>
+      <p>O programa combina apoio material imediato com medidas de capacitação para promover autonomia e integração social a médio e longo prazo.</p>
+
+      <div class="poa-tipos-apoio">
+        <h3 class="poa-tipos-apoio__titulo">Tipos de Apoio</h3>
+        <ul class="clean-list poa-list">
+          @for (tipo of tiposApoio; track tipo.titulo) {
+            <li><strong>{{ tipo.titulo }}:</strong> {{ tipo.descricao }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Como Solicitar -->
+    <section class="section-card">
+      <h2>Como Solicitar Apoio</h2>
+      <p>Para solicitar apoio através do PO APMC ou obter mais informações sobre o programa, siga os seguintes passos:</p>
+
+      <div class="poa-info-box">
+        <ol class="poa-ol">
+          @for (passo of passosSolicitacao; track passo.titulo) {
+            <li><strong>{{ passo.titulo }}</strong> {{ passo.descricao }}</li>
+          }
+        </ol>
+      </div>
+
+      <p class="poa-nota">O processo de avaliação é confidencial e realizado por profissionais qualificados, com respeito pela dignidade e privacidade de cada pessoa/família.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-card">
+      <h2>Perguntas Frequentes</h2>
+      <div class="poa-faq">
+        @for (item of faq; track item.pergunta; let last = $last) {
+          <div class="poa-faq__item" [class.poa-faq__item--last]="last">
+            <h4 class="poa-faq__q">{{ item.pergunta }}</h4>
+            <p class="poa-faq__a">{{ item.resposta }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Lightbox -->
+@if (lightboxVisible) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+      <img [src]="lightboxImg" [alt]="lightboxTitle">
+      <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+  </div>
+}
