@@ -1,0 +1,145 @@
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <h1>Apoio ao Estudo</h1>
+      <p>"Partilhamos aprendizagens e saberes em comunidade"</p>
+      <p>Um serviço de acompanhamento escolar que promove o sucesso educativo através de metodologias personalizadas, ambiente propício à concentração e apoio especializado para crianças e jovens.</p>
+    </div>
+  </div>
+</section>
+
+<main class="page-content">
+  <div class="container">
+
+    <!-- Informação geral -->
+    <section class="section-card">
+      <h2>O Serviço de Apoio ao Estudo</h2>
+      <p class="section-lead">
+        A Sala Arco-Íris oferece um espaço estruturado e acolhedor onde crianças e jovens do 1º ao 9º ano podem desenvolver hábitos de estudo, reforçar conhecimentos e superar dificuldades escolares com o acompanhamento de profissionais qualificados.
+      </p>
+
+      <table class="info-table info-table--kv">
+        <tbody>
+          <tr><th>Público-Alvo</th><td>Alunos do 1º ao 9º ano de escolaridade</td></tr>
+          <tr><th>Horário</th><td>Segunda a sexta-feira, das 14h30 às 18h30 (período letivo)</td></tr>
+          <tr><th>Disciplinas</th><td>Português, Matemática, Estudo do Meio, História, Ciências, Inglês, Francês</td></tr>
+          <tr><th>Equipa</th><td>Professores, Psicólogos educacionais e Técnicos de apoio</td></tr>
+          <tr><th>Objetivos</th><td>Promover autonomia no estudo, consolidar aprendizagens, melhorar resultados escolares e desenvolver métodos de estudo eficazes</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Metodologia -->
+    <section class="section-card">
+      <h2>Metodologia e Abordagem Pedagógica</h2>
+      <div class="section-lead">
+        <p>O nosso modelo de intervenção baseia-se nos seguintes princípios:</p>
+        <ul class="clean-list ae-metodologia">
+          @for (item of metodologia; track item.titulo) {
+            <li><strong>{{ item.titulo }}:</strong> {{ item.descricao }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Gallery tabs -->
+    <section class="section-card">
+      <h2>Equipamentos Apoio ao Estudo</h2>
+
+      <div class="gallery-tabs" role="tablist" aria-label="Galerias por edifício">
+        @for (b of buildings; track b.key) {
+          <button type="button"
+            class="gallery-tab"
+            [class.is-active]="activeTab === b.key"
+            [attr.aria-selected]="activeTab === b.key"
+            (click)="setTab(b.key)">
+            {{ b.tab }}
+          </button>
+        }
+      </div>
+
+      @for (b of buildings; track b.key) {
+        <div class="building-panel" [class.is-active]="activeTab === b.key" role="tabpanel">
+
+          <div class="building-meta">
+            <h3 class="building-title">{{ b.name }}</h3>
+            <p class="building-desc">{{ b.desc }}</p>
+
+            <table class="info-table info-table--kv ae-table-top">
+              <tbody>
+                @for (row of b.table; track row.label) {
+                  <tr>
+                    <th>{{ row.label }}</th>
+                    <td>
+                      @if (row.isHtml) {
+                        <a [href]="'mailto:' + row.value">{{ row.value }}</a>
+                      } @else {
+                        {{ row.value }}
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+
+            <div class="building-map">
+              <iframe [src]="b.mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <p class="ae-no-images">Não existem imagens disponíveis para este equipamento.</p>
+
+        </div>
+      }
+    </section>
+
+    <!-- Inscrições -->
+    <section class="section-card">
+      <h2>Inscrições</h2>
+      <p>Para mais informações sobre vagas, inscrições e valores, contacte diretamente a Sala Arco-Íris através dos contactos acima indicados ou visite as instalações durante o horário de funcionamento.</p>
+
+      <div class="ae-info-box">
+        <p><strong>Documentação necessária para inscrição:</strong></p>
+        <ul class="clean-list ae-doc-list">
+          @for (doc of docInscricao; track doc) {
+            <li>{{ doc }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="ae-info-box ae-info-box--accent">
+        <p><strong>Critérios de prioridade:</strong></p>
+        <ul class="clean-list ae-doc-list">
+          @for (criterio of criteriosPrioridade; track criterio) {
+            <li>{{ criterio }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-card">
+      <h2>Perguntas Frequentes</h2>
+      <div class="ae-faq">
+        @for (item of faq; track item.pergunta; let last = $last) {
+          <div class="ae-faq__item" [class.ae-faq__item--last]="last">
+            <h4 class="ae-faq__q">{{ item.pergunta }}</h4>
+            <p class="ae-faq__a">{{ item.resposta }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Lightbox -->
+@if (lightboxVisible) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+      <img [src]="lightboxImg" [alt]="lightboxTitle">
+      <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+  </div>
+}

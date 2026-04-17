@@ -9,7 +9,8 @@ import { ComoAjudar } from './pages/como-ajudar/como-ajudar';
 import { Relatorios } from './pages/relatorios/relatorios';
 import { PreEscolarComponent } from './pages/pre-escolar/pre-escolar.component';
 import { CatlComponent } from './pages/catl/catl.component';
-import { SadComponent } from './pages/sad/sad.component'; /* Serviço de Apoio Domiciliário */
+import { SadComponent } from './pages/sad/sad.component';
+import { ApoioEstudoComponent } from './pages/apoio-estudo/apoio-estudo.component';
 
 
 export const routes: Routes = [
@@ -23,7 +24,8 @@ export const routes: Routes = [
     { path: 'relatorios', component: Relatorios },
     { path: 'servicos/pre-escolar', component: PreEscolarComponent },
     { path: 'servicos/catl', component: CatlComponent },
-    { path: 'servicos/sad', component: SadComponent },  /* Página do SAD */
+    { path: 'servicos/sad', component: SadComponent },
+    { path: 'servicos/apoio-estudo', component: ApoioEstudoComponent },
 
     { path: '**', redirectTo: '' }
 ];

@@ -1,0 +1,129 @@
+/* ============================================================
+   Estilos da página: Apoio ao Estudo (Sala Arco-Íris)
+   Segue o sistema de design global definido em styles.css
+   ============================================================ */
+
+.ae-metodologia {
+  margin-top: 12px;
+}
+
+.ae-metodologia li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.ae-table-top {
+  margin-top: 12px;
+}
+
+.ae-no-images {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Caixas de informação */
+.ae-info-box {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ae-info-box p {
+  margin: 0 0 8px;
+}
+
+.ae-info-box--accent {
+  background: rgba(44, 90, 160, 0.05);
+  border-color: rgba(44, 90, 160, 0.2);
+}
+
+.ae-info-box--accent p strong {
+  color: #1e3d6f;
+}
+
+.ae-doc-list {
+  margin-top: 8px;
+}
+
+.ae-doc-list li {
+  margin-bottom: 4px;
+  line-height: 1.6;
+}
+
+/* FAQ */
+.ae-faq {
+  margin-top: 15px;
+}
+
+.ae-faq__item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ae-faq__item--last {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ae-faq__q {
+  color: #1e3d6f;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.ae-faq__a {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.lightbox-panel {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+}
+
+.lightbox-panel img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 4px;
+  display: block;
+}
+
+.lightbox-title {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
