@@ -1,0 +1,296 @@
+/* ============================================================
+   Estilos da página: Serviço de Apoio Domiciliário (SAD)
+   Segue o sistema de design global definido em styles.css
+   ============================================================ */
+
+/* ── Herói da página (reutiliza .page-hero do global) ──────── */
+/* Os estilos base de .page-hero já estão definidos em styles.css */
+
+
+/* ── Página principal ────────────────────────────────────────── */
+.sad-page {
+  padding-block: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+
+/* ── Separador ─────────────────────────────────────────────── */
+.sad-divider {
+  border: none;
+  border-top: 1px solid var(--color-border, #e2e2e2);
+  margin-block: 3rem;
+  opacity: 0.4;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   Secção 1 — Introdução e Missão
+   ════════════════════════════════════════════════════════════ */
+.sad-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* Imagem principal */
+.sad-intro__img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Texto de missão */
+.sad-intro__heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+/* Slogan em itálico */
+.sad-intro__slogan {
+  font-style: italic;
+  color: var(--color-muted, #666);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsividade — tablet/telemóvel */
+@media (max-width: 768px) {
+  .sad-intro {
+    grid-template-columns: 1fr;
+  }
+
+  /* A imagem aparece acima do texto em ecrãs pequenos */
+  .sad-intro__media {
+    order: -1;
+  }
+
+  .sad-intro__img {
+    height: 260px;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   Secção 2 — Objetivos e Público-Alvo
+   ════════════════════════════════════════════════════════════ */
+.sad-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .sad-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bloco genérico (objetivos / a quem se destina) */
+.sad-block__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1.25rem;
+}
+
+/* Lista de objetivos sem marcador padrão */
+.sad-block__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Cada item da lista: ícone + texto */
+.sad-block__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Ícone de verificação a verde */
+.sad-block__check {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Caixa de destaque "A Quem Se Destina" */
+.sad-block__callout {
+  background: var(--color-bg-light, #f7f7f7);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+}
+
+.sad-block__callout p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--color-muted, #555);
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   Secção 3 — Serviços Prestados
+   ════════════════════════════════════════════════════════════ */
+.sad-servicos__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.sad-servicos__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.sad-servicos__sub {
+  color: var(--color-muted, #666);
+  font-size: 1rem;
+}
+
+/* Grelha de cartões de serviço — 3 colunas em desktop */
+.sad-servicos__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .sad-servicos__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .sad-servicos__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cartão individual de serviço */
+.sad-servico-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Ícone do cartão (cor primária da instituição) */
+.sad-servico-card__icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sad-servico-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.sad-servico-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-muted, #666);
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   Secção 4 — Localização e Contactos
+   ════════════════════════════════════════════════════════════ */
+.sad-localizacao__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.sad-localizacao__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.4rem;
+}
+
+.sad-localizacao__sub {
+  color: var(--color-muted, #666);
+  font-size: 1rem;
+}
+
+/* Layout: texto à esquerda, mapa à direita */
+.sad-localizacao__body {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .sad-localizacao__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Morada em estilo semântico */
+.sad-localizacao__address {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-block: 0.75rem 1.25rem;
+}
+
+/* Lista de contactos (telefone / telemóvel) */
+.sad-localizacao__contacts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.sad-localizacao__contacts a {
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-inline: 0.3rem;
+}
+
+.sad-localizacao__contacts a:hover {
+  text-decoration: underline;
+}
+
+/* Nota de tipo de chamada em letra mais pequena */
+.sad-localizacao__note {
+  font-size: 0.8rem;
+  color: var(--color-muted, #888);
+}
+
+.sad-localizacao__extra {
+  font-size: 0.9rem;
+  color: var(--color-muted, #666);
+  margin-bottom: 1.5rem;
+}
+
+/* Iframe do mapa com bordas arredondadas */
+.sad-localizacao__map iframe {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
