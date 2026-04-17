@@ -11,6 +11,7 @@ import { PreEscolarComponent } from './pages/pre-escolar/pre-escolar.component';
 import { CatlComponent } from './pages/catl/catl.component';
 import { SadComponent } from './pages/sad/sad.component';
 import { ApoioEstudoComponent } from './pages/apoio-estudo/apoio-estudo.component';
+import { NossaSenhoraBelemComponent } from './pages/nossa-senhora-belem/nossa-senhora-belem.component';
 
 
 export const routes: Routes = [
@@ -26,6 +27,7 @@ export const routes: Routes = [
     { path: 'servicos/catl', component: CatlComponent },
     { path: 'servicos/sad', component: SadComponent },
     { path: 'servicos/apoio-estudo', component: ApoioEstudoComponent },
+    { path: 'servicos/nossa-senhora-belem', component: NossaSenhoraBelemComponent },
 
     { path: '**', redirectTo: '' }
 ];

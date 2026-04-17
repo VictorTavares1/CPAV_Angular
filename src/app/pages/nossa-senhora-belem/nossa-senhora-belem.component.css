@@ -1,0 +1,119 @@
+/* ============================================================
+   Estilos da página: Centro Social Nossa Senhora de Belém
+   Segue o sistema de design global definido em styles.css
+   ============================================================ */
+
+.nsb-servicos-list {
+  margin-top: 12px;
+}
+
+.nsb-servicos-list li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.nsb-table-top {
+  margin-top: 12px;
+}
+
+.nsb-no-images {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.nsb-info-box {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nsb-info-box p {
+  margin: 0 0 8px;
+}
+
+.nsb-doc-list {
+  margin-top: 8px;
+}
+
+.nsb-doc-list li {
+  margin-bottom: 4px;
+  line-height: 1.6;
+}
+
+/* FAQ */
+.nsb-faq {
+  margin-top: 15px;
+}
+
+.nsb-faq__item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nsb-faq__item--last {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.nsb-faq__q {
+  color: #1e3d6f;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.nsb-faq__a {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.lightbox-panel {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+}
+
+.lightbox-panel img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 4px;
+  display: block;
+}
+
+.lightbox-title {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}

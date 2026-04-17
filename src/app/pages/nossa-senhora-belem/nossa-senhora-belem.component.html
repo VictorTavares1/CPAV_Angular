@@ -1,0 +1,136 @@
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <h1>Centro Social Nossa Senhora de Belém</h1>
+      <p>"Cuidando da comunidade com dedicação e amor."</p>
+      <p>Um centro social moderno e integrado na Urbanização Vila Rosa, oferecendo diversos serviços sociais para apoiar famílias e indivíduos em situação de vulnerabilidade.</p>
+    </div>
+  </div>
+</section>
+
+<main class="page-content">
+  <div class="container">
+
+    <!-- Informação geral -->
+    <section class="section-card">
+      <h2>O Centro Social Nossa Senhora de Belém</h2>
+      <p class="section-lead">
+        Localizado na Urbanização Vila Rosa, o Centro Social Nossa Senhora de Belém é uma resposta social da instituição que visa apoiar a comunidade local através de diversos serviços adaptados às necessidades das famílias de Alhos Vedros.
+      </p>
+
+      <table class="info-table info-table--kv">
+        <tbody>
+          <tr><th>Público-Alvo</th><td>Famílias, crianças, jovens, adultos e idosos da comunidade</td></tr>
+          <tr><th>Horário de Funcionamento</th><td>Segunda a Sexta-feira, das 9h00 às 17h00</td></tr>
+          <tr><th>Serviços Disponíveis</th><td>Salas polivalentes, refeitório, apoio social, atividades comunitárias</td></tr>
+          <tr><th>Equipa</th><td>Técnicos sociais, auxiliares, voluntários</td></tr>
+          <tr><th>Objetivos</th><td>Promover a inclusão social, apoiar famílias vulneráveis, fomentar o desenvolvimento comunitário</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Serviços e Atividades -->
+    <section class="section-card">
+      <h2>Serviços e Atividades</h2>
+      <div class="section-lead">
+        <p>O centro desenvolve diversas atividades e serviços para a comunidade:</p>
+        <ul class="clean-list nsb-servicos-list">
+          @for (s of servicos; track s.titulo) {
+            <li><strong>{{ s.titulo }}:</strong> {{ s.descricao }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Gallery tabs -->
+    <section class="section-card">
+      <h2>Equipamento</h2>
+
+      <div class="gallery-tabs" role="tablist" aria-label="Galerias por edifício">
+        @for (b of buildings; track b.key) {
+          <button type="button"
+            class="gallery-tab"
+            [class.is-active]="activeTab === b.key"
+            [attr.aria-selected]="activeTab === b.key"
+            (click)="setTab(b.key)">
+            {{ b.tab }}
+          </button>
+        }
+      </div>
+
+      @for (b of buildings; track b.key) {
+        <div class="building-panel" [class.is-active]="activeTab === b.key" role="tabpanel">
+
+          <div class="building-meta">
+            <h3 class="building-title">{{ b.name }}</h3>
+            <p class="building-desc">{{ b.desc }}</p>
+
+            <table class="info-table info-table--kv nsb-table-top">
+              <tbody>
+                @for (row of b.table; track row.label) {
+                  <tr>
+                    <th>{{ row.label }}</th>
+                    <td>
+                      @if (row.isHtml) {
+                        <a [href]="'mailto:' + row.value">{{ row.value }}</a>
+                      } @else {
+                        {{ row.value }}
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+
+            <div class="building-map">
+              <iframe [src]="b.mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <p class="nsb-no-images">Não existem imagens disponíveis para este equipamento.</p>
+
+        </div>
+      }
+    </section>
+
+    <!-- Inscrições -->
+    <section class="section-card">
+      <h2>Inscrições</h2>
+      <p>Para beneficiar dos serviços do Centro Social Nossa Senhora de Belém, pode contactar diretamente a instituição através dos contactos acima indicados ou dirigir-se às instalações durante o horário de funcionamento.</p>
+
+      <div class="nsb-info-box">
+        <p><strong>Documentação necessária para inscrição:</strong></p>
+        <ul class="clean-list nsb-doc-list">
+          @for (doc of docInscricao; track doc) {
+            <li>{{ doc }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-card">
+      <h2>Perguntas Frequentes</h2>
+      <div class="nsb-faq">
+        @for (item of faq; track item.pergunta; let last = $last) {
+          <div class="nsb-faq__item" [class.nsb-faq__item--last]="last">
+            <h4 class="nsb-faq__q">{{ item.pergunta }}</h4>
+            <p class="nsb-faq__a">{{ item.resposta }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Lightbox -->
+@if (lightboxVisible) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" type="button" (click)="closeLightbox()">×</button>
+      <img [src]="lightboxImg" [alt]="lightboxTitle">
+      <div class="lightbox-title">{{ lightboxTitle }}</div>
+    </div>
+  </div>
+}
