@@ -17,5 +17,28 @@ class Relatorio {
         $stmt->execute();
         return $stmt;
     }
+
+    public function inserir($title, $url, $idType) {
+    $query = "INSERT INTO " . $this->table_name . " 
+              (title, url, idType) 
+              VALUES (:title, :url, :idType)";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":title", $title);
+    $stmt->bindParam(":url", $url);
+    $stmt->bindParam(":idType", $idType);
+
+    return $stmt->execute();
+}
+public function toggleState($id) {
+    $query = "UPDATE " . $this->table_name . " 
+              SET idState = IF(idState = 1, 2, 1) 
+              WHERE id = :id";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":id", $id);
+
+    return $stmt->execute();
+}   
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
-require_once "../config/header.php";
-require_once "../config/database.php";
-require_once "../models/Contacto.php";
+require_once "../../config/header.php";
+require_once "../../config/database.php";
+require_once "../../models/Contacto.php";
 
 $database = new Database();
 $db = $database->getConnection();

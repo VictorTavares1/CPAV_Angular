@@ -1,7 +1,7 @@
 <?php
-require_once "../config/header.php";
-require_once "../config/database.php";
-require_once "../models/User.php";
+require_once "../../config/header.php";
+require_once "../../config/database.php";
+require_once "../../models/User.php";
 
 // Lê os dados enviados pelo Angular em formato JSON
 $data = json_decode(file_get_contents("php://input"));

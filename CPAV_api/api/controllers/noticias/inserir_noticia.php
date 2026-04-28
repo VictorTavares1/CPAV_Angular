@@ -1,7 +1,7 @@
 <?php
-require_once "../config/header.php";
-require_once "../config/database.php";
-require_once "../models/Noticia.php";
+require_once "../../config/header.php";
+require_once "../../config/database.php";
+require_once "../../models/Noticia.php";
 
 // Só aceita pedidos POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

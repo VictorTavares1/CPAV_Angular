@@ -1,7 +1,7 @@
 <?php
-require_once "../config/header.php";
-require_once "../config/database.php";
-require_once "../models/relatorio.php";
+require_once "../../config/header.php";
+require_once "../../config/database.php";
+require_once "../../models/relatorio.php";
 
 $database = new Database();
 $db = $database->getConnection();

@@ -17,5 +17,43 @@ class Evento {
         $stmt->execute();
         return $stmt;
     }
+    public function inserir($title, $event_date, $event_time, $idLocation) {
+    $query = "INSERT INTO " . $this->table_name . " 
+              (title, event_date, event_time, idLocation) 
+              VALUES (:title, :event_date, :event_time, :idLocation)";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":title", $title);
+    $stmt->bindParam(":event_date", $event_date);
+    $stmt->bindParam(":event_time", $event_time);
+    $stmt->bindParam(":idLocation", $idLocation);
+
+    return $stmt->execute();
 }
+
+public function toggleState($id) {
+    $query = "UPDATE " . $this->table_name . " 
+              SET idState = IF(idState = 1, 2, 1) 
+              WHERE id = :id";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":id", $id);
+
+    return $stmt->execute();
+}
+public function editar($id, $title, $event_date, $event_time) {
+    $query = "UPDATE " . $this->table_name . " 
+              SET title = :title, event_date = :event_date, event_time = :event_time
+              WHERE id = :id";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":title", $title);
+    $stmt->bindParam(":event_date", $event_date);
+    $stmt->bindParam(":event_time", $event_time);
+
+    return $stmt->execute();
+}
+}
+    
 ?>
