@@ -38,5 +38,29 @@ class Noticia {
         }
         return false;
     }
+
+    public function editar($id, $title, $content) {
+    $query = "UPDATE " . $this->table_name . " 
+              SET title = :title, content = :content 
+              WHERE id = :id";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":title", $title);
+    $stmt->bindParam(":content", $content);
+
+    return $stmt->execute();
+}
+
+public function toggleState($id) {
+    $query = "UPDATE " . $this->table_name . " 
+              SET idState = IF(idState = 1, 2, 1) 
+              WHERE id = :id";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":id", $id);
+
+    return $stmt->execute();
+}
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
-require_once "../config/header.php";
-require_once "../config/database.php";
-require_once "../models/servico.php";
+require_once "../../config/header.php";
+require_once "../../config/database.php";
+require_once "../../models/servico.php";
 
 $database = new Database();
 $db = $database->getConnection();
