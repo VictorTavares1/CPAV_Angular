@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+interface GalleryImage {
+  file: string;
+  title: string;
+  alt: string;
+}
 
 interface BuildingRow {
   label: string;
   value: string;
-  isHtml?: boolean;
+  href?: string;
 }
 
 interface Building {
@@ -13,22 +18,25 @@ interface Building {
   tab: string;
   name: string;
   desc: string;
+  note: string | null;
   table: BuildingRow[];
   mapUrl: SafeResourceUrl;
-  images: string[];
-  note?: string;
+  images: GalleryImage[];
 }
 
 @Component({
   selector: 'app-sad',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './sad.component.html',
   styleUrls: ['./sad.component.css']
 })
 export class SadComponent {
 
   activeTab = 'edificio1';
+  lightboxVisible = false;
+  lightboxImg = '';
+  lightboxTitle = '';
+
   buildings: Building[];
 
   servicosPrestados = [
@@ -93,10 +101,6 @@ export class SadComponent {
     },
   ];
 
-  lightboxVisible = false;
-  lightboxImg = '';
-  lightboxTitle = '';
-
   constructor(private sanitizer: DomSanitizer) {
     this.buildings = [
       {
@@ -104,19 +108,24 @@ export class SadComponent {
         tab: 'Centro Social Nossa Senhora da Paz',
         name: 'Centro Social Nossa Senhora da Paz',
         desc: 'Equipamento que coordena o Serviço de Apoio Domiciliário na área de Alhos Vedros, proporcionando cuidados personalizados a idosos e pessoas com dependência.',
+        note: 'Este equipamento também inclui resposta de Pré-Escolar e C.A.T.L. (Centro de Atividades de Tempos Livres).',
         table: [
           { label: 'Designação', value: 'Centro Social Nossa Senhora da Paz' },
           { label: 'Morada', value: 'Bairro da Quinta da Fonte da Prata, Rua Fernando Pessoa, n.º 10, Bloco Q, 2860-071 Alhos Vedros' },
           { label: 'Telefone (Rede Fixa)', value: '212 892 676' },
           { label: 'Telemóvel', value: '961 420 037' },
-          { label: 'Email', value: '<a href="mailto:csnsp@hotmail.com">csnsp@hotmail.com</a>', isHtml: true },
+          { label: 'Email', value: 'csnsp@hotmail.com', href: 'mailto:csnsp@hotmail.com' },
           { label: 'Área de Intervenção', value: 'Alhos Vedros e áreas limítrofes' },
         ],
         mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
           'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d194.73420031388608!2d-9.007148273816933!3d38.65469259941962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19381b8976b8a5%3A0xdb0ad9fe8017c819!2scentro%20social%20da%20nossa%20sra.%20da%20paz!5e0!3m2!1spt-PT!2spt!4v1769898670192!5m2!1spt-PT!2spt'
         ),
-        images: [],
-        note: 'Este equipamento também inclui resposta de Pré-Escolar e C.A.T.L. (Centro de Atividades de Tempos Livres).',
+        images: [
+          { file: 'sad1.jpg', title: 'Espaço exterior', alt: 'Espaço exterior do SAD' },
+          { file: 'sad2.jpg', title: 'Sala de atividades', alt: 'Sala de atividades do SAD' },
+          { file: 'sad3.jpg', title: 'Refeitório', alt: 'Refeitório do SAD' },
+          { file: 'sad4.jpg', title: 'Viatura Serviço de Apoio Domiciliário', alt: 'Viatura do Centro Social Paroquial de São Lourenço de Alhos Vedros' },
+        ],
       },
     ];
   }

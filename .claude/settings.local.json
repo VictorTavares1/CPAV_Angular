@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\public\\\\images\" -Force)",
+      "PowerShell(Copy-Item \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\assets\\\\images\\\\logo2.png\" \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\public\\\\images\\\\logo2.png\")",
+      "PowerShell(\"Feito\")",
+      "WebFetch(domain:localhost)",
+      "Read(//c/xampp/mysql/bin/**)",
+      "Bash(./mysql.exe -u root -e \"USE centros_paroquiais; SHOW TABLES;\")",
+      "Bash(\"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root -P 3306 -h 127.0.0.1 -e \"USE centros_paroquiais; SHOW TABLES;\")",
+      "PowerShell(Get-ChildItem \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\public\\\\images\\\\noticias\" -ErrorAction SilentlyContinue; if \\(-not \\(Test-Path \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\public\\\\images\\\\noticias\"\\)\\) { \"PASTA NAO EXISTE\" })",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost/CPAV_Angular/CPAV_api/api/controllers/noticias/listar_noticias.php\" -UseBasicParsing)",
+      "Bash(Get-ChildItem -Path \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\" -Recurse -Directory)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\CPAV_api\\\\api\\\\controllers\\\\logs\")",
+      "Bash(Out-Null)",
+      "Bash(Write-Output \"done\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\CPAV_api\\\\api\\\\controllers\\\\logs\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\logs\")",
+      "Bash(grep -A 20 \"INSERT INTO \\\\`operations\\\\`\" \"C:/xampp/htdocs/CPAV/BD.sql\")",
+      "Bash(mysql -u root -e \"SELECT * FROM operations;\" centros_paroquiais)",
+      "Bash(mysql -u root --password=\"\" -e \"SELECT * FROM operations;\" centros_paroquiais)",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root --password=\"\" -e \"DESCRIBE logs;\" centros_paroquiais 2>$null)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\relatorios\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\relatorios\\\\inserir-relatorio\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\eventos\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\eventos\\\\inserir-evento\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\eventos\\\\editar-evento\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\xampp\\\\htdocs\\\\CPAV\" -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object Name)",
+      "Bash(Get-ChildItem -Path \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\" -Directory)",
+      "Read(//c/xampp/**)",
+      "Bash(phpphp.exe -r ' *)",
+      "Bash('C:\\\\xampp\\\\php\\\\php.exe' -r ' *)",
+      "Bash(php -r ' *)",
+      "PowerShell(& \"C:\\\\xampp\\\\php\\\\php.exe\" \"C:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\CPAV_api\\\\seed.php\")",
+      "PowerShell(& \"C:\\\\xampp\\\\php\\\\php.exe\" \"C:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\CPAV_api\\\\inspect.php\")",
+      "PowerShell(& \"C:\\\\xampp\\\\php\\\\php.exe\" \"C:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\CPAV_api\\\\migrate_real_content.php\")"
+    ]
+  }
+}

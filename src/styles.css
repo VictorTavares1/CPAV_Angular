@@ -1,3 +1,21 @@
+:root {
+    --primary: #0b4ea2;
+    --primary-dark: #083a86;
+    --primary-light: #3b82f6;
+    --secondary: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-gray: #1e293b;
+    --medium-gray: #334155;
+    --light-gray: #475569;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.4);
+    --radius: 6px;
+    --radius-lg: 10px;
+    --transition: all 0.2s ease;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -565,6 +583,7 @@ a {
 
 .slide-content h1 {
     font-size: 28px;
+    font-weight: 800;
     margin-bottom: 15px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, .5);
     line-height: 1.3
@@ -681,6 +700,7 @@ a {
 
 .section-header h2 {
     font-size: 32px;
+    font-weight: 800;
     color: #2c5aa0;
     margin-bottom: 15px;
     position: relative;
@@ -740,8 +760,15 @@ a {
     padding: 20px
 }
 
-.card-text,
 .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2c5aa0;
+    line-height: 1.3
+}
+
+.card-text {
     font-size: 20px;
     margin-bottom: 15px;
     color: #2c5aa0;
@@ -994,6 +1021,7 @@ a {
 
 .servico-title {
     font-size: 20px;
+    font-weight: 700;
     margin-bottom: 15px;
     color: #2c5aa0;
     line-height: 1.3
@@ -1221,6 +1249,7 @@ a {
 
 .po-apmc-content h2 {
     font-size: 28px;
+    font-weight: 800;
     color: #2c5aa0;
     margin-bottom: 18px;
     line-height: 1.2
@@ -1819,6 +1848,7 @@ a {
 
 .news-card__title {
     font-size: 18px;
+    font-weight: 700;
     line-height: 1.25;
     margin: 0
 }
@@ -1903,6 +1933,7 @@ a {
 }
 
 .events-empty h2 {
+    font-weight: 700;
     color: #1e3d6f;
     margin-bottom: 8px
 }
@@ -1960,6 +1991,7 @@ a {
 
 .event-title {
     font-size: 18px;
+    font-weight: 700;
     line-height: 1.25;
     margin: 0;
     color: #1e3d6f
@@ -2397,6 +2429,7 @@ a {
 
 .help-intro h1 {
     font-size: 36px;
+    font-weight: 800;
     color: #2c5aa0;
     margin-bottom: 20px;
     position: relative;
@@ -2465,6 +2498,7 @@ a {
 
 .help-option h2 {
     font-size: 24px;
+    font-weight: 700;
     color: #2c5aa0;
     margin-bottom: 20px;
     text-align: center;
@@ -2487,6 +2521,7 @@ a {
 }
 
 .donation-info h3 {
+    font-weight: 700;
     color: #1e3d6f;
     font-size: 18px;
     margin-bottom: 10px;
@@ -2525,6 +2560,7 @@ a {
 }
 
 .bank-details h3 {
+    font-weight: 700;
     color: #2c5aa0;
     font-size: 20px;
     margin-bottom: 15px;
@@ -2552,6 +2588,7 @@ a {
 }
 
 .irs-consignation h3 {
+    font-weight: 700;
     color: #2c5aa0;
     font-size: 20px;
     margin-bottom: 15px;
@@ -2595,6 +2632,7 @@ a {
 }
 
 .step h4 {
+    font-weight: 700;
     color: #1e3d6f;
     margin-bottom: 8px;
     font-size: 18px;
@@ -2637,6 +2675,7 @@ a {
 
 .impact-content h2 {
     font-size: 32px;
+    font-weight: 800;
     margin-bottom: 20px;
     color: #fff;
 }
@@ -2689,6 +2728,7 @@ a {
 }
 
 .help-cta h2 {
+    font-weight: 800;
     color: #2c5aa0;
     font-size: 28px;
     margin-bottom: 20px;
@@ -2775,6 +2815,7 @@ a {
 }
 
 .photo-band__content h2 {
+    font-weight: 800;
     color: #fff;
     font-size: 34px;
     line-height: 1.12;
@@ -2845,6 +2886,7 @@ a {
 
 .split-section__text h2 {
     font-size: 32px;
+    font-weight: 800;
     line-height: 1.15;
 }
 
@@ -2881,6 +2923,7 @@ a {
 
 .split-section__mediaCaption h3 {
     font-size: 18px;
+    font-weight: 700;
     margin-bottom: 6px;
 }
 
@@ -2965,6 +3008,7 @@ a {
 
 .text-block h3 {
     font-size: 16px;
+    font-weight: 700;
     margin-bottom: 6px;
 }
 
@@ -3017,6 +3061,7 @@ a {
 
 .banner__content h3 {
     font-size: 22px;
+    font-weight: 800;
     margin-bottom: 6px;
 }
 
@@ -3058,6 +3103,7 @@ a {
 }
 
 .cta-strip__text h2 {
+    font-weight: 800;
     color: #fff;
     font-size: 32px;
     line-height: 1.15;
@@ -3141,6 +3187,7 @@ a {
 /* Make the text block behave better */
 .photo-band__content h2 {
     font-size: 40px;
+    font-weight: 800;
     line-height: 1.08;
     max-width: 18ch;
 }

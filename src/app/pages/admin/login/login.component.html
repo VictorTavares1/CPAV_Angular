@@ -1,0 +1,26 @@
+<div class="login-page">
+  <div class="login-wrapper">
+
+    <div class="login-logo">
+      <img src="/images/logo2.png" alt="Logo CPAV">
+    </div>
+
+    <div class="login-box">
+
+      @if (errorMessage) {
+        <div class="error">{{ errorMessage }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <input type="email" formControlName="email" placeholder="Email" />
+        <input type="password" formControlName="password" placeholder="Password" />
+        <button type="submit" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A entrar...' : 'Entrar' }}
+        </button>
+      </form>
+
+      <a class="back-site" routerLink="/">Voltar ao site</a>
+    </div>
+
+  </div>
+</div>

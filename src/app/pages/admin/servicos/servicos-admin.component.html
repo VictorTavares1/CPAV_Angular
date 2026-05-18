@@ -1,0 +1,75 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <div class="admin-header">
+    <h1>Gerir Serviços</h1>
+    <a routerLink="/admin/servicos/inserir" class="insert-btn">+ Inserir Serviço</a>
+  </div>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  <div class="filters-bar">
+    <input
+      type="text"
+      class="filter-input"
+      placeholder="Pesquisar por título..."
+      [(ngModel)]="searchQuery"
+    />
+    <select class="filter-select" [(ngModel)]="selectedStatus">
+      <option value="">Todos os estados</option>
+      <option value="1">Ativo</option>
+      <option value="2">Inativo</option>
+    </select>
+    <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
+  </div>
+
+  @if (isLoading) {
+    <p class="table-empty">A carregar...</p>
+  } @else {
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Ícone/Imagem</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (filtered.length === 0) {
+            <tr><td colspan="5" class="table-empty">Sem serviços.</td></tr>
+          } @else {
+            @for (s of filtered; track s.id) {
+              <tr>
+                <td>{{ s.title }}</td>
+                <td class="desc-cell">{{ s.description }}</td>
+                <td class="icon-cell">{{ s.icon_or_image }}</td>
+                <td>
+                  <span class="status-badge" [class.status-active]="s.idState === 1" [class.status-inactive]="s.idState !== 1">
+                    {{ s.idState === 1 ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <a [routerLink]="['/admin/servicos/editar', s.id]" class="table-btn edit">Editar</a>
+                  <button
+                    type="button"
+                    class="table-btn"
+                    [class.deactivate]="s.idState === 1"
+                    [class.activate]="s.idState !== 1"
+                    (click)="toggle(s.id)">
+                    {{ s.idState === 1 ? 'Desativar' : 'Ativar' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</section>

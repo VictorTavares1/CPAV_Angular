@@ -1,0 +1,88 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <div class="admin-header">
+    <h1>Gerir Relatórios</h1>
+    <a routerLink="/admin/relatorios/inserir" class="insert-btn">+ Inserir Relatório</a>
+  </div>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  <!-- Filtros -->
+  <div class="filters-bar">
+    <input
+      type="text"
+      class="filter-input"
+      placeholder="Pesquisar por título..."
+      [(ngModel)]="searchQuery"
+    />
+
+    <select class="filter-select" [(ngModel)]="selectedType">
+      <option value="">Todos os tipos</option>
+      @for (t of tipos; track t.id) {
+        <option [value]="t.type">{{ t.type }}</option>
+      }
+    </select>
+
+    <select class="filter-select" [(ngModel)]="selectedStatus">
+      <option value="">Todos os estados</option>
+      <option value="1">Ativo</option>
+      <option value="2">Inativo</option>
+    </select>
+
+    <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
+  </div>
+
+  @if (isLoading) {
+    <p class="table-empty">A carregar...</p>
+  } @else {
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Tipo</th>
+            <th>Ficheiro</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (filtered.length === 0) {
+            <tr><td colspan="5" class="table-empty">Sem relatórios.</td></tr>
+          } @else {
+            @for (r of filtered; track r.id) {
+              <tr>
+                <td>{{ r.title }}</td>
+                <td>{{ r.typeName }}</td>
+                <td>
+                  <a [href]="pdfUrl(r.url)" target="_blank" class="pdf-link">
+                    {{ r.url }}
+                  </a>
+                </td>
+                <td>
+                  <span class="status-badge" [class.status-active]="r.idState === 1" [class.status-inactive]="r.idState !== 1">
+                    {{ r.idState === 1 ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <button
+                    type="button"
+                    class="table-btn"
+                    [class.deactivate]="r.idState === 1"
+                    [class.activate]="r.idState !== 1"
+                    (click)="toggle(r.id)">
+                    {{ r.idState === 1 ? 'Desativar' : 'Ativar' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</section>

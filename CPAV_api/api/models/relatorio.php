@@ -7,6 +7,22 @@ class Relatorio {
         $this->conn = $db;
     }
 
+    public function lerTodos() {
+        $query = "SELECT r.id, r.title, r.url, t.type AS typeName, r.idState
+                  FROM " . $this->table_name . " r
+                  INNER JOIN types t ON r.idType = t.id
+                  ORDER BY r.id DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function lerTipos() {
+        $stmt = $this->conn->prepare("SELECT id, type FROM types ORDER BY id ASC");
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function lerAtivos() {
         $query = "SELECT r.id, r.title, r.url, t.type AS typeName
                   FROM " . $this->table_name . " r
@@ -28,7 +44,10 @@ class Relatorio {
     $stmt->bindParam(":url", $url);
     $stmt->bindParam(":idType", $idType);
 
-    return $stmt->execute();
+    if ($stmt->execute()) {
+        return (int)$this->conn->lastInsertId();
+    }
+    return 0;
 }
 public function toggleState($id) {
     $query = "UPDATE " . $this->table_name . " 

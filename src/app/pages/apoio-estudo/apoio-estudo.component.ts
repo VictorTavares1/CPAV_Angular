@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+interface GalleryImage {
+  file: string;
+  title: string;
+  alt: string;
+}
 
 interface BuildingRow {
   label: string;
   value: string;
-  isHtml?: boolean;
+  href?: string;
 }
 
 interface Building {
@@ -15,12 +20,14 @@ interface Building {
   desc: string;
   table: BuildingRow[];
   mapUrl: SafeResourceUrl;
+  note: string | null;
+  images: GalleryImage[];
 }
 
 @Component({
   selector: 'app-apoio-estudo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './apoio-estudo.component.html',
   styleUrls: ['./apoio-estudo.component.css']
 })
@@ -91,11 +98,16 @@ export class ApoioEstudoComponent {
           { label: 'Designação', value: 'Sala Arco-Íris - Apoio ao Estudo' },
           { label: 'Morada', value: 'Praça Almada Negreiros, Loja 6, Urbanização Bela Rosa, 2860-115 Alhos Vedros' },
           { label: 'Telefone (Rede Fixa)', value: '211 628 848' },
-          { label: 'Email', value: 'arcoiris@cspslav.pt', isHtml: true },
+          { label: 'Email', value: 'arcoiris@cspslav.pt', href: 'mailto:arcoiris@cspslav.pt' },
         ],
         mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
           'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d550.8381877360331!2d-9.0225692889697!3d38.64861950997912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1937fa9158d949%3A0x14e65847d550d2bd!2sCentro%20Social%20e%20Paroquial%20de%20S.%20Louren%C3%A7o%20de%20Alhos%20Vedros!5e0!3m2!1spt-PT!2spt!4v1769907260549!5m2!1spt-PT!2spt'
         ),
+        note: null,
+        images: [
+          { file: 'salaArcoIris1.jpg', title: 'Espaço exterior', alt: 'Espaço exterior da Sala Arco-Íris' },
+          { file: 'salaArcoIris2.jpg', title: 'Sala de estudo', alt: 'Sala de estudo da Sala Arco-Íris' },
+        ],
       }
     ];
   }

@@ -7,6 +7,25 @@ class Servico {
         $this->conn = $db;
     }
 
+    public function lerTodos() {
+        $query = "SELECT id, title, description, icon_or_image, idState
+                  FROM " . $this->table_name . "
+                  ORDER BY id ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function lerPorId($id) {
+        $query = "SELECT id, title, description, icon_or_image, idState
+                  FROM " . $this->table_name . "
+                  WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function lerAtivos() {
         $query = "SELECT id, title, description, icon_or_image
                   FROM " . $this->table_name . "
@@ -17,18 +36,19 @@ class Servico {
         return $stmt;
     }
 
-    public function inserir($title, $description, $icon_or_image) {
-    $query = "INSERT INTO " . $this->table_name . " 
-              (title, description, icon_or_image) 
-              VALUES (:title, :description, :icon_or_image)";
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(":title", $title);
-    $stmt->bindParam(":description", $description);
-    $stmt->bindParam(":icon_or_image", $icon_or_image);
-
-    return $stmt->execute();
-}
+        public function inserir($title, $description, $icon_or_image) {
+        $query = "INSERT INTO " . $this->table_name . "
+                  (title, description, icon_or_image)
+                  VALUES (:title, :description, :icon_or_image)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":title", $title);
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":icon_or_image", $icon_or_image);
+        if ($stmt->execute()) {
+            return (int)$this->conn->lastInsertId();
+        }
+        return 0;
+    }
 public function toggleState($id) {
     $query = "UPDATE " . $this->table_name . " 
               SET idState = IF(idState = 1, 2, 1) 

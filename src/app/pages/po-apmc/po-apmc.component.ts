@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-po-apmc',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './po-apmc.component.html',
   styleUrls: ['./po-apmc.component.css']
 })

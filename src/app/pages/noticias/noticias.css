@@ -1,0 +1,13 @@
+.news-search__clear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.news-card__carousel-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

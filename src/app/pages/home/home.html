@@ -3,10 +3,10 @@
         <div class="photo-band__overlay"></div>
         <div class="container photo-band__inner">
             <div class="photo-band__content">
-                <h2>Centro Paroquial de <br>São Lourenço<br> de Alhos Vedros</h2>
-                <p>Somos uma IPSS com trabalho diário na infância, juventude, apoio domiciliário e projetos
-                    comunitários. Priorizamos proximidade, confiança e um acompanhamento consistente às famílias e à
-                    população mais vulnerável.</p>
+                <h2>{{ heroTitle }}</h2>
+                @if (heroDescription) {
+                    <p>{{ heroDescription }}</p>
+                }
                 <div class="photo-band__actions">
                     <a class="btn" routerLink="/sobre-nos">Conhecer melhor</a>
                     <a class="btn btn--ghost" routerLink="/contactos">Falar connosco</a>
@@ -19,8 +19,9 @@
         <div class="container split-section__inner">
             <div class="split-section__text">
                 <h2>Serviços</h2>
-                <p class="lead">Entra diretamente em cada resposta social. Aqui o foco é navegação rápida e clara, com
-                    chamadas fortes e texto real, sem "cartões".</p>
+                @if (servicosDescription) {
+                    <p class="lead">{{ servicosDescription }}</p>
+                }
                 <div class="service-actions">
                     <a class="service-actions__primary" routerLink="/servicos">Ver todos os serviços</a>
                     <div class="service-actions__grid">

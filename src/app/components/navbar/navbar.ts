@@ -1,5 +1,5 @@
-import { Component, HostListener } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, HostListener, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +8,17 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.css'
 })
 export class Navbar {
+  private readonly router = inject(Router);
+
   menuOpen = false;
+
+  isInstituicaoActive(): boolean {
+    return this.router.url.startsWith('/sobre-nos') || this.router.url.startsWith('/relatorios');
+  }
+
+  isServicosActive(): boolean {
+    return this.router.url.startsWith('/servicos');
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;

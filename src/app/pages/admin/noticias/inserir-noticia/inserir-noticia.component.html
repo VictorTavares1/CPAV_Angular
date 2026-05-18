@@ -1,0 +1,64 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/noticias" class="back-btn">← Voltar</a>
+
+  <h1>Inserir Notícia</h1>
+
+  @if (errorMessage) {
+    <p class="msg msg-err">{{ errorMessage }}</p>
+  }
+  @if (successMessage) {
+    <p class="msg msg-ok">{{ successMessage }}</p>
+  }
+
+  <div class="admin-form-container">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label class="form-label required" for="title">Título</label>
+        <input id="title" type="text" class="form-input"
+          formControlName="title" placeholder="Título da notícia" />
+        @if (form.controls.title.touched && form.controls.title.invalid) {
+          <p class="field-error">O título é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">Conteúdo</label>
+        <div class="editor-wrap">
+          <div #quillEditor class="quill-editor-container"></div>
+        </div>
+        <div class="form-hint">Escreve o conteúdo da notícia no editor acima.</div>
+        @if (form.controls.content.touched && form.controls.content.invalid) {
+          <p class="field-error">O conteúdo é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="img">Imagem</label>
+        <div class="file-input-wrap">
+          <label class="file-btn" for="img">Escolher ficheiro</label>
+          <span class="file-name">
+            {{ selectedFile ? selectedFile.name : 'Nenhum ficheiro selecionado' }}
+          </span>
+          <input id="img" type="file" class="file-input-hidden"
+            accept=".jpg,.jpeg,.png,.webp"
+            (change)="onFileChange($event)">
+        </div>
+        @if (fileError) {
+          <p class="field-error">{{ fileError }}</p>
+        } @else {
+          <div class="form-hint">Opcional. JPG, PNG ou WEBP. Máx. 500kb.</div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A inserir...' : 'Inserir' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

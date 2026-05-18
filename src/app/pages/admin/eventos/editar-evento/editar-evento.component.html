@@ -1,0 +1,71 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/eventos" class="back-btn">← Voltar</a>
+
+  <h1>Editar Evento</h1>
+
+  @if (isLoading) {
+    <p class="msg">A carregar...</p>
+  } @else {
+
+    @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+    @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+    <div class="admin-form-container">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div class="form-group">
+          <label class="form-label required" for="title">Título</label>
+          <input id="title" type="text" class="form-input"
+            formControlName="title" placeholder="Título do evento" />
+          @if (form.controls.title.touched && form.controls.title.invalid) {
+            <p class="field-error">O título é obrigatório.</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required" for="idLocation">Local</label>
+          <select id="idLocation" class="form-input" formControlName="idLocation">
+            <option value="" disabled>Selecionar local...</option>
+            @for (l of localizacoes; track l.id) {
+              <option [value]="l.id">{{ l.name }}</option>
+            }
+          </select>
+          @if (form.controls.idLocation.touched && form.controls.idLocation.invalid) {
+            <p class="field-error">O local é obrigatório.</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required" for="event_date">Data</label>
+            <input id="event_date" type="date" class="form-input"
+              formControlName="event_date" />
+            @if (form.controls.event_date.touched && form.controls.event_date.invalid) {
+              <p class="field-error">A data é obrigatória.</p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required" for="event_time">Hora</label>
+            <input id="event_time" type="time" class="form-input"
+              formControlName="event_time" />
+            @if (form.controls.event_time.touched && form.controls.event_time.invalid) {
+              <p class="field-error">A hora é obrigatória.</p>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-button" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'A guardar...' : 'Guardar alterações' }}
+          </button>
+          <a routerLink="/admin/eventos" class="cancel-button">Cancelar</a>
+        </div>
+
+      </form>
+    </div>
+
+  }
+
+</section>

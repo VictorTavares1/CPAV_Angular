@@ -97,11 +97,13 @@
                 @for (row of b.table; track row.label) {
                   <tr>
                     <th>{{ row.label }}</th>
-                    @if (row.isHtml) {
-                      <td [innerHTML]="row.value"></td>
-                    } @else {
-                      <td>{{ row.value }}</td>
-                    }
+                    <td>
+                      @if (row.href) {
+                        <a [href]="row.href">{{ row.value }}</a>
+                      } @else {
+                        {{ row.value }}
+                      }
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -122,12 +124,14 @@
             <p class="sad-no-images">Não existem imagens disponíveis para este equipamento.</p>
           } @else {
             <div class="simple-gallery">
-              @for (img of b.images; track img) {
+              @for (img of b.images; track img.file) {
                 <figure class="sg-item">
-                  <button type="button" class="sg-btn" (click)="openLightbox(img, img)">
-                    <img [src]="img" [alt]="img" loading="lazy">
+                  <button type="button" class="sg-btn"
+                    (click)="openLightbox('/images/sad/' + b.key + '/' + img.file, img.title)">
+                    <img [src]="'/images/sad/' + b.key + '/' + img.file"
+                      [alt]="img.alt" loading="lazy">
                   </button>
-                  <figcaption class="sg-cap">{{ img }}</figcaption>
+                  <figcaption class="sg-cap">{{ img.title }}</figcaption>
                 </figure>
               }
             </div>

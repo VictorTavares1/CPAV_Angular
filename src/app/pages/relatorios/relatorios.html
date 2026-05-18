@@ -1,24 +1,55 @@
 <section class="page-hero">
-    <div class="page-hero-inner container">
-        <h1>Relatórios</h1>
-        <p>A transparência é um dos princípios fundamentais da atuação da nossa instituição. Acreditamos que a confiança
-            da comunidade se constrói através da partilha clara de informação sobre a nossa atividade, gestão e
-            utilização dos recursos.</p>
-        <p>Nesta secção disponibilizamos relatórios e documentos institucionais que permitem acompanhar o trabalho
-            desenvolvido, reforçando o nosso compromisso com a responsabilidade social, a ética e o serviço à
-            comunidade.</p>
-    </div>
+  <div class="page-hero-inner container">
+    <h1>Relatórios</h1>
+    <p>
+      A transparência é um dos princípios fundamentais da atuação da nossa instituição.
+      Acreditamos que a confiança da comunidade se constrói através da partilha clara
+      de informação sobre a nossa atividade, gestão e utilização dos recursos.
+    </p>
+    <p>
+      Nesta secção disponibilizamos relatórios e documentos institucionais que permitem
+      acompanhar o trabalho desenvolvido, reforçando o nosso compromisso com a
+      responsabilidade social, a ética e o serviço à comunidade.
+    </p>
+  </div>
 </section>
 
 <main class="sections container">
-    <section class="section">
-        <div class="section-header">
-            <h2>Documentos Disponíveis</h2>
-        </div>
+  <section class="section">
+    <div class="section-header">
+      <h2>Documentos Disponíveis</h2>
+    </div>
+
+    @if (loading()) {
+      <div class="section-card">
+        <p class="section-lead" style="margin:0;">A carregar relatórios...</p>
+      </div>
+    } @else if (filtered().length === 0) {
+      <div class="section-card">
+        <p class="section-lead" style="margin:0;">Ainda não existem relatórios ativos.</p>
+      </div>
+    } @else {
+      @for (tipo of tipos(); track tipo) {
         <div class="section-card">
-            <p class="section-lead" style="margin:0;">
-                Os relatórios serão carregados em breve após integração com a base de dados.
-            </p>
+          <h2 style="margin-bottom:14px;">{{ tipo }}</h2>
+          <div class="section-content">
+            @for (r of porTipo()[tipo]; track r.id) {
+              <article class="card">
+                <div class="card-body">
+                  <h3 class="card-title">{{ r.title }}</h3>
+                  <p class="card-text" style="margin-bottom:10px;">
+                    Ficheiro: {{ r.url }}
+                  </p>
+                  <a class="card-link" [href]="pdfUrl(r.url)" target="_blank" rel="noopener">
+                    Ver / Descarregar →
+                  </a>
+                </div>
+              </article>
+            }
+          </div>
         </div>
-    </section>
+      }
+    }
+
+  </section>
 </main>

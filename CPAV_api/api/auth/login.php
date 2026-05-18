@@ -1,7 +1,8 @@
 <?php
-require_once "../../config/header.php";
-require_once "../../config/database.php";
-require_once "../../models/User.php";
+require_once "../config/header.php";
+require_once "../config/database.php";
+require_once "../models/User.php";
+require_once "../models/log.php";
 
 // Lê os dados enviados pelo Angular em formato JSON
 $data = json_decode(file_get_contents("php://input"));
@@ -14,21 +15,23 @@ if (
     $db = $database->getConnection();
 
     $user = new User($db);
-    $stmt = $user->login($data->email, $data->password);
+    $loggedUser = $user->login($data->email, $data->password);
 
-    if ($stmt->rowCount() > 0) {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($loggedUser) {
 
         // Inicia a sessão e guarda o id do utilizador
         session_start();
-        $_SESSION['idUser'] = $row['id'];
-        $_SESSION['email'] = $row['email'];
+        $_SESSION['idUser'] = $loggedUser['id'];
+        $_SESSION['email'] = $loggedUser['email'];
+
+        $log = new Log($db);
+        $log->inserir($loggedUser['id'], 11);
 
         http_response_code(200);
         echo json_encode([
             "message" => "Login efetuado com sucesso.",
-            "idUser" => $row['id'],
-            "email" => $row['email']
+            "idUser" => $loggedUser['id'],
+            "email" => $loggedUser['email']
         ]);
     } else {
         http_response_code(401);

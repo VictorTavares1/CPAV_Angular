@@ -1,0 +1,127 @@
+.admin-container {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 40px;
+  background: var(--dark-gray);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--medium-gray);
+}
+
+.admin-container h1 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.admin-container > p {
+  color: var(--text-muted);
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.admin-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.admin-topic {
+  background: var(--dark);
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.admin-topic h2 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.admin-cards.stack {
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.admin-card {
+  background: var(--dark-gray);
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  text-decoration: none;
+  color: var(--text);
+  transition: var(--transition);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  min-height: 110px;
+  cursor: pointer;
+}
+
+.admin-card:hover {
+  border-color: var(--primary);
+  background: rgba(11, 78, 162, 0.08);
+  transform: translateY(-2px);
+}
+
+.admin-card.logout-card:hover {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.admin-card .icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  flex: 0 0 46px;
+  margin-top: 2px;
+}
+
+.admin-card svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  opacity: .95;
+}
+
+.admin-card .text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-card .text h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.admin-card .text p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.35rem;
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    margin: 20px;
+    padding: 20px;
+  }
+}

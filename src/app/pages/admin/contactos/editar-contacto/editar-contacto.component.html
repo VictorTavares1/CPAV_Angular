@@ -1,0 +1,54 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/contactos" class="back-btn">← Voltar</a>
+
+  <h1>Editar Contacto</h1>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  @if (isLoading) {
+    <p class="msg">A carregar...</p>
+  } @else {
+    <div class="admin-form-container">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div class="form-group">
+          <label class="form-label required" for="type">Tipo</label>
+          <input id="type" type="text" class="form-input"
+            formControlName="type" placeholder="Ex: Telefone, Email, Morada" />
+          @if (form.controls.type.touched && form.controls.type.invalid) {
+            <p class="field-error">O tipo é obrigatório.</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required" for="value">Valor</label>
+          <input id="value" type="text" class="form-input"
+            formControlName="value" placeholder="Ex: 212 043 425" />
+          @if (form.controls.value.touched && form.controls.value.invalid) {
+            <p class="field-error">O valor é obrigatório.</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required" for="icon">Ícone (FontAwesome)</label>
+          <input id="icon" type="text" class="form-input"
+            formControlName="icon" placeholder="Ex: fa-solid fa-phone" />
+          <p class="field-hint">Classe FontAwesome, ex: <code>fa-solid fa-phone</code>, <code>fa-solid fa-envelope</code></p>
+          @if (form.controls.icon.touched && form.controls.icon.invalid) {
+            <p class="field-error">O ícone é obrigatório.</p>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-button" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'A guardar...' : 'Guardar' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+
+</section>

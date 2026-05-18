@@ -1,0 +1,127 @@
+.login-page .login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 32px 16px;
+}
+
+.login-page .login-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-page .login-logo img {
+  width: 300px;
+  max-width: 80vw;
+  height: auto;
+  opacity: 0.95;
+}
+
+.login-page .login-box {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 14px;
+  padding: 26px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.login-page .login-box .error {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.30);
+  color: #fecaca;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.login-page .login-box form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-page .login-box input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.30);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-size: 15px;
+  outline: none;
+  font-family: inherit;
+}
+
+.login-page .login-box input::placeholder {
+  color: rgba(226, 232, 240, 0.70);
+}
+
+.login-page .login-box input:focus {
+  border-color: rgba(59, 130, 246, 0.9);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.login-page input:-webkit-autofill,
+.login-page input:-webkit-autofill:hover,
+.login-page input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f1f5f9 !important;
+  box-shadow: 0 0 0 1000px rgba(2, 6, 23, 0.55) inset !important;
+  border: 1px solid rgba(148, 163, 184, 0.30) !important;
+}
+
+.login-page .login-box button {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 8px;
+  background: #0b4ea2;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.login-page .login-box button:hover {
+  background: #083a86;
+}
+
+.login-page .login-box button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.login-page .back-site {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.85);
+  text-decoration: none;
+}
+
+.login-page .back-site:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-page .login-logo img {
+    width: 170px;
+  }
+
+  .login-page .login-box {
+    padding: 20px;
+  }
+}

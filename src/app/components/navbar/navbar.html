@@ -2,7 +2,7 @@
     <div class="container">
 
         <a class="brand" routerLink="/">
-            <img class="brand-logo" src="/images/CPAVLogo.png" alt="Logo">
+            <img class="brand-logo" src="/images/logo.png" alt="Logo">
             <div class="brand-text">
                 <div class="brand-top">CENTRO SOCIAL PAROQUIAL DE</div>
                 <div class="brand-name">SÃO LOURENÇO</div>
@@ -13,17 +13,18 @@
         <nav class="nav-links" [class.active]="menuOpen" aria-label="Navegação principal">
 
             <div class="nav-item dropdown">
-                <button class="nav-link nav-link--dropdown" type="button">
+                <button class="nav-link nav-link--dropdown" type="button" [class.is-active]="isInstituicaoActive()">
                     Instituição <span class="nav-caret" aria-hidden="true"></span>
                 </button>
                 <div class="dropdown-menu" role="menu">
                     <a class="dropdown-link" routerLink="/sobre-nos" (click)="closeMenu()">Sobre Nós</a>
                     <a class="dropdown-link" routerLink="/relatorios" (click)="closeMenu()">Relatórios</a>
+                    <a class="dropdown-link" href="/documents/Organograma_CPAV.pdf" target="_blank" rel="noopener" (click)="closeMenu()">Organograma</a>
                 </div>
             </div>
 
             <div class="nav-item dropdown">
-                <button class="nav-link nav-link--dropdown" type="button">
+                <button class="nav-link nav-link--dropdown" type="button" [class.is-active]="isServicosActive()">
                     Serviços <span class="nav-caret" aria-hidden="true"></span>
                 </button>
                 <div class="dropdown-menu" role="menu">

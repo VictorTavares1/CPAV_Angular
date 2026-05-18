@@ -1,1 +1,91 @@
-<p>noticias works!</p>
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <h1>Notícias</h1>
+      <p>Fique a par das novidades e atividades.</p>
+
+      <div class="news-search">
+        <input
+          class="news-search__input"
+          type="text"
+          placeholder="Pesquisar notícias..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          name="q"
+          autocomplete="off"
+        />
+        @if (searchQuery()) {
+          <button type="button" class="btn news-search__btn" (click)="clearSearch()">Limpar</button>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-content">
+  <div class="container">
+
+    @if (loading()) {
+      <div class="section-card" style="text-align:center;">
+        <p class="section-lead">A carregar notícias...</p>
+      </div>
+    } @else if (filtered().length === 0) {
+      <div class="section-card" style="text-align:center;">
+        <h2>Sem resultados</h2>
+        <p class="section-lead">
+          {{ searchQuery() ? 'Não encontrámos notícias para essa pesquisa.' : 'Ainda não existem notícias ativas.' }}
+        </p>
+      </div>
+    } @else {
+      <div class="news-grid">
+        @for (n of filtered(); track n.id) {
+          <article class="news-card">
+
+            @if (n.images && n.images.length > 1) {
+              <div class="news-card__media">
+                <div [id]="'carousel-news-' + n.id" class="carousel slide h-100" data-bs-ride="carousel">
+                  <div class="carousel-inner h-100">
+                    @for (img of n.images; track img; let i = $index) {
+                      <div class="carousel-item h-100" [class.active]="i === 0">
+                        <img [src]="uploadsUrl + '/' + img" [alt]="n.title" class="news-card__carousel-img">
+                      </div>
+                    }
+                  </div>
+                  <button class="carousel-control-prev" type="button"
+                    [attr.data-bs-target]="'#carousel-news-' + n.id" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button"
+                    [attr.data-bs-target]="'#carousel-news-' + n.id" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </button>
+                </div>
+              </div>
+            } @else {
+              <a class="news-card__media" [routerLink]="['/noticias', n.id]">
+                @if (n.images && n.images.length === 1) {
+                  <img [src]="uploadsUrl + '/' + n.images[0]" [alt]="n.title">
+                } @else {
+                  <div class="news-card__placeholder"></div>
+                }
+              </a>
+            }
+
+            <div class="news-card__body">
+              @if (fmtDate(n.dateHour)) {
+                <div class="news-card__meta">{{ fmtDate(n.dateHour) }}</div>
+              }
+              <h2 class="news-card__title">
+                <a [routerLink]="['/noticias', n.id]">{{ n.title }}</a>
+              </h2>
+              <p class="news-card__text">{{ excerpt(n.content) }}</p>
+              <a class="card-link" [routerLink]="['/noticias', n.id]">Ler mais →</a>
+            </div>
+
+          </article>
+        }
+      </div>
+    }
+
+  </div>
+</section>

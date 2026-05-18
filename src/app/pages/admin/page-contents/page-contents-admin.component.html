@@ -1,0 +1,49 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <div class="admin-header">
+    <h1>Conteúdo de Páginas</h1>
+  </div>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  @if (isLoading) {
+    <p class="table-empty">A carregar...</p>
+  } @else {
+    @for (page of pages; track page) {
+      <div class="page-section">
+        <h2 class="page-title">{{ pageLabel(page) }}</h2>
+        @for (item of contentsByPage(page); track item.id) {
+          <div class="content-card">
+            <div class="content-header">
+              <span class="content-label">{{ labelFor(item.section_key) }}</span>
+              <span class="content-key">{{ item.section_key }}</span>
+            </div>
+
+            @if (!editState[item.id].editing) {
+              <p class="content-value">{{ item.content_value }}</p>
+              <div class="content-actions">
+                <button type="button" class="table-btn edit" (click)="startEdit(item.id)">Editar</button>
+              </div>
+            } @else {
+              <textarea
+                class="edit-textarea"
+                [(ngModel)]="editState[item.id].value"
+                rows="4">
+              </textarea>
+              <div class="content-actions">
+                <button type="button" class="table-btn save" [disabled]="editState[item.id].saving" (click)="save(item)">
+                  {{ editState[item.id].saving ? 'A guardar...' : 'Guardar' }}
+                </button>
+                <button type="button" class="table-btn cancel" (click)="cancelEdit(item.id, item.content_value)">Cancelar</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+
+</section>

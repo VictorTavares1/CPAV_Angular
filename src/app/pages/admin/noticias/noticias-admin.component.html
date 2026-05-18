@@ -1,0 +1,84 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <div class="admin-header">
+    <h1>Gerir Notícias</h1>
+    <a routerLink="/admin/noticias/inserir" class="insert-btn">+ Inserir Notícia</a>
+  </div>
+
+  @if (errorMessage) {
+    <p class="msg msg-err">{{ errorMessage }}</p>
+  }
+  @if (successMessage) {
+    <p class="msg msg-ok">{{ successMessage }}</p>
+  }
+
+  <!-- Formulário de edição (sempre no DOM para o Quill inicializar, oculto quando não está a editar) -->
+  <div class="admin-form-container" [class.form-hidden]="!editingId">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <h2>Editar notícia</h2>
+
+      <div class="form-group">
+        <label class="form-label required" for="title">Título</label>
+        <input id="title" type="text" class="form-input"
+          formControlName="title" placeholder="Título da notícia" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">Conteúdo</label>
+        <div class="editor-wrap">
+          <div #quillEditor class="quill-editor-container"></div>
+        </div>
+        @if (form.controls.content.touched && form.controls.content.invalid) {
+          <p class="field-error">O conteúdo é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button">Atualizar</button>
+        <button type="button" class="cancel-button" (click)="cancelEdit()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  @if (isLoading) {
+    <p class="msg">A carregar...</p>
+  } @else {
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Data</th>
+            <th>Estado</th>
+            <th class="actions">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (noticia of noticias; track noticia.id) {
+            <tr>
+              <td>{{ noticia.title }}</td>
+              <td>{{ noticia.dateHour || '-' }}</td>
+              <td>
+                <span class="status-badge"
+                  [class]="noticia.idState === 1 ? 'status-active' : 'status-inactive'">
+                  {{ noticia.idState === 1 ? 'Ativa' : 'Inativa' }}
+                </span>
+              </td>
+              <td class="actions">
+                <button type="button" class="table-btn edit" (click)="edit(noticia)">Editar</button>
+                <button type="button" class="table-btn delete" (click)="toggle(noticia.id)">
+                  {{ noticia.idState === 1 ? 'Desativar' : 'Ativar' }}
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="4" class="table-empty">Sem notícias.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</section>

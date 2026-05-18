@@ -1,0 +1,93 @@
+<div class="admin-container">
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <h1>Logs</h1>
+
+  <!-- FILTROS -->
+  <div class="filters-table">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label for="op-filter">Operação</label>
+        <select id="op-filter" class="filter-select" [(ngModel)]="operationId">
+          <option [ngValue]="0">Todas</option>
+          @for (op of operations(); track op.id) {
+            <option [ngValue]="op.id">{{ op.title }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="from-filter">De</label>
+        <input id="from-filter" class="filter-input" type="date" [(ngModel)]="dateFrom" />
+      </div>
+
+      <div class="filter-group">
+        <label for="to-filter">Até</label>
+        <input id="to-filter" class="filter-input" type="date" [(ngModel)]="dateTo" />
+      </div>
+
+      <div class="filter-actions">
+        <button class="filter-btn primary" type="button" (click)="applyFilters()">Filtrar</button>
+        <button class="filter-btn ghost" type="button" (click)="clearFilters()">Limpar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELA -->
+  @if (isLoading()) {
+    <div class="logs-empty"><p>A carregar logs...</p></div>
+  } @else if (errorMessage()) {
+    <div class="logs-empty logs-empty--error"><p>{{ errorMessage() }}</p></div>
+  } @else {
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Data/Hora</th>
+            <th>Admin</th>
+            <th>Operação</th>
+            <th>Alvo</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (logs().length === 0) {
+            <tr><td colspan="4">Sem logs.</td></tr>
+          } @else {
+            @for (log of logs(); track log.dateHour + log.adminEmail) {
+              <tr>
+                <td>{{ log.dateHour }}</td>
+                <td>{{ log.adminEmail }}</td>
+                <td class="operation-cell">{{ log.operationTitle }}</td>
+                <td>{{ affectedItem(log) }}</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGINAÇÃO -->
+    <div class="pagination-container">
+      <div class="pagination-info">Total: {{ total() }} logs</div>
+
+      <div class="pagination-center">
+        <span class="page-number">{{ currentPage() }}</span>
+        <span class="page-total">/ {{ totalPages() }}</span>
+      </div>
+
+      <div class="pagination-actions">
+        @if (currentPage() > 1) {
+          <button class="pagination-btn prev" type="button" (click)="goTo(currentPage() - 1)">← Anterior</button>
+        } @else {
+          <span class="pagination-btn prev disabled">← Anterior</span>
+        }
+
+        @if (currentPage() < totalPages()) {
+          <button class="pagination-btn next" type="button" (click)="goTo(currentPage() + 1)">Próxima →</button>
+        } @else {
+          <span class="pagination-btn next disabled">Próxima →</span>
+        }
+      </div>
+    </div>
+  }
+</div>

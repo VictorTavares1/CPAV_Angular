@@ -1,0 +1,50 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/servicos" class="back-btn">← Voltar</a>
+
+  <h1>Inserir Serviço</h1>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  <div class="admin-form-container">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label class="form-label required" for="title">Título</label>
+        <input id="title" type="text" class="form-input"
+          formControlName="title" placeholder="Nome do serviço" />
+        @if (form.controls.title.touched && form.controls.title.invalid) {
+          <p class="field-error">O título é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="description">Descrição</label>
+        <textarea id="description" class="form-input form-textarea"
+          formControlName="description" placeholder="Descrição do serviço" rows="4"></textarea>
+        @if (form.controls.description.touched && form.controls.description.invalid) {
+          <p class="field-error">A descrição é obrigatória.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="icon_or_image">Ícone ou Imagem</label>
+        <input id="icon_or_image" type="text" class="form-input"
+          formControlName="icon_or_image" placeholder="Ex: fa-solid fa-child ou URL da imagem" />
+        <p class="field-hint">Classe FontAwesome ou caminho de imagem.</p>
+        @if (form.controls.icon_or_image.touched && form.controls.icon_or_image.invalid) {
+          <p class="field-error">O ícone ou imagem é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A inserir...' : 'Inserir' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

@@ -7,6 +7,32 @@ class Evento {
         $this->conn = $db;
     }
 
+    public function lerTodos() {
+        $query = "SELECT sc.id, sc.title, sc.event_date, sc.event_time,
+                         l.name AS location, sc.idLocation, sc.idState
+                  FROM " . $this->table_name . " sc
+                  INNER JOIN locations l ON l.id = sc.idLocation
+                  ORDER BY sc.event_date DESC, sc.event_time DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function lerPorId($id) {
+        $query = "SELECT id, title, event_date, event_time, idLocation
+                  FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function lerLocalizacoes() {
+        $stmt = $this->conn->prepare("SELECT id, name FROM locations WHERE idState = 1 ORDER BY id ASC");
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function lerAtivos() {
         $query = "SELECT sc.id, sc.title, sc.event_date, sc.event_time, l.name AS location
                   FROM " . $this->table_name . " sc
@@ -28,7 +54,10 @@ class Evento {
     $stmt->bindParam(":event_time", $event_time);
     $stmt->bindParam(":idLocation", $idLocation);
 
-    return $stmt->execute();
+    if ($stmt->execute()) {
+        return (int)$this->conn->lastInsertId();
+    }
+    return 0;
 }
 
 public function toggleState($id) {

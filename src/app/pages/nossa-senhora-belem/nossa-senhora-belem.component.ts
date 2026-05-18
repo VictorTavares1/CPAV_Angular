@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+interface GalleryImage {
+  file: string;
+  title: string;
+  alt: string;
+}
 
 interface BuildingRow {
   label: string;
   value: string;
-  isHtml?: boolean;
+  href?: string;
 }
 
 interface Building {
@@ -15,12 +20,14 @@ interface Building {
   desc: string;
   table: BuildingRow[];
   mapUrl: SafeResourceUrl;
+  note: string | null;
+  images: GalleryImage[];
 }
 
 @Component({
   selector: 'app-nossa-senhora-belem',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './nossa-senhora-belem.component.html',
   styleUrls: ['./nossa-senhora-belem.component.css']
 })
@@ -80,11 +87,18 @@ export class NossaSenhoraBelemComponent {
           { label: 'Morada', value: 'Rua Miguel Torga, 20 – A, Urbanização Vila Rosa, 2860-204 Alhos Vedros' },
           { label: 'Telefone (Rede Fixa)', value: '212 093 035' },
           { label: 'Telemóvel', value: '961 420 045' },
-          { label: 'Email', value: 'csnb@hotmail.com', isHtml: true },
+          { label: 'Email', value: 'csnb@hotmail.com', href: 'mailto:csnb@hotmail.com' },
         ],
         mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
           'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d327.52906520139584!2d-9.022762042504635!3d38.648899696026795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1937fa947aaaab%3A0x24c9202ad3af83b7!2sR.%20Miguel%20Torga%2020%2C%202860-240%20Alhos%20Vedros!5e0!3m2!1spt-PT!2spt!4v1769907475590!5m2!1spt-PT!2spt'
         ),
+        note: null,
+        images: [
+          { file: 'nossaSenhoraBelem1.jpg', title: 'Entrada do Centro Social', alt: 'Entrada do Centro Social Nossa Senhora de Belém' },
+          { file: 'nossaSenhoraBelem2.jpg', title: 'Sala de atividades', alt: 'Sala de atividades do Centro Social Nossa Senhora de Belém' },
+          { file: 'nossaSenhoraBelem3.jpg', title: 'Refeitório', alt: 'Refeitório do Centro Social Nossa Senhora de Belém' },
+          { file: 'nossaSenhoraBelem4.jpg', title: 'Serviço de transporte', alt: 'Viaturas de transporte do Centro Social Nossa Senhora de Belém' },
+        ],
       }
     ];
   }

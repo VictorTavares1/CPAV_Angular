@@ -71,8 +71,8 @@
                   <tr>
                     <th>{{ row.label }}</th>
                     <td>
-                      @if (row.isHtml) {
-                        <a [href]="'mailto:' + row.value">{{ row.value }}</a>
+                      @if (row.href) {
+                        <a [href]="row.href">{{ row.value }}</a>
                       } @else {
                         {{ row.value }}
                       }
@@ -87,7 +87,22 @@
             </div>
           </div>
 
-          <p class="ae-no-images">Não existem imagens disponíveis para este equipamento.</p>
+          @if (b.images.length === 0) {
+            <p class="ae-no-images">Não existem imagens disponíveis para este equipamento.</p>
+          } @else {
+            <div class="simple-gallery">
+              @for (img of b.images; track img.file) {
+                <figure class="sg-item">
+                  <button type="button" class="sg-btn"
+                    (click)="openLightbox('/images/apoioEstudo/' + b.key + '/' + img.file, img.title)">
+                    <img [src]="'/images/apoioEstudo/' + b.key + '/' + img.file"
+                      [alt]="img.alt" loading="lazy">
+                  </button>
+                  <figcaption class="sg-cap">{{ img.title }}</figcaption>
+                </figure>
+              }
+            </div>
+          }
 
         </div>
       }

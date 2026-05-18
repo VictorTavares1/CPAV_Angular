@@ -17,26 +17,56 @@ class Noticia {
     }
 
     public function lerAtivas() {
-        $query = "SELECT id, title, content, dateHour 
-                  FROM " . $this->table_name . " 
-                  WHERE idState = 1
-                  ORDER BY dateHour DESC";
+        $query = "SELECT n.id, n.title, n.content, n.dateHour,
+                         GROUP_CONCAT(i.url ORDER BY i.id SEPARATOR ',') AS images
+                  FROM " . $this->table_name . " n
+                  LEFT JOIN images i ON i.idNews = n.id
+                  WHERE n.idState = 1
+                  GROUP BY n.id
+                  ORDER BY n.dateHour DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
-    public function inserir($title, $content) {
-        $query = "INSERT INTO " . $this->table_name . " (title, content) 
+    public function lerPorId($id) {
+        $query = "SELECT n.id, n.title, n.content, n.dateHour,
+                         GROUP_CONCAT(i.url ORDER BY i.id SEPARATOR ',') AS images
+                  FROM " . $this->table_name . " n
+                  LEFT JOIN images i ON i.idNews = n.id
+                  WHERE n.id = :id AND n.idState = 1
+                  GROUP BY n.id
+                  LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function inserir($title, $content, $image = null) {
+        $query = "INSERT INTO " . $this->table_name . " (title, content)
                   VALUES (:title, :content)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":title", $title);
         $stmt->bindParam(":content", $content);
 
-        if ($stmt->execute()) {
-            return $this->conn->lastInsertId();
+        if (!$stmt->execute()) {
+            return false;
         }
-        return false;
+
+        $idNoticia = $this->conn->lastInsertId();
+
+        if ($image !== null) {
+            $queryImg = "INSERT INTO images (url, idNews) VALUES (:url, :idNews)";
+            $stmtImg  = $this->conn->prepare($queryImg);
+            $stmtImg->bindParam(":url", $image);
+            $stmtImg->bindParam(":idNews", $idNoticia, PDO::PARAM_INT);
+            if (!$stmtImg->execute()) {
+                return false;
+            }
+        }
+
+        return $idNoticia;
     }
 
     public function editar($id, $title, $content) {

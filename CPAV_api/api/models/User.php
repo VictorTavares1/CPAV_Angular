@@ -8,21 +8,47 @@ class User {
     }
 
     public function login($email, $password) {
-        $passwordHash = md5($password); // Mantém o teu md5 atual
-
-        $query = "SELECT id, email 
-                  FROM " . $this->table_name . " 
-                  WHERE email = :email 
-                  AND password = :password 
-                  AND idState = 1 
+        $query = "SELECT id, email, password
+                  FROM " . $this->table_name . "
+                  WHERE email = :email
+                  AND idState = 1
                   LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email", $email);
-        $stmt->bindParam(":password", $passwordHash);
         $stmt->execute();
 
-        return $stmt;
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$user) {
+            return false;
+        }
+
+        $storedPassword = $user['password'];
+
+        // Novo formato seguro.
+        if (password_verify($password, $storedPassword)) {
+            // Reforça segurança automaticamente se o custo/algoritmo mudar.
+            if (password_needs_rehash($storedPassword, PASSWORD_DEFAULT)) {
+                $this->updatePasswordHash($user['id'], password_hash($password, PASSWORD_DEFAULT));
+            }
+            return $user;
+        }
+
+        // Compatibilidade temporária com contas antigas em md5.
+        if (md5($password) === $storedPassword) {
+            $this->updatePasswordHash($user['id'], password_hash($password, PASSWORD_DEFAULT));
+            return $user;
+        }
+
+        return false;
+    }
+
+    private function updatePasswordHash($id, $newHash) {
+        $query = "UPDATE " . $this->table_name . " SET password = :password WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":password", $newHash);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
     }
 }
 ?>

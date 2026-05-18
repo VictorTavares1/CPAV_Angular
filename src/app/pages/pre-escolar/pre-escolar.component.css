@@ -6,6 +6,35 @@
     display: block;
 }
 
+/* FAQ */
+.faq-list {
+    margin-top: 15px;
+}
+
+.faq-entry {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.faq-entry--last {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.faq-question {
+    color: #1e3d6f;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.faq-answer {
+    margin: 0;
+    color: #555;
+}
+
 /* Lightbox */
 .lightbox {
     position: fixed;

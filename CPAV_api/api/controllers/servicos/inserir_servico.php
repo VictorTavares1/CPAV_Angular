@@ -1,7 +1,15 @@
 <?php
 require_once "../../config/header.php";
+require_once "../../config/require_auth.php";
 require_once "../../config/database.php";
-require_once "../../models/Servico.php";
+require_once "../../models/servico.php";
+require_once "../../models/log.php";
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["message" => "Método não permitido."]);
+    exit;
+}
 
 $data = json_decode(file_get_contents("php://input"));
 
@@ -15,7 +23,10 @@ if(
 
     $servico = new Servico($db);
 
-    if($servico->inserir($data->title, $data->description, $data->icon_or_image)) {
+    $idServico = $servico->inserir($data->title, $data->description, $data->icon_or_image);
+    if($idServico) {
+        $log = new Log($db);
+        $log->inserir($_SESSION['idUser'], 16);
         http_response_code(201);
         echo json_encode(["message" => "Serviço inserido com sucesso."]);
     } else {

@@ -23,40 +23,36 @@
         <div class="footer-simple__col">
             <h3 class="footer-simple__title">Contactos</h3>
             <ul class="footer-simple__meta">
-                <li>
-                    <span class="footer-ico">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M12 21s7-4.2 7-10a7 7 0 1 0-14 0c0 5.8 7 10 7 10z" stroke="currentColor"
-                                stroke-width="1.8" />
-                            <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z" stroke="currentColor"
-                                stroke-width="1.8" />
-                        </svg>
-                    </span>
-                    <span>Largo da Igreja, Alhos Vedros</span>
-                </li>
-                <li>
-                    <span class="footer-ico">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M21 16.8v2a1.8 1.8 0 0 1-2 1.7c-7.3-.8-12.8-6.3-13.6-13.6A1.8 1.8 0 0 1 7.1 4h2a1.8 1.8 0 0 1 1.8 1.5l.4 2a1.8 1.8 0 0 1-.5 1.6l-1 1a12.9 12.9 0 0 0 4.9 4.9l1-1a1.8 1.8 0 0 1 1.6-.5l2 .4A1.8 1.8 0 0 1 21 16.8z"
-                                stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <a href="tel:+351212043425">212 043 425</a>
-                </li>
-                <li>
-                    <span class="footer-ico">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M4 6.8A2.8 2.8 0 0 1 6.8 4h10.4A2.8 2.8 0 0 1 20 6.8v10.4A2.8 2.8 0 0 1 17.2 20H6.8A2.8 2.8 0 0 1 4 17.2V6.8z"
-                                stroke="currentColor" stroke-width="1.8" />
-                            <path d="M6.5 7.5l5.5 4.7 5.5-4.7" stroke="currentColor" stroke-width="1.8"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <a href="mailto:cspslav@hotmail.com">cspslav@hotmail.com</a>
-                </li>
+                @for (c of contactos; track c.id) {
+                    <li>
+                        <span class="footer-ico">
+                            @if (iconType(c.icon) === 'location') {
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 21s7-4.2 7-10a7 7 0 1 0-14 0c0 5.8 7 10 7 10z" stroke="currentColor" stroke-width="1.8" />
+                                    <path d="M12 12.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z" stroke="currentColor" stroke-width="1.8" />
+                                </svg>
+                            } @else if (iconType(c.icon) === 'phone') {
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M21 16.8v2a1.8 1.8 0 0 1-2 1.7c-7.3-.8-12.8-6.3-13.6-13.6A1.8 1.8 0 0 1 7.1 4h2a1.8 1.8 0 0 1 1.8 1.5l.4 2a1.8 1.8 0 0 1-.5 1.6l-1 1a12.9 12.9 0 0 0 4.9 4.9l1-1a1.8 1.8 0 0 1 1.6-.5l2 .4A1.8 1.8 0 0 1 21 16.8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            } @else if (iconType(c.icon) === 'email') {
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 6.8A2.8 2.8 0 0 1 6.8 4h10.4A2.8 2.8 0 0 1 20 6.8v10.4A2.8 2.8 0 0 1 17.2 20H6.8A2.8 2.8 0 0 1 4 17.2V6.8z" stroke="currentColor" stroke-width="1.8" />
+                                    <path d="M6.5 7.5l5.5 4.7 5.5-4.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            } @else {
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+                                </svg>
+                            }
+                        </span>
+                        @if (hrefFor(c)) {
+                            <a [href]="hrefFor(c)">{{ c.value }}</a>
+                        } @else {
+                            <span>{{ c.value }}</span>
+                        }
+                    </li>
+                }
             </ul>
         </div>
 

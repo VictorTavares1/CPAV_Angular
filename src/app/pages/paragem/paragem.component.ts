@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+interface GalleryImage {
+  file: string;
+  title: string;
+  alt: string;
+}
 
 interface BuildingRow {
   label: string;
   value: string;
-  isHtml?: boolean;
+  href?: string;
 }
 
 interface Building {
@@ -16,12 +21,13 @@ interface Building {
   table: BuildingRow[];
   mapUrl: SafeResourceUrl;
   note?: string;
+  images: GalleryImage[];
 }
 
 @Component({
   selector: 'app-paragem',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './paragem.component.html',
   styleUrls: ['./paragem.component.css']
 })
@@ -117,12 +123,18 @@ export class ParagemComponent {
           { label: 'Designação', value: 'Centro Comunitário P.A.R.A.G.E.M' },
           { label: 'Morada', value: 'Rua Fernando Pessoa, n.º 1 e 4 C/V, Bloco Q, 2860-071 Alhos Vedros' },
           { label: 'Telefone (Rede Fixa)', value: '212 897 041' },
-          { label: 'Email', value: 'paragem@cspslav.pt', isHtml: true },
+          { label: 'Email', value: 'paragem@cspslav.pt', href: 'mailto:paragem@cspslav.pt' },
         ],
         mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
           'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d194.73420031388608!2d-9.007148273816933!3d38.65469259941962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19381b8976b8a5%3A0xdb0ad9fe8017c819!2scentro%20social%20da%20nossa%20sra.%20da%20paz!5e0!3m2!1spt-PT!2spt!4v1769898670192!5m2!1spt-PT!2spt'
         ),
         note: 'Este centro comunitário está localizado no mesmo edifício que o Centro Social Nossa Senhora da Paz, permitindo uma sinergia entre diferentes serviços e respostas sociais.',
+        images: [
+          { file: 'paragem1.jpg', title: 'Fachada do P.A.R.A.G.E.M.', alt: 'Fachada do Centro Comunitário P.A.R.A.G.E.M.' },
+          { file: 'paragem2.jpg', title: 'Espaço de convívio', alt: 'Espaço de convívio do P.A.R.A.G.E.M.' },
+          { file: 'paragem3.jpg', title: 'Sala multiatividades', alt: 'Sala multiatividades do P.A.R.A.G.E.M.' },
+          { file: 'paragem4.jpg', title: 'Zona de lazer', alt: 'Zona de lazer do P.A.R.A.G.E.M.' },
+        ],
       }
     ];
   }

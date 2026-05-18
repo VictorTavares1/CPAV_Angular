@@ -1,7 +1,13 @@
 <?php
 require_once "../../config/header.php";
 require_once "../../config/database.php";
-require_once "../../models/Evento.php";
+require_once "../../models/evento.php";
+
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405);
+    echo json_encode(["message" => "Método não permitido."]);
+    exit;
+}
 
 $database = new Database();
 $db = $database->getConnection();
@@ -17,7 +23,7 @@ if($stmt->rowCount() > 0) {
     http_response_code(200);
     echo json_encode($eventos);
 } else {
-    http_response_code(404);
-    echo json_encode(["message" => "Nenhum evento encontrado."]);
+    http_response_code(200);
+    echo json_encode([]);
 }
 ?>

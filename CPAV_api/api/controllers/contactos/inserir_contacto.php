@@ -1,7 +1,15 @@
 <?php
 require_once "../../config/header.php";
+require_once "../../config/require_auth.php";
 require_once "../../config/database.php";
-require_once "../../models/Contacto.php";
+require_once "../../models/contacto.php";
+require_once "../../models/log.php";
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["message" => "Método não permitido."]);
+    exit;
+}
 
 $data = json_decode(file_get_contents("php://input"));
 
@@ -15,7 +23,10 @@ if(
 
     $contacto = new Contacto($db);
 
-    if($contacto->inserir($data->type, $data->value, $data->icon)) {
+    $idContacto = $contacto->inserir($data->type, $data->value, $data->icon);
+    if($idContacto) {
+        $log = new Log($db);
+        $log->inserir($_SESSION['idUser'], 13);
         http_response_code(201);
         echo json_encode(["message" => "Contacto inserido com sucesso."]);
     } else {

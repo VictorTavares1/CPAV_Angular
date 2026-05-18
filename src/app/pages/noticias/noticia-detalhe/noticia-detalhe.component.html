@@ -1,0 +1,54 @@
+@if (loading()) {
+  <section class="page-content">
+    <div class="container">
+      <div class="section-card" style="text-align:center;">
+        <p class="section-lead">A carregar notícia...</p>
+      </div>
+    </div>
+  </section>
+} @else if (notFound()) {
+  <section class="page-content">
+    <div class="container">
+      <div class="section-card" style="text-align:center;">
+        <h2>Notícia não encontrada</h2>
+        <p class="section-lead">A notícia que procura não existe ou foi removida.</p>
+        <a class="card-link" routerLink="/noticias">← Voltar às notícias</a>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-inner noticia-detalhe__header">
+        <a class="noticia-detalhe__back card-link" routerLink="/noticias">← Voltar às notícias</a>
+        <h1>{{ noticia()!.title }}</h1>
+        @if (fmtDate(noticia()!.dateHour)) {
+          <div class="noticia-detalhe__date">{{ fmtDate(noticia()!.dateHour) }}</div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="page-content">
+    <div class="container">
+      <div class="section-card noticia-detalhe__body">
+        <div [innerHTML]="noticia()!.content"></div>
+      </div>
+
+      @if (noticia()!.images && noticia()!.images!.length > 0) {
+        <h2 class="mt-4">Galeria</h2>
+        <div class="section-card">
+          <div id="galeria" class="noticia-galeria">
+            @for (img of noticia()!.images!; track img) {
+              <img
+                [src]="uploadsUrl + '/' + img"
+                [attr.data-original]="uploadsUrl + '/' + img"
+                [alt]="noticia()!.title"
+                class="noticia-galeria__thumb">
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+}

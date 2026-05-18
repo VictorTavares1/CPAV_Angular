@@ -1,0 +1,62 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/relatorios" class="back-btn">← Voltar</a>
+
+  <h1>Inserir Relatório</h1>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  <div class="admin-form-container">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label class="form-label required" for="title">Título</label>
+        <input id="title" type="text" class="form-input"
+          formControlName="title" placeholder="Título do relatório" />
+        @if (form.controls.title.touched && form.controls.title.invalid) {
+          <p class="field-error">O título é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="idType">Tipo</label>
+        <select id="idType" class="form-input" formControlName="idType">
+          <option value="" disabled>Selecionar tipo...</option>
+          @for (t of tipos; track t.id) {
+            <option [value]="t.id">{{ t.type }}</option>
+          }
+        </select>
+        @if (form.controls.idType.touched && form.controls.idType.invalid) {
+          <p class="field-error">O tipo é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="file">Ficheiro PDF</label>
+        <div class="file-input-wrap">
+          <label class="file-btn" for="file">Escolher ficheiro</label>
+          <span class="file-name">
+            {{ selectedFile ? selectedFile.name : 'Nenhum ficheiro selecionado' }}
+          </span>
+          <input id="file" type="file" class="file-input-hidden"
+            accept=".pdf"
+            (change)="onFileChange($event)">
+        </div>
+        @if (fileError) {
+          <p class="field-error">{{ fileError }}</p>
+        } @else {
+          <div class="form-hint">PDF. Máx. 10 MB.</div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A inserir...' : 'Inserir' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

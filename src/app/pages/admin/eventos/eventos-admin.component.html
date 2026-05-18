@@ -1,0 +1,83 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <div class="admin-header">
+    <h1>Gerir Eventos</h1>
+    <a routerLink="/admin/eventos/inserir" class="insert-btn">+ Inserir Evento</a>
+  </div>
+
+  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
+  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
+
+  <!-- Filtros -->
+  <div class="filters-bar">
+    <input
+      type="text"
+      class="filter-input"
+      placeholder="Pesquisar por título..."
+      [(ngModel)]="searchQuery"
+    />
+
+    <select class="filter-select" [(ngModel)]="selectedStatus">
+      <option value="">Todos os estados</option>
+      <option value="1">Ativo</option>
+      <option value="2">Inativo</option>
+    </select>
+
+    <input type="date" class="filter-date" [(ngModel)]="dateFrom" aria-label="De" />
+    <input type="date" class="filter-date" [(ngModel)]="dateTo"   aria-label="Até" />
+
+    <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
+  </div>
+
+  @if (isLoading) {
+    <p class="table-empty">A carregar...</p>
+  } @else {
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Local</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (filtered.length === 0) {
+            <tr><td colspan="6" class="table-empty">Sem eventos.</td></tr>
+          } @else {
+            @for (e of filtered; track e.id) {
+              <tr>
+                <td>{{ e.title }}</td>
+                <td class="nowrap">{{ fmtDate(e.event_date) }}</td>
+                <td class="nowrap">{{ fmtTime(e.event_time) }}</td>
+                <td>{{ e.location }}</td>
+                <td>
+                  <span class="status-badge" [class.status-active]="e.idState === 1" [class.status-inactive]="e.idState !== 1">
+                    {{ e.idState === 1 ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <a [routerLink]="['/admin/eventos/editar', e.id]" class="table-btn edit">Editar</a>
+                  <button
+                    type="button"
+                    class="table-btn"
+                    [class.deactivate]="e.idState === 1"
+                    [class.activate]="e.idState !== 1"
+                    (click)="toggle(e.id)">
+                    {{ e.idState === 1 ? 'Desativar' : 'Ativar' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</section>
