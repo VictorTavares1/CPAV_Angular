@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Contactos } from '../../../../services/contactos';
+import { Contactos, ContactoCategory } from '../../../../services/contactos';
 
 @Component({
   selector: 'app-inserir-contacto',
@@ -16,9 +16,10 @@ export class InserirContactoComponent {
   private readonly cdr = inject(ChangeDetectorRef);
 
   readonly form = this.fb.group({
-    type:  ['', [Validators.required]],
-    value: ['', [Validators.required]],
-    icon:  ['', [Validators.required]],
+    type:     ['', [Validators.required]],
+    value:    ['', [Validators.required]],
+    icon:     ['', [Validators.required]],
+    category: ['footer', [Validators.required]],
   });
 
   errorMessage = '';
@@ -36,14 +37,15 @@ export class InserirContactoComponent {
     this.successMessage = '';
 
     this.contactosService.inserir({
-      type:  this.form.controls.type.value ?? '',
-      value: this.form.controls.value.value ?? '',
-      icon:  this.form.controls.icon.value ?? '',
+      type:     this.form.controls.type.value ?? '',
+      value:    this.form.controls.value.value ?? '',
+      icon:     this.form.controls.icon.value ?? '',
+      category: (this.form.controls.category.value ?? 'footer') as ContactoCategory,
     }).subscribe({
       next: () => {
         this.successMessage = 'Contacto inserido com sucesso.';
         this.isSubmitting = false;
-        this.form.reset();
+        this.form.reset({ category: 'footer' });
         this.cdr.markForCheck();
       },
       error: (err) => {

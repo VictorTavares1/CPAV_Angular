@@ -35,19 +35,21 @@
             <th>Tipo</th>
             <th>Valor</th>
             <th>Ícone</th>
+            <th>Onde aparece</th>
             <th>Estado</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           @if (filtered.length === 0) {
-            <tr><td colspan="5" class="table-empty">Sem contactos.</td></tr>
+            <tr><td colspan="6" class="table-empty">Sem contactos.</td></tr>
           } @else {
             @for (c of filtered; track c.id) {
               <tr>
                 <td>{{ c.type }}</td>
                 <td>{{ c.value }}</td>
                 <td class="icon-cell">{{ c.icon }}</td>
+                <td>{{ c.category === 'rapido' ? 'Contactos Rápidos' : 'Rodapé' }}</td>
                 <td>
                   <span class="status-badge" [class.status-active]="c.idState === 1" [class.status-inactive]="c.idState !== 1">
                     {{ c.idState === 1 ? 'Ativo' : 'Inativo' }}

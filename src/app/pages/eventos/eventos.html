@@ -1,60 +1,57 @@
-<section class="page-hero">
+<div class="page-title-bar">
   <div class="container">
-    <div class="page-hero-inner">
-      <h1>Eventos</h1>
-      <p>Aqui encontras os próximos eventos e atividades. Podes pesquisar e filtrar por datas.</p>
-
-      <div class="events-search">
-        <input
-          class="events-search__input"
-          type="text"
-          placeholder="Pesquisar por título ou local..."
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="resetPage()"
-        />
-
-        <input
-          class="events-search__date"
-          type="date"
-          aria-label="Data de início"
-          [(ngModel)]="dateFrom"
-          (ngModelChange)="resetPage()"
-        />
-
-        <input
-          class="events-search__date"
-          type="date"
-          aria-label="Data de fim"
-          [(ngModel)]="dateTo"
-          (ngModelChange)="resetPage()"
-        />
-
-        <select
-          class="events-search__select"
-          aria-label="Local"
-          [(ngModel)]="selectedLoc"
-          (ngModelChange)="resetPage()"
-        >
-          <option value="">Todos os locais</option>
-          @for (loc of locations(); track loc) {
-            <option [value]="loc">{{ loc }}</option>
-          }
-        </select>
-
-        @if (hasFilters()) {
-          <button type="button" class="events-search__clear" (click)="clearFilters()">Limpar</button>
-        }
-      </div>
-
-      @if (!loading()) {
-        <div class="events-meta">{{ filtered().length }} evento(s) encontrado(s)</div>
-      }
-    </div>
+    <h1>Eventos</h1>
   </div>
-</section>
+</div>
 
 <main class="page-content">
   <div class="container">
+
+    <div class="events-search">
+      <input
+        class="events-search__input"
+        type="text"
+        placeholder="Pesquisar por título ou local..."
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="resetPage()"
+      />
+
+      <input
+        class="events-search__date"
+        type="date"
+        aria-label="Data de início"
+        [(ngModel)]="dateFrom"
+        (ngModelChange)="resetPage()"
+      />
+
+      <input
+        class="events-search__date"
+        type="date"
+        aria-label="Data de fim"
+        [(ngModel)]="dateTo"
+        (ngModelChange)="resetPage()"
+      />
+
+      <select
+        class="events-search__select"
+        aria-label="Local"
+        [(ngModel)]="selectedLoc"
+        (ngModelChange)="resetPage()"
+      >
+        <option value="">Todos os locais</option>
+        @for (loc of locations(); track loc) {
+          <option [value]="loc">{{ loc }}</option>
+        }
+      </select>
+
+      @if (hasFilters()) {
+        <button type="button" class="events-search__clear" (click)="clearFilters()">Limpar</button>
+      }
+    </div>
+
+    @if (!loading()) {
+      <div class="events-meta">{{ filtered().length }} evento(s) encontrado(s)</div>
+    }
 
     @if (loading()) {
       <div class="events-empty">

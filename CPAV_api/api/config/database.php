@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $db_name = "centros_paroquiais"; // Escreva aqui o nome da sua base de dados
+    private $db_name = "centros_paroquiais"; 
     private $username = "root";
     private $password = "";
     public $conn;

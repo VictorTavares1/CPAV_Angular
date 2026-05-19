@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Contactos } from '../../../../services/contactos';
+import { Contactos, ContactoCategory } from '../../../../services/contactos';
 
 @Component({
   selector: 'app-editar-contacto',
@@ -18,9 +18,10 @@ export class EditarContactoComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   readonly form = this.fb.group({
-    type:  ['', [Validators.required]],
-    value: ['', [Validators.required]],
-    icon:  ['', [Validators.required]],
+    type:     ['', [Validators.required]],
+    value:    ['', [Validators.required]],
+    icon:     ['', [Validators.required]],
+    category: ['footer', [Validators.required]],
   });
 
   contactoId = 0;
@@ -35,9 +36,10 @@ export class EditarContactoComponent implements OnInit {
     this.contactosService.lerPorId(this.contactoId).subscribe({
       next: (contacto) => {
         this.form.patchValue({
-          type:  contacto.type,
-          value: contacto.value,
-          icon:  contacto.icon,
+          type:     contacto.type,
+          value:    contacto.value,
+          icon:     contacto.icon,
+          category: contacto.category ?? 'footer',
         });
         this.isLoading = false;
         this.cdr.markForCheck();
@@ -57,10 +59,11 @@ export class EditarContactoComponent implements OnInit {
     this.successMessage = '';
 
     this.contactosService.editar({
-      id:    this.contactoId,
-      type:  this.form.controls.type.value ?? '',
-      value: this.form.controls.value.value ?? '',
-      icon:  this.form.controls.icon.value ?? '',
+      id:       this.contactoId,
+      type:     this.form.controls.type.value ?? '',
+      value:    this.form.controls.value.value ?? '',
+      icon:     this.form.controls.icon.value ?? '',
+      category: (this.form.controls.category.value ?? 'footer') as ContactoCategory,
     }).subscribe({
       next: () => {
         this.successMessage = 'Contacto atualizado com sucesso.';

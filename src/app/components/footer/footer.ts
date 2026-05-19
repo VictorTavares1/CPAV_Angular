@@ -16,7 +16,7 @@ export class Footer implements OnInit {
   contactos: ContactoItem[] = [];
 
   ngOnInit(): void {
-    this.contactosService.listar().subscribe(c => {
+    this.contactosService.listar('footer').subscribe(c => {
       this.contactos = c;
       this.cdr.markForCheck();
     });

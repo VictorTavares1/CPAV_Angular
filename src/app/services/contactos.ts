@@ -4,11 +4,14 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiConfigService } from './api-config.service';
 
+export type ContactoCategory = 'footer' | 'rapido';
+
 export interface ContactoItem {
   id: number;
   type: string;
   value: string;
   icon: string;
+  category: ContactoCategory;
 }
 
 export interface ContactoItemAdmin extends ContactoItem {
@@ -24,9 +27,12 @@ export class Contactos {
     private readonly apiConfig: ApiConfigService
   ) {}
 
-  listar(): Observable<ContactoItem[]> {
+  listar(category?: ContactoCategory): Observable<ContactoItem[]> {
+    const url = category
+      ? `${this.apiConfig.controllersUrl}/contactos/listar_contactos.php?category=${category}`
+      : `${this.apiConfig.controllersUrl}/contactos/listar_contactos.php`;
     return this.http
-      .get<ContactoItem[]>(`${this.apiConfig.controllersUrl}/contactos/listar_contactos.php`)
+      .get<ContactoItem[]>(url)
       .pipe(catchError(() => of([])));
   }
 
@@ -41,7 +47,7 @@ export class Contactos {
       .get<ContactoItemAdmin>(`${this.apiConfig.controllersUrl}/contactos/listar_contacto_por_id.php?id=${id}`, { withCredentials: true });
   }
 
-  inserir(data: { type: string; value: string; icon: string }): Observable<{ message: string }> {
+  inserir(data: { type: string; value: string; icon: string; category: ContactoCategory }): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiConfig.controllersUrl}/contactos/inserir_contacto.php`,
       data,
@@ -49,7 +55,7 @@ export class Contactos {
     );
   }
 
-  editar(data: { id: number; type: string; value: string; icon: string }): Observable<{ message: string }> {
+  editar(data: { id: number; type: string; value: string; icon: string; category: ContactoCategory }): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiConfig.controllersUrl}/contactos/editar_contacto.php`,
       data,

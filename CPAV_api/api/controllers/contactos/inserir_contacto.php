@@ -23,7 +23,8 @@ if(
 
     $contacto = new Contacto($db);
 
-    $idContacto = $contacto->inserir($data->type, $data->value, $data->icon);
+    $category = !empty($data->category) ? $data->category : 'footer';
+    $idContacto = $contacto->inserir($data->type, $data->value, $data->icon, $category);
     if($idContacto) {
         $log = new Log($db);
         $log->inserir($_SESSION['idUser'], 13);

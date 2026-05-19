@@ -13,7 +13,8 @@ $database = new Database();
 $db = $database->getConnection();
 
 $contacto = new Contacto($db);
-$stmt = $contacto->lerAtivos();
+$category = isset($_GET['category']) && $_GET['category'] !== '' ? $_GET['category'] : null;
+$stmt = $contacto->lerAtivos($category);
 
 if($stmt->rowCount() > 0) {
     $contactos = array();

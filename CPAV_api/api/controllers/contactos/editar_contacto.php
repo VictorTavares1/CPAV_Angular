@@ -24,7 +24,8 @@ if(
 
     $contacto = new Contacto($db);
 
-    if($contacto->editar($data->id, $data->type, $data->value, $data->icon)) {
+    $category = !empty($data->category) ? $data->category : 'footer';
+    if($contacto->editar($data->id, $data->type, $data->value, $data->icon, $category)) {
         $log = new Log($db);
         $log->inserir($_SESSION['idUser'], 14);
         http_response_code(200);

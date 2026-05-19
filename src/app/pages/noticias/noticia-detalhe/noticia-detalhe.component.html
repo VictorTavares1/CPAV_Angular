@@ -17,17 +17,15 @@
     </div>
   </section>
 } @else {
-  <section class="page-hero">
+  <div class="page-title-bar">
     <div class="container">
-      <div class="page-hero-inner noticia-detalhe__header">
-        <a class="noticia-detalhe__back card-link" routerLink="/noticias">← Voltar às notícias</a>
-        <h1>{{ noticia()!.title }}</h1>
-        @if (fmtDate(noticia()!.dateHour)) {
-          <div class="noticia-detalhe__date">{{ fmtDate(noticia()!.dateHour) }}</div>
-        }
-      </div>
+      <a class="card-link" style="font-size:13px;display:inline-block;margin-bottom:6px" routerLink="/noticias">← Voltar às notícias</a>
+      <h1>{{ noticia()!.title }}</h1>
+      @if (fmtDate(noticia()!.dateHour)) {
+        <p style="margin:4px 0 0;font-size:13px;color:#888">{{ fmtDate(noticia()!.dateHour) }}</p>
+      }
     </div>
-  </section>
+  </div>
 
   <section class="page-content">
     <div class="container">

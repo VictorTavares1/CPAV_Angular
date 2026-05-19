@@ -1,14 +1,8 @@
-<section class="page-hero">
+<div class="page-title-bar">
     <div class="container">
-        <div class="page-hero-inner">
-            <h1>Contactos</h1>
-            <p>
-                Estamos aqui para ajudar. Entre em contacto connosco através dos
-                meios disponíveis ou visite-nos pessoalmente nas nossas diferentes instalações.
-            </p>
-        </div>
+        <h1>Contactos</h1>
     </div>
-</section>
+</div>
 
 <main class="page-content">
     <div class="container">
@@ -80,12 +74,7 @@
                         <ul class="contact-list">
                             @for (c of contactos; track c.id) {
                                 <li>
-                                    <strong>{{ c.type }}:</strong>
-                                    @if (hrefFor(c)) {
-                                        <a [href]="hrefFor(c)">{{ c.value }}</a>
-                                    } @else {
-                                        {{ c.value }}
-                                    }
+                                    <strong>{{ c.type }}: </strong>@if (hrefFor(c)) {<a [href]="hrefFor(c)">{{ c.value }}</a>} @else {{{ c.value }}}
                                 </li>
                             } @empty {
                                 <li>Sem contactos disponíveis.</li>
@@ -172,9 +161,9 @@
             <div class="transport-section">
                 <h3>Transportes Públicos</h3>
                 <ul class="clean-list">
-                    <li><strong>Autocarros:</strong> Carris Metropolitana - Linhas 301, 302, 303 (paragem Alhos Vedros Centro)</li>
-                    <li><strong>Comboio:</strong> Estação de Alhos Vedros (Linha do Sul)</li>
-                    <li><strong>Barco:</strong> Cacilhas - Montijo (com ligação de autocarro)</li>
+                    <li><strong>Autocarros:</strong> Transportes Coletivos do Barreiro - Carreiras 1 e 2 | Carris Metropolitana - Carreiras 4600, 4602, 4620</li>
+                    <li><strong>Comboio:</strong> Linha do Sado — Estação de Alhos Vedros</li>
+                    <li><strong>Barco:</strong> Terreiro do Paço – Barreiro (com ligação a autocarros e comboios)</li>
                 </ul>
             </div>
         </section>

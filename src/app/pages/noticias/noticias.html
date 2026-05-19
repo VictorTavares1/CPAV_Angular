@@ -1,26 +1,22 @@
-<section class="page-hero">
-  <div class="container">
-    <div class="page-hero-inner">
-      <h1>Notícias</h1>
-      <p>Fique a par das novidades e atividades.</p>
-
-      <div class="news-search">
-        <input
-          class="news-search__input"
-          type="text"
-          placeholder="Pesquisar notícias..."
-          [ngModel]="searchQuery()"
-          (ngModelChange)="searchQuery.set($event)"
-          name="q"
-          autocomplete="off"
-        />
-        @if (searchQuery()) {
-          <button type="button" class="btn news-search__btn" (click)="clearSearch()">Limpar</button>
-        }
-      </div>
+<div class="page-title-bar">
+  <div class="container page-title-bar--flex">
+    <h1>Notícias</h1>
+    <div class="news-search">
+      <input
+        class="news-search__input"
+        type="text"
+        placeholder="Pesquisar notícias..."
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        name="q"
+        autocomplete="off"
+      />
+      @if (searchQuery()) {
+        <button type="button" class="btn news-search__btn" (click)="clearSearch()">Limpar</button>
+      }
     </div>
   </div>
-</section>
+</div>
 
 <section class="page-content">
   <div class="container">
