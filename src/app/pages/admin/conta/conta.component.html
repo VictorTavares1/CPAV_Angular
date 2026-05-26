@@ -1,0 +1,65 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
+
+  <h1>A minha conta</h1>
+
+  @if (currentUser) {
+    <div class="info-card">
+      <div class="info-row">
+        <span class="info-label">Email:</span>
+        <span class="info-value">{{ currentUser.email }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Tipo:</span>
+        <span class="info-value">{{ currentUser.role === 'super_admin' ? 'Super-Administrador' : 'Administrador' }}</span>
+      </div>
+    </div>
+  }
+
+  <div class="admin-form-container">
+    <h2 class="section-title">Alterar a minha password</h2>
+    <p class="section-hint">Para confirmar a tua identidade, indica a password atual antes da nova.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label class="form-label required" for="currentPassword">Password atual</label>
+        <input id="currentPassword" type="password" class="form-input" formControlName="currentPassword" autocomplete="current-password" />
+        @if (form.controls.currentPassword.touched && form.controls.currentPassword.invalid) {
+          <p class="field-error">A password atual é obrigatória.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="newPassword">Nova password</label>
+        <input id="newPassword" type="password" class="form-input" formControlName="newPassword" autocomplete="new-password" />
+        <p class="field-hint">
+          Requisitos da password:<br>
+          @for (r of passwordRequirements; track r) {
+            • {{ r }}<br>
+          }
+        </p>
+        @if (form.controls.newPassword.touched && form.controls.newPassword.invalid) {
+          <p class="field-error">A nova password é obrigatória.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="confirmPassword">Confirmar nova password</label>
+        <input id="confirmPassword" type="password" class="form-input" formControlName="confirmPassword" autocomplete="new-password" />
+        @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.value && !passwordsMatch) {
+          <p class="field-error">As passwords não coincidem.</p>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A guardar...' : 'Alterar password' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

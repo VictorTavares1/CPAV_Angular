@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Contactos, ContactoCategory } from '../../../../services/contactos';
+import { NotifyService } from '../../../../services/notify.service';
 
 @Component({
   selector: 'app-editar-contacto',
@@ -12,6 +13,7 @@ import { Contactos, ContactoCategory } from '../../../../services/contactos';
 })
 export class EditarContactoComponent implements OnInit {
   private readonly contactosService = inject(Contactos);
+  private readonly notify = inject(NotifyService);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -26,8 +28,6 @@ export class EditarContactoComponent implements OnInit {
 
   contactoId = 0;
   isLoading = true;
-  errorMessage = '';
-  successMessage = '';
   isSubmitting = false;
 
   ngOnInit(): void {
@@ -55,8 +55,6 @@ export class EditarContactoComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.errorMessage = '';
-    this.successMessage = '';
 
     this.contactosService.editar({
       id:       this.contactoId,
@@ -66,14 +64,12 @@ export class EditarContactoComponent implements OnInit {
       category: (this.form.controls.category.value ?? 'footer') as ContactoCategory,
     }).subscribe({
       next: () => {
-        this.successMessage = 'Contacto atualizado com sucesso.';
         this.isSubmitting = false;
-        this.cdr.markForCheck();
+        this.notify.success('Contacto atualizado com sucesso.');
       },
       error: (err) => {
-        this.errorMessage = err?.error?.message ?? 'Erro ao atualizar o contacto.';
         this.isSubmitting = false;
-        this.cdr.markForCheck();
+        this.notify.error(err?.error?.message ?? 'Erro ao atualizar o contacto.');
       },
     });
   }

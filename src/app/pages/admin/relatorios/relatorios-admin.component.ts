@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { RelatorioItemAdmin, RelatoriosService, TipoItem } from '../../../services/relatorios.service';
+import { NotifyService } from '../../../services/notify.service';
 
 @Component({
   selector: 'app-relatorios-admin',
@@ -12,13 +13,12 @@ import { RelatorioItemAdmin, RelatoriosService, TipoItem } from '../../../servic
 })
 export class RelatoriosAdminComponent implements OnInit {
   private readonly relatoriosService = inject(RelatoriosService);
+  private readonly notify = inject(NotifyService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   relatorios: RelatorioItemAdmin[] = [];
   tipos: TipoItem[] = [];
   isLoading = true;
-  errorMessage = '';
-  successMessage = '';
 
   searchQuery = '';
   selectedType = '';
@@ -33,11 +33,11 @@ export class RelatoriosAdminComponent implements OnInit {
     this.relatoriosService.listarAdmin().subscribe(rows => {
       this.relatorios = rows;
       this.isLoading = false;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     });
     this.relatoriosService.lerTipos().subscribe(tipos => {
       this.tipos = tipos;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     });
   }
 
@@ -53,16 +53,18 @@ export class RelatoriosAdminComponent implements OnInit {
     });
   }
 
-  toggle(id: number): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.relatoriosService.toggle(id).subscribe({
+  async toggle(r: RelatorioItemAdmin): Promise<void> {
+    const acao = r.idState === 1 ? 'desativar' : 'ativar';
+    const ok = await this.notify.confirm(`Pretende ${acao} o relatório "${r.title}"?`);
+    if (!ok) return;
+
+    this.relatoriosService.toggle(r.id).subscribe({
       next: () => {
-        this.successMessage = 'Estado do relatório alterado.';
+        this.notify.success('Estado do relatório alterado.');
         this.load();
       },
       error: (err) => {
-        this.errorMessage = err?.error?.message ?? 'Erro ao alterar estado.';
+        this.notify.error(err?.error?.message ?? 'Erro ao alterar estado.');
       },
     });
   }

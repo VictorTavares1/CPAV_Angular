@@ -24,6 +24,10 @@ export class DashboardComponent implements OnInit {
     relatorios: 0,
   };
 
+  get isSuperAdmin(): boolean {
+    return this.authService.isSuperAdmin;
+  }
+
   ngOnInit(): void {
     forkJoin({
       noticias: this.dashboardService.getNoticiasCount(),

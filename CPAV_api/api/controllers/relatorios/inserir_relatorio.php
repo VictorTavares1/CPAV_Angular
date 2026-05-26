@@ -33,9 +33,30 @@ if ($mime !== 'application/pdf') {
     exit;
 }
 
-$uploadDir = __DIR__ . '/../../../../uploads/relatorios/';
-$filename  = uniqid('rel_', true) . '.pdf';
-$dest      = $uploadDir . $filename;
+$uploadDir = __DIR__ . '/../../../uploads/relatorios/';
+
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+}
+
+// Mantém o nome original do ficheiro, removendo apenas carateres problemáticos.
+$base = pathinfo(basename($_FILES['file']['name']), PATHINFO_FILENAME);
+$base = preg_replace('/[^\p{L}\p{N} \-_]+/u', '', $base);
+$base = trim($base);
+if ($base === '') {
+    $base = 'relatorio';
+}
+
+$filename = $base . '.pdf';
+$dest     = $uploadDir . $filename;
+
+// Evita sobrescrever um ficheiro com o mesmo nome, acrescentando um número.
+$i = 1;
+while (file_exists($dest)) {
+    $filename = $base . '_' . $i . '.pdf';
+    $dest     = $uploadDir . $filename;
+    $i++;
+}
 
 if (!move_uploaded_file($_FILES['file']['tmp_name'], $dest)) {
     http_response_code(500);

@@ -182,6 +182,41 @@
       </div>
     </section>
 
+    <!-- UTILIZADORES (só super_admin) -->
+    @if (isSuperAdmin) {
+      <section class="admin-topic">
+        <h2>Utilizadores</h2>
+        <div class="admin-cards">
+          <a routerLink="/admin/utilizadores" class="admin-card">
+            <span class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <path d="M20 8v6M23 11h-6"/>
+              </svg>
+            </span>
+            <span class="text">
+              <h3>Gerir Utilizadores</h3>
+              <p>Criar, editar e desativar contas de acesso ao painel</p>
+            </span>
+          </a>
+          <a routerLink="/admin/utilizadores/inserir" class="admin-card">
+            <span class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/>
+              </svg>
+            </span>
+            <span class="text">
+              <h3>Inserir Utilizador</h3>
+              <p>Criar uma nova conta de admin ou super-admin</p>
+            </span>
+          </a>
+        </div>
+      </section>
+    }
+
     <!-- SISTEMA -->
     <section class="admin-topic">
       <h2>Sistema</h2>
@@ -197,6 +232,19 @@
           <span class="text">
             <h3>Ver Logs</h3>
             <p>Consultar o registo de operações do sistema</p>
+          </span>
+        </a>
+
+        <a routerLink="/admin/conta" class="admin-card">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <span class="text">
+            <h3>A minha conta</h3>
+            <p>Alterar a minha password</p>
           </span>
         </a>
 

@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Servicos } from '../../../../services/servicos';
+import { NotifyService } from '../../../../services/notify.service';
 
 @Component({
   selector: 'app-editar-servico',
@@ -12,6 +13,7 @@ import { Servicos } from '../../../../services/servicos';
 })
 export class EditarServicoComponent implements OnInit {
   private readonly servicosService = inject(Servicos);
+  private readonly notify = inject(NotifyService);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -25,8 +27,6 @@ export class EditarServicoComponent implements OnInit {
 
   servicoId = 0;
   isLoading = true;
-  errorMessage = '';
-  successMessage = '';
   isSubmitting = false;
 
   ngOnInit(): void {
@@ -53,8 +53,6 @@ export class EditarServicoComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.errorMessage = '';
-    this.successMessage = '';
 
     this.servicosService.editar({
       id:            this.servicoId,
@@ -63,14 +61,12 @@ export class EditarServicoComponent implements OnInit {
       icon_or_image: this.form.controls.icon_or_image.value ?? '',
     }).subscribe({
       next: () => {
-        this.successMessage = 'Serviço atualizado com sucesso.';
         this.isSubmitting = false;
-        this.cdr.markForCheck();
+        this.notify.success('Serviço atualizado com sucesso.');
       },
       error: (err) => {
-        this.errorMessage = err?.error?.message ?? 'Erro ao atualizar o serviço.';
         this.isSubmitting = false;
-        this.cdr.markForCheck();
+        this.notify.error(err?.error?.message ?? 'Erro ao atualizar o serviço.');
       },
     });
   }

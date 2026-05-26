@@ -3250,8 +3250,7 @@ a {
 
     /* Give the hero real breathing room */
     .photo-band__inner {
-        padding-left: 24px;
-        padding-right: 24px;
+        padding: 64px 24px 48px;
     }
 
     /* Prevent text from visually touching edges */
@@ -3260,13 +3259,14 @@ a {
     }
 
     .photo-band__content h2 {
-        font-size: 28px;
-        line-height: 1.1;
+        font-size: 26px;
+        line-height: 1.15;
     }
 
     .photo-band__content p {
-        font-size: 15.5px;
+        font-size: 15px;
         line-height: 1.6;
+        margin-top: 14px;
     }
 
     /* Buttons should never touch edges */
@@ -3529,4 +3529,118 @@ a {
     font-size: 32px;
     cursor: pointer;
     line-height: 1;
+}
+
+/* ===== Conteúdo HTML proveniente do editor Quill ===== */
+/* Normaliza margens de parágrafos/listas dentro de blocos renderizados via [innerHTML] */
+.rich-text > :first-child { margin-top: 0; }
+.rich-text > :last-child  { margin-bottom: 0; }
+.rich-text p { margin: 0 0 0.6em; }
+.rich-text ul, .rich-text ol { margin: 0 0 0.6em; padding-left: 24px; }
+.rich-text h1, .rich-text h2, .rich-text h3 { margin: 0.6em 0 0.3em; }
+
+/* ===== NAVBAR MOBILE: submenus laterais ===== */
+
+/* Por omissão, os painéis laterais não existem (só servem em mobile). */
+.nav-submenu {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    /* Em mobile, escondemos o dropdown inline; usamos o painel lateral. */
+    .nav-links .dropdown-menu {
+        display: none !important;
+    }
+
+    /* O botão de dropdown ganha um chevron à direita a indicar que abre noutro painel. */
+    .nav-link--dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    .nav-link--dropdown .nav-caret {
+        display: none;
+    }
+    .nav-link--dropdown::after {
+        content: "›";
+        font-size: 22px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, .35);
+        line-height: 1;
+        margin-left: auto;
+    }
+
+    /* Painel lateral propriamente dito */
+    .nav-submenu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        padding: 18px 24px 30px;
+        transform: translateX(100%);
+        transition: transform .3s ease;
+        overflow-y: auto;
+        z-index: 1;
+    }
+
+    .nav-submenu.active {
+        transform: translateX(0);
+    }
+
+    .nav-submenu__header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, .08);
+        margin-bottom: 6px;
+    }
+
+    .nav-submenu__back {
+        background: none;
+        border: 0;
+        font-size: 14px;
+        color: #2c5aa0;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-family: inherit;
+    }
+    .nav-submenu__back:hover {
+        background: rgba(44, 90, 160, .08);
+    }
+
+    .nav-submenu__title {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+        color: #1e3d6f;
+    }
+
+    .nav-submenu__link {
+        display: block;
+        padding: 15px 0;
+        font-size: 15.5px;
+        font-weight: 600;
+        color: #222;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 0, 0, .05);
+    }
+
+    .nav-submenu__link:last-child {
+        border-bottom: none;
+    }
+
+    .nav-submenu__link:hover {
+        color: #2c5aa0;
+        padding-left: 10px;
+        background: rgba(44, 90, 160, .04);
+        transition: all .25s ease;
+    }
 }

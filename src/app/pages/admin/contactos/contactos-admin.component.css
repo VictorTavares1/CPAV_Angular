@@ -245,6 +245,36 @@ h1 {
 
 .table-btn.activate:hover { background: rgba(16,185,129,0.22); }
 
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 30px 0 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.section-hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+}
+
+.form-input {
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--medium-gray);
+  background: var(--dark);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
 @media (max-width: 768px) {
   .admin-page { margin: 16px; padding: 20px; }
 }

@@ -62,6 +62,6 @@ export class RelatoriosService {
   }
 
   pdfUrl(filename: string): string {
-    return `${this.apiConfig.uploadsUrl}/relatorios/${filename}`;
+    return `${this.apiConfig.uploadsUrl}/relatorios/${encodeURIComponent(filename)}`;
   }
 }

@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, afterNextRender, inject } from '@angu
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Noticias } from '../../../../services/noticias';
+import { NotifyService } from '../../../../services/notify.service';
 
 @Component({
   selector: 'app-inserir-noticia',
@@ -18,6 +19,7 @@ export class InserirNoticiaComponent {
 
   private readonly fb = inject(FormBuilder);
   private readonly noticiasService = inject(Noticias);
+  private readonly notify = inject(NotifyService);
   private readonly router = inject(Router);
 
   readonly form = this.fb.group({
@@ -27,8 +29,6 @@ export class InserirNoticiaComponent {
 
   selectedFile: File | null = null;
   fileError = '';
-  errorMessage = '';
-  successMessage = '';
   isSubmitting = false;
 
   constructor() {
@@ -84,8 +84,6 @@ export class InserirNoticiaComponent {
     }
 
     this.isSubmitting = true;
-    this.errorMessage = '';
-    this.successMessage = '';
 
     const formData = new FormData();
     formData.append('title', this.form.controls.title.value ?? '');
@@ -96,15 +94,15 @@ export class InserirNoticiaComponent {
 
     this.noticiasService.inserirComImagem(formData).subscribe({
       next: () => {
-        this.successMessage = 'Notícia inserida com sucesso.';
         this.isSubmitting = false;
         this.form.reset();
         if (this.quill) this.quill.setText('');
         this.selectedFile = null;
+        this.notify.success('Notícia inserida com sucesso.');
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message ?? 'Erro ao inserir a notícia.';
         this.isSubmitting = false;
+        this.notify.error(error?.error?.message ?? 'Erro ao inserir a notícia.');
       },
     });
   }

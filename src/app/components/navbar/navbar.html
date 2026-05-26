@@ -13,7 +13,7 @@
         <nav class="nav-links" [class.active]="menuOpen" aria-label="Navegação principal">
 
             <div class="nav-item dropdown">
-                <button class="nav-link nav-link--dropdown" type="button" [class.is-active]="isInstituicaoActive()">
+                <button class="nav-link nav-link--dropdown" type="button" [class.is-active]="isInstituicaoActive()" (click)="openSubmenu('instituicao', $event)">
                     Instituição <span class="nav-caret" aria-hidden="true"></span>
                 </button>
                 <div class="dropdown-menu" role="menu">
@@ -24,21 +24,17 @@
             </div>
 
             <div class="nav-item dropdown">
-                <button class="nav-link nav-link--dropdown" type="button" [class.is-active]="isServicosActive()">
+                <button class="nav-link nav-link--dropdown" type="button" [class.is-active]="isServicosActive()" (click)="openSubmenu('servicos', $event)">
                     Serviços <span class="nav-caret" aria-hidden="true"></span>
                 </button>
                 <div class="dropdown-menu" role="menu">
                     <a class="dropdown-link" routerLink="/servicos" (click)="closeMenu()">Todos</a>
                     <a class="dropdown-link" routerLink="/servicos/pre-escolar" (click)="closeMenu()">Pré-Escolar</a>
                     <a class="dropdown-link" routerLink="/servicos/catl" (click)="closeMenu()">C.A.T.L</a>
-                    <a class="dropdown-link" routerLink="/servicos/sad" (click)="closeMenu()">Serviço de Apoio
-                        Domiciliário</a>
-                    <a class="dropdown-link" routerLink="/servicos/paragem" (click)="closeMenu()">Centro Comunitário
-                        P.A.R.A.G.E.M</a>
-                    <a class="dropdown-link" routerLink="/servicos/nossa-senhora-belem" (click)="closeMenu()">Centro
-                        Social N. Sra. de Belém</a>
-                    <a class="dropdown-link" routerLink="/servicos/apoio-estudo" (click)="closeMenu()">Apoio ao
-                        Estudo</a>
+                    <a class="dropdown-link" routerLink="/servicos/sad" (click)="closeMenu()">Serviço de Apoio Domiciliário</a>
+                    <a class="dropdown-link" routerLink="/servicos/paragem" (click)="closeMenu()">Centro Comunitário P.A.R.A.G.E.M</a>
+                    <a class="dropdown-link" routerLink="/servicos/nossa-senhora-belem" (click)="closeMenu()">Centro Social N. Sra. de Belém</a>
+                    <a class="dropdown-link" routerLink="/servicos/apoio-estudo" (click)="closeMenu()">Apoio ao Estudo</a>
                     <a class="dropdown-link" routerLink="/servicos/po-apmc" (click)="closeMenu()">PO APMC</a>
                 </div>
             </div>
@@ -46,8 +42,33 @@
             <a class="nav-link" routerLink="/noticias" routerLinkActive="is-active" (click)="closeMenu()">Notícias</a>
             <a class="nav-link" routerLink="/eventos" routerLinkActive="is-active" (click)="closeMenu()">Eventos</a>
             <a class="nav-link" routerLink="/contactos" routerLinkActive="is-active" (click)="closeMenu()">Contactos</a>
-            <a class="nav-link" routerLink="/como-ajudar" routerLinkActive="is-active" (click)="closeMenu()">Como
-                ajudar</a>
+            <a class="nav-link" routerLink="/como-ajudar" routerLinkActive="is-active" (click)="closeMenu()">Como ajudar</a>
+
+            <!-- Painéis laterais (apenas mobile) -->
+            <div class="nav-submenu" [class.active]="activeSubmenu === 'instituicao'">
+                <div class="nav-submenu__header">
+                    <button class="nav-submenu__back" type="button" (click)="closeSubmenu()" aria-label="Voltar">← Voltar</button>
+                    <h3 class="nav-submenu__title">Instituição</h3>
+                </div>
+                <a class="nav-submenu__link" routerLink="/sobre-nos" (click)="closeMenu()">Sobre Nós</a>
+                <a class="nav-submenu__link" routerLink="/relatorios" (click)="closeMenu()">Relatórios</a>
+                <a class="nav-submenu__link" href="/documents/Organograma_CPAV.pdf" target="_blank" rel="noopener" (click)="closeMenu()">Organograma</a>
+            </div>
+
+            <div class="nav-submenu" [class.active]="activeSubmenu === 'servicos'">
+                <div class="nav-submenu__header">
+                    <button class="nav-submenu__back" type="button" (click)="closeSubmenu()" aria-label="Voltar">← Voltar</button>
+                    <h3 class="nav-submenu__title">Serviços</h3>
+                </div>
+                <a class="nav-submenu__link" routerLink="/servicos" (click)="closeMenu()">Todos</a>
+                <a class="nav-submenu__link" routerLink="/servicos/pre-escolar" (click)="closeMenu()">Pré-Escolar</a>
+                <a class="nav-submenu__link" routerLink="/servicos/catl" (click)="closeMenu()">C.A.T.L</a>
+                <a class="nav-submenu__link" routerLink="/servicos/sad" (click)="closeMenu()">Serviço de Apoio Domiciliário</a>
+                <a class="nav-submenu__link" routerLink="/servicos/paragem" (click)="closeMenu()">Centro Comunitário P.A.R.A.G.E.M</a>
+                <a class="nav-submenu__link" routerLink="/servicos/nossa-senhora-belem" (click)="closeMenu()">Centro Social N. Sra. de Belém</a>
+                <a class="nav-submenu__link" routerLink="/servicos/apoio-estudo" (click)="closeMenu()">Apoio ao Estudo</a>
+                <a class="nav-submenu__link" routerLink="/servicos/po-apmc" (click)="closeMenu()">PO APMC</a>
+            </div>
 
         </nav>
 

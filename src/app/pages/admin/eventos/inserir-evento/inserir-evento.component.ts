@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventosService, LocalizacaoItem } from '../../../../services/eventos.service';
+import { NotifyService } from '../../../../services/notify.service';
 
 @Component({
   selector: 'app-inserir-evento',
@@ -12,7 +13,9 @@ import { EventosService, LocalizacaoItem } from '../../../../services/eventos.se
 })
 export class InserirEventoComponent implements OnInit {
   private readonly eventosService = inject(EventosService);
+  private readonly notify = inject(NotifyService);
   private readonly fb = inject(FormBuilder);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   readonly form = this.fb.group({
     title:      ['', [Validators.required]],
@@ -22,12 +25,13 @@ export class InserirEventoComponent implements OnInit {
   });
 
   localizacoes: LocalizacaoItem[] = [];
-  errorMessage = '';
-  successMessage = '';
   isSubmitting = false;
 
   ngOnInit(): void {
-    this.eventosService.lerLocalizacoes().subscribe(l => this.localizacoes = l);
+    this.eventosService.lerLocalizacoes().subscribe(l => {
+      this.localizacoes = l;
+      this.cdr.markForCheck();
+    });
   }
 
   submit(): void {
@@ -37,8 +41,6 @@ export class InserirEventoComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.errorMessage = '';
-    this.successMessage = '';
 
     this.eventosService.inserir({
       title:      this.form.controls.title.value ?? '',
@@ -47,13 +49,13 @@ export class InserirEventoComponent implements OnInit {
       idLocation: Number(this.form.controls.idLocation.value),
     }).subscribe({
       next: () => {
-        this.successMessage = 'Evento inserido com sucesso.';
         this.isSubmitting = false;
         this.form.reset();
+        this.notify.success('Evento inserido com sucesso.');
       },
       error: (err) => {
-        this.errorMessage = err?.error?.message ?? 'Erro ao inserir o evento.';
         this.isSubmitting = false;
+        this.notify.error(err?.error?.message ?? 'Erro ao inserir o evento.');
       },
     });
   }

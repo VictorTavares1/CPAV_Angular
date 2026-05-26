@@ -7,9 +7,6 @@
     <a routerLink="/admin/relatorios/inserir" class="insert-btn">+ Inserir Relatório</a>
   </div>
 
-  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
-  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
-
   <!-- Filtros -->
   <div class="filters-bar">
     <input
@@ -73,7 +70,7 @@
                     class="table-btn"
                     [class.deactivate]="r.idState === 1"
                     [class.activate]="r.idState !== 1"
-                    (click)="toggle(r.id)">
+                    (click)="toggle(r)">
                     {{ r.idState === 1 ? 'Desativar' : 'Ativar' }}
                   </button>
                 </td>

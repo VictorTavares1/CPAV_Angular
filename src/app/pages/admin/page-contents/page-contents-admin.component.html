@@ -6,9 +6,6 @@
     <h1>Conteúdo de Páginas</h1>
   </div>
 
-  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
-  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
-
   @if (isLoading) {
     <p class="table-empty">A carregar...</p>
   } @else {
@@ -23,21 +20,31 @@
             </div>
 
             @if (!editState[item.id].editing) {
-              <p class="content-value">{{ item.content_value }}</p>
+              @if (isRichText(item.section_key)) {
+                <div class="content-value rich-text" [innerHTML]="item.content_value"></div>
+              } @else {
+                <p class="content-value">{{ item.content_value }}</p>
+              }
               <div class="content-actions">
-                <button type="button" class="table-btn edit" (click)="startEdit(item.id)">Editar</button>
+                <button type="button" class="table-btn edit" (click)="startEdit(item)">Editar</button>
               </div>
             } @else {
-              <textarea
-                class="edit-textarea"
-                [(ngModel)]="editState[item.id].value"
-                rows="4">
-              </textarea>
+              @if (isRichText(item.section_key)) {
+                <div class="editor-wrap">
+                  <div [attr.id]="'quill-editor-' + item.id" class="quill-editor-container"></div>
+                </div>
+              } @else {
+                <textarea
+                  class="edit-textarea"
+                  [(ngModel)]="editState[item.id].value"
+                  rows="3">
+                </textarea>
+              }
               <div class="content-actions">
                 <button type="button" class="table-btn save" [disabled]="editState[item.id].saving" (click)="save(item)">
                   {{ editState[item.id].saving ? 'A guardar...' : 'Guardar' }}
                 </button>
-                <button type="button" class="table-btn cancel" (click)="cancelEdit(item.id, item.content_value)">Cancelar</button>
+                <button type="button" class="table-btn cancel" (click)="cancelEdit(item)">Cancelar</button>
               </div>
             }
           </div>

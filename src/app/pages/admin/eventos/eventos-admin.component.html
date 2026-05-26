@@ -7,9 +7,6 @@
     <a routerLink="/admin/eventos/inserir" class="insert-btn">+ Inserir Evento</a>
   </div>
 
-  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
-  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
-
   <!-- Filtros -->
   <div class="filters-bar">
     <input
@@ -68,7 +65,7 @@
                     class="table-btn"
                     [class.deactivate]="e.idState === 1"
                     [class.activate]="e.idState !== 1"
-                    (click)="toggle(e.id)">
+                    (click)="toggle(e)">
                     {{ e.idState === 1 ? 'Desativar' : 'Ativar' }}
                   </button>
                 </td>

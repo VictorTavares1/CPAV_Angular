@@ -1,0 +1,74 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/utilizadores" class="back-btn">← Voltar</a>
+
+  <h1>Editar Utilizador</h1>
+
+  @if (isLoading) {
+    <p class="msg">A carregar...</p>
+  } @else {
+
+    <div class="admin-form-container">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div class="form-group">
+          <label class="form-label required" for="email">Email</label>
+          <input id="email" type="email" class="form-input" formControlName="email" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <p class="field-error">Email inválido.</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required" for="role">Tipo de utilizador</label>
+          <select id="role" class="form-input" formControlName="role">
+            <option value="admin">Admin (gere conteúdos)</option>
+            <option value="super_admin">Super-Admin (gere conteúdos + utilizadores)</option>
+          </select>
+          @if (isMe) {
+            <p class="field-hint warn">Está a editar a sua própria conta. Não poderá despromover-se se for o último super-administrador.</p>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-button" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'A guardar...' : 'Guardar alterações' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Bloco separado para mudar password -->
+    <div class="admin-form-container" style="margin-top:24px">
+      <h2 class="section-title">Alterar password</h2>
+      <p class="section-hint">
+        Define uma nova password para este utilizador. A password antiga deixa de funcionar imediatamente.
+      </p>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()">
+        <div class="form-group">
+          <label class="form-label required" for="password">Nova password</label>
+          <input id="password" type="text" class="form-input" formControlName="password" autocomplete="new-password" />
+          <p class="field-hint">
+            Requisitos da password:<br>
+            @for (r of passwordRequirements; track r) {
+              • {{ r }}<br>
+            }
+          </p>
+          @if (passwordForm.controls.password.touched && passwordForm.controls.password.invalid) {
+            <p class="field-error">A nova password é obrigatória.</p>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-button" [disabled]="isSavingPassword">
+            {{ isSavingPassword ? 'A guardar...' : 'Alterar password' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+  }
+
+</section>

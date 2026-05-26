@@ -4,9 +4,6 @@
 
   <h1>Editar Serviço</h1>
 
-  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
-  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
-
   @if (isLoading) {
     <p class="msg">A carregar...</p>
   } @else {

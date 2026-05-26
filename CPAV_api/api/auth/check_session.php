@@ -10,7 +10,8 @@ if (!empty($_SESSION['idUser'])) {
     echo json_encode([
         "authenticated" => true,
         "idUser" => $_SESSION['idUser'],
-        "email" => $_SESSION['email'] ?? null
+        "email"  => $_SESSION['email'] ?? null,
+        "role"   => $_SESSION['role']  ?? 'admin'
     ]);
     exit;
 }

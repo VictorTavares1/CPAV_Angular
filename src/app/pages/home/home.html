@@ -5,7 +5,7 @@
             <div class="photo-band__content">
                 <h2>{{ heroTitle }}</h2>
                 @if (heroDescription) {
-                    <p>{{ heroDescription }}</p>
+                    <div class="rich-text" [innerHTML]="heroDescription"></div>
                 }
                 <div class="photo-band__actions">
                     <a class="btn" routerLink="/sobre-nos">Conhecer melhor</a>
@@ -20,7 +20,7 @@
             <div class="split-section__text">
                 <h2>Serviços</h2>
                 @if (servicosDescription) {
-                    <p class="lead">{{ servicosDescription }}</p>
+                    <div class="lead rich-text" [innerHTML]="servicosDescription"></div>
                 }
                 <div class="service-actions">
                     <a class="service-actions__primary" routerLink="/servicos">Ver todos os serviços</a>

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { superAdminGuard } from './guards/super-admin.guard';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { Home } from './pages/home/home';
@@ -119,6 +120,18 @@ export const routes: Routes = [
                     import('./pages/admin/contactos/editar-contacto/editar-contacto.component').then((m) => m.EditarContactoComponent),
             },
             {
+                path: 'contactos/facility/inserir',
+                canActivate: [authGuard],
+                loadComponent: () =>
+                    import('./pages/admin/contactos/facilities/inserir-facility/inserir-facility.component').then((m) => m.InserirFacilityComponent),
+            },
+            {
+                path: 'contactos/facility/editar/:id',
+                canActivate: [authGuard],
+                loadComponent: () =>
+                    import('./pages/admin/contactos/facilities/editar-facility/editar-facility.component').then((m) => m.EditarFacilityComponent),
+            },
+            {
                 path: 'servicos',
                 canActivate: [authGuard],
                 loadComponent: () =>
@@ -147,6 +160,30 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 loadComponent: () =>
                     import('./pages/admin/logs/logs-admin.component').then((m) => m.LogsAdminComponent),
+            },
+            {
+                path: 'utilizadores',
+                canActivate: [superAdminGuard],
+                loadComponent: () =>
+                    import('./pages/admin/users/users-admin.component').then((m) => m.UsersAdminComponent),
+            },
+            {
+                path: 'utilizadores/inserir',
+                canActivate: [superAdminGuard],
+                loadComponent: () =>
+                    import('./pages/admin/users/inserir-user/inserir-user.component').then((m) => m.InserirUserComponent),
+            },
+            {
+                path: 'utilizadores/editar/:id',
+                canActivate: [superAdminGuard],
+                loadComponent: () =>
+                    import('./pages/admin/users/editar-user/editar-user.component').then((m) => m.EditarUserComponent),
+            },
+            {
+                path: 'conta',
+                canActivate: [authGuard],
+                loadComponent: () =>
+                    import('./pages/admin/conta/conta.component').then((m) => m.ContaComponent),
             },
             { path: '', pathMatch: 'full', redirectTo: '/admin/login' },
         ]

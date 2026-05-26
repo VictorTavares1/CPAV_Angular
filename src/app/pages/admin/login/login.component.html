@@ -7,10 +7,6 @@
 
     <div class="login-box">
 
-      @if (errorMessage) {
-        <div class="error">{{ errorMessage }}</div>
-      }
-
       <form [formGroup]="form" (ngSubmit)="submit()">
         <input type="email" formControlName="email" placeholder="Email" />
         <input type="password" formControlName="password" placeholder="Password" />

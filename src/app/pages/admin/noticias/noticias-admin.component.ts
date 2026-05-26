@@ -11,6 +11,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NoticiaItem, Noticias } from '../../../services/noticias';
+import { NotifyService } from '../../../services/notify.service';
 
 @Component({
   selector: 'app-noticias-admin',
@@ -25,6 +26,7 @@ export class NoticiasAdminComponent implements OnInit {
   private quill!: any;
 
   private readonly noticiasService = inject(Noticias);
+  private readonly notify = inject(NotifyService);
   private readonly fb = inject(FormBuilder);
   private readonly cdr = inject(ChangeDetectorRef);
 
@@ -36,8 +38,6 @@ export class NoticiasAdminComponent implements OnInit {
   noticias: NoticiaItem[] = [];
   isLoading = false;
   editingId: number | null = null;
-  errorMessage = '';
-  successMessage = '';
 
   constructor() {
     afterNextRender(() => {
@@ -66,19 +66,18 @@ export class NoticiasAdminComponent implements OnInit {
 
   loadNoticias(): void {
     this.isLoading = true;
-    this.errorMessage = '';
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
 
     this.noticiasService.listarAdmin().subscribe({
       next: (rows) => {
         this.noticias = rows;
         this.isLoading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message ?? 'Erro ao carregar notícias.';
         this.isLoading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
+        this.notify.error(error?.error?.message ?? 'Erro ao carregar notícias.');
       },
     });
   }
@@ -102,25 +101,30 @@ export class NoticiasAdminComponent implements OnInit {
     const title = this.form.controls.title.value ?? '';
     const content = this.form.controls.content.value ?? '';
 
-    this.errorMessage = '';
-    this.successMessage = '';
-
     this.noticiasService.editar({ id: this.editingId, title, content }).subscribe({
       next: () => {
-        this.successMessage = 'Notícia atualizada com sucesso.';
+        this.notify.success('Notícia atualizada com sucesso.');
         this.resetAndReload();
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message ?? 'Erro ao atualizar notícia.';
+        this.notify.error(error?.error?.message ?? 'Erro ao atualizar notícia.');
       },
     });
   }
 
-  toggle(id: number): void {
-    this.noticiasService.toggle(id).subscribe({
-      next: () => this.loadNoticias(),
+  async toggle(noticia: NoticiaItem): Promise<void> {
+    const idStateAtual = (noticia as unknown as { idState?: number }).idState ?? 1;
+    const acao = idStateAtual === 1 ? 'desativar' : 'ativar';
+    const ok = await this.notify.confirm(`Pretende ${acao} a notícia "${noticia.title}"?`);
+    if (!ok) return;
+
+    this.noticiasService.toggle(noticia.id).subscribe({
+      next: () => {
+        this.notify.success('Estado da notícia alterado.');
+        this.loadNoticias();
+      },
       error: (error) => {
-        this.errorMessage = error?.error?.message ?? 'Erro ao alterar estado da notícia.';
+        this.notify.error(error?.error?.message ?? 'Erro ao alterar estado da notícia.');
       },
     });
   }

@@ -4,9 +4,6 @@
 
   <h1>Inserir Relatório</h1>
 
-  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
-  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
-
   <div class="admin-form-container">
     <form [formGroup]="form" (ngSubmit)="submit()">
 

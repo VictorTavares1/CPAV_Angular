@@ -19,10 +19,11 @@ if (
 
     if ($loggedUser) {
 
-        // Inicia a sessão e guarda o id do utilizador
+        // Inicia a sessão e guarda o id, email e role do utilizador
         session_start();
         $_SESSION['idUser'] = $loggedUser['id'];
-        $_SESSION['email'] = $loggedUser['email'];
+        $_SESSION['email']  = $loggedUser['email'];
+        $_SESSION['role']   = $loggedUser['role'] ?? 'admin';
 
         $log = new Log($db);
         $log->inserir($loggedUser['id'], 11);
@@ -30,8 +31,9 @@ if (
         http_response_code(200);
         echo json_encode([
             "message" => "Login efetuado com sucesso.",
-            "idUser" => $loggedUser['id'],
-            "email" => $loggedUser['email']
+            "idUser"  => $loggedUser['id'],
+            "email"   => $loggedUser['email'],
+            "role"    => $_SESSION['role']
         ]);
     } else {
         http_response_code(401);

@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Servicos, ServicoItemAdmin } from '../../../services/servicos';
+import { NotifyService } from '../../../services/notify.service';
 
 @Component({
   selector: 'app-servicos-admin',
@@ -12,12 +13,11 @@ import { Servicos, ServicoItemAdmin } from '../../../services/servicos';
 })
 export class ServicosAdminComponent implements OnInit {
   private readonly servicosService = inject(Servicos);
+  private readonly notify = inject(NotifyService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   servicos: ServicoItemAdmin[] = [];
   isLoading = true;
-  errorMessage = '';
-  successMessage = '';
   searchQuery = '';
   selectedStatus = '';
 
@@ -30,7 +30,7 @@ export class ServicosAdminComponent implements OnInit {
     this.servicosService.listarAdmin().subscribe(rows => {
       this.servicos = rows;
       this.isLoading = false;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     });
   }
 
@@ -45,16 +45,18 @@ export class ServicosAdminComponent implements OnInit {
     });
   }
 
-  toggle(id: number): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.servicosService.toggle(id).subscribe({
+  async toggle(s: ServicoItemAdmin): Promise<void> {
+    const acao = s.idState === 1 ? 'desativar' : 'ativar';
+    const ok = await this.notify.confirm(`Pretende ${acao} o serviço "${s.title}"?`);
+    if (!ok) return;
+
+    this.servicosService.toggle(s.id).subscribe({
       next: () => {
-        this.successMessage = 'Estado do serviço alterado.';
+        this.notify.success('Estado do serviço alterado.');
         this.load();
       },
       error: (err) => {
-        this.errorMessage = err?.error?.message ?? 'Erro ao alterar estado.';
+        this.notify.error(err?.error?.message ?? 'Erro ao alterar estado.');
       },
     });
   }

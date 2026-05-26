@@ -3,31 +3,224 @@
   <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
 
   <div class="admin-header">
-    <h1>Gerir Contactos</h1>
-    <a routerLink="/admin/contactos/inserir" class="insert-btn">+ Inserir Contacto</a>
-  </div>
-
-  @if (errorMessage) { <p class="msg msg-err">{{ errorMessage }}</p> }
-  @if (successMessage) { <p class="msg msg-ok">{{ successMessage }}</p> }
-
-  <div class="filters-bar">
-    <input
-      type="text"
-      class="filter-input"
-      placeholder="Pesquisar por tipo ou valor..."
-      [(ngModel)]="searchQuery"
-    />
-    <select class="filter-select" [(ngModel)]="selectedStatus">
-      <option value="">Todos os estados</option>
-      <option value="1">Ativo</option>
-      <option value="2">Inativo</option>
-    </select>
-    <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
+    <h1>Gerir Página de Contactos</h1>
   </div>
 
   @if (isLoading) {
     <p class="table-empty">A carregar...</p>
   } @else {
+
+    <!-- ===== SEDE PRINCIPAL ===== -->
+    <h2 class="section-title">Sede Principal</h2>
+    <p class="section-hint">Dados que aparecem no cartão "Sede Principal" na página de contactos.</p>
+
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:220px">Campo</th>
+            <th>Valor</th>
+            <th style="width:200px">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (f of sedeFields; track f.key) {
+            <tr>
+              <td><strong>{{ f.label }}</strong></td>
+              <td>
+                @if (pageEdit[f.item.id].editing) {
+                  <textarea
+                    [(ngModel)]="pageEdit[f.item.id].value"
+                    class="form-input"
+                    rows="3"
+                    style="width:100%;font-family:inherit"
+                  ></textarea>
+                } @else {
+                  <span style="white-space: pre-line">{{ f.item.content_value }}</span>
+                }
+              </td>
+              <td class="actions">
+                @if (pageEdit[f.item.id].editing) {
+                  <button type="button" class="table-btn edit" (click)="savePage(f.item)" [disabled]="pageEdit[f.item.id].saving">
+                    {{ pageEdit[f.item.id].saving ? 'A guardar...' : 'Guardar' }}
+                  </button>
+                  <button type="button" class="table-btn" (click)="cancelEditPage(f.item)">Cancelar</button>
+                } @else {
+                  <button type="button" class="table-btn edit" (click)="startEditPage(f.item)">Editar</button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="3" class="table-empty">Sem dados.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== HORÁRIOS ===== -->
+    <h2 class="section-title">Horários</h2>
+    <p class="section-hint">Horários que aparecem no cartão "Horários" na página de contactos.</p>
+
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:220px">Secção</th>
+            <th>Horário</th>
+            <th style="width:200px">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (f of horariosFields; track f.key) {
+            <tr>
+              <td><strong>{{ f.label }}</strong></td>
+              <td>
+                @if (pageEdit[f.item.id].editing) {
+                  <textarea
+                    [(ngModel)]="pageEdit[f.item.id].value"
+                    class="form-input"
+                    rows="3"
+                    style="width:100%;font-family:inherit"
+                  ></textarea>
+                } @else {
+                  <span style="white-space: pre-line">{{ f.item.content_value }}</span>
+                }
+              </td>
+              <td class="actions">
+                @if (pageEdit[f.item.id].editing) {
+                  <button type="button" class="table-btn edit" (click)="savePage(f.item)" [disabled]="pageEdit[f.item.id].saving">
+                    {{ pageEdit[f.item.id].saving ? 'A guardar...' : 'Guardar' }}
+                  </button>
+                  <button type="button" class="table-btn" (click)="cancelEditPage(f.item)">Cancelar</button>
+                } @else {
+                  <button type="button" class="table-btn edit" (click)="startEditPage(f.item)">Editar</button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="3" class="table-empty">Sem dados.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== INSTALAÇÕES ===== -->
+    <div class="admin-header" style="margin-top:30px">
+      <h2 class="section-title" style="margin:0">Instalações</h2>
+      <a [routerLink]="['/admin/contactos/facility/inserir']" [queryParams]="{ category: 'instalacao' }" class="insert-btn">+ Adicionar instalação</a>
+    </div>
+    <p class="section-hint">Linhas da tabela "Todas as Nossas Instalações e Responsáveis".</p>
+
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Responsável</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (instalacoes.length === 0) {
+            <tr><td colspan="6" class="table-empty">Sem instalações.</td></tr>
+          } @else {
+            @for (f of instalacoes; track f.id) {
+              <tr>
+                <td><strong>{{ f.name }}</strong></td>
+                <td>{{ f.responsavel_nome || '—' }}</td>
+                <td>{{ f.tel || '—' }}</td>
+                <td>{{ f.email || '—' }}</td>
+                <td>
+                  <span class="status-badge" [class.status-active]="f.idState === 1" [class.status-inactive]="f.idState !== 1">
+                    {{ f.idState === 1 ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <a [routerLink]="['/admin/contactos/facility/editar', f.id]" class="table-btn edit">Editar</a>
+                  <button type="button" class="table-btn"
+                    [class.deactivate]="f.idState === 1"
+                    [class.activate]="f.idState !== 1"
+                    (click)="toggleFacility(f)">
+                    {{ f.idState === 1 ? 'Desativar' : 'Ativar' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== DEPARTAMENTOS ===== -->
+    <div class="admin-header" style="margin-top:30px">
+      <h2 class="section-title" style="margin:0">Departamentos</h2>
+      <a [routerLink]="['/admin/contactos/facility/inserir']" [queryParams]="{ category: 'departamento' }" class="insert-btn">+ Adicionar departamento</a>
+    </div>
+    <p class="section-hint">Cartões da secção "Departamentos e Contactos".</p>
+
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Responsável</th>
+            <th>Instalação associada</th>
+            <th>Telefone</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (departamentos.length === 0) {
+            <tr><td colspan="6" class="table-empty">Sem departamentos.</td></tr>
+          } @else {
+            @for (f of departamentos; track f.id) {
+              <tr>
+                <td><strong>{{ f.name }}</strong></td>
+                <td>{{ f.responsavel_nome || '—' }}</td>
+                <td>{{ f.linked_facility || '—' }}</td>
+                <td>{{ f.tel || '—' }}</td>
+                <td>
+                  <span class="status-badge" [class.status-active]="f.idState === 1" [class.status-inactive]="f.idState !== 1">
+                    {{ f.idState === 1 ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <a [routerLink]="['/admin/contactos/facility/editar', f.id]" class="table-btn edit">Editar</a>
+                  <button type="button" class="table-btn"
+                    [class.deactivate]="f.idState === 1"
+                    [class.activate]="f.idState !== 1"
+                    (click)="toggleFacility(f)">
+                    {{ f.idState === 1 ? 'Desativar' : 'Ativar' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== CONTACTOS (RODAPÉ + RÁPIDOS) ===== -->
+    <div class="admin-header" style="margin-top:30px">
+      <h2 class="section-title" style="margin:0">Contactos (Rodapé + Rápidos)</h2>
+      <a routerLink="/admin/contactos/inserir" class="insert-btn">+ Inserir Contacto</a>
+    </div>
+    <p class="section-hint">Contactos do rodapé do site e do cartão "Contactos Rápidos" da página.</p>
+
+    <div class="filters-bar">
+      <input type="text" class="filter-input" placeholder="Pesquisar por tipo ou valor..." [(ngModel)]="searchQuery" />
+      <select class="filter-select" [(ngModel)]="selectedStatus">
+        <option value="">Todos os estados</option>
+        <option value="1">Ativo</option>
+        <option value="2">Inativo</option>
+      </select>
+      <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
+    </div>
+
     <div class="admin-table">
       <table>
         <thead>
@@ -57,12 +250,10 @@
                 </td>
                 <td class="actions">
                   <a [routerLink]="['/admin/contactos/editar', c.id]" class="table-btn edit">Editar</a>
-                  <button
-                    type="button"
-                    class="table-btn"
+                  <button type="button" class="table-btn"
                     [class.deactivate]="c.idState === 1"
                     [class.activate]="c.idState !== 1"
-                    (click)="toggle(c.id)">
+                    (click)="toggle(c)">
                     {{ c.idState === 1 ? 'Desativar' : 'Ativar' }}
                   </button>
                 </td>
@@ -72,6 +263,7 @@
         </tbody>
       </table>
     </div>
+
   }
 
 </section>

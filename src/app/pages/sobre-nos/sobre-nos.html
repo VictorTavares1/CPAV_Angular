@@ -10,7 +10,7 @@
     <!-- QUEM SOMOS -->
     <section class="section-card">
       <h2>Quem Somos</h2>
-      <p class="section-lead">{{ quemSomos }}</p>
+      <div class="section-lead rich-text" [innerHTML]="quemSomos"></div>
     </section>
 
     <!-- MISSÃO, VISÃO E VALORES -->
@@ -20,19 +20,19 @@
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">Missão</h3>
-            <p class="card-text">{{ missao }}</p>
+            <div class="card-text rich-text" [innerHTML]="missao"></div>
           </div>
         </div>
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">Visão</h3>
-            <p class="card-text">{{ visao }}</p>
+            <div class="card-text rich-text" [innerHTML]="visao"></div>
           </div>
         </div>
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">Valores</h3>
-            <p class="card-text">{{ valores }}</p>
+            <div class="card-text rich-text" [innerHTML]="valores"></div>
           </div>
         </div>
       </div>

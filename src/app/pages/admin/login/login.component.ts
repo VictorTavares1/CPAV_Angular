@@ -3,6 +3,7 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { NotifyService } from '../../../services/notify.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent implements OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly notify = inject(NotifyService);
   private readonly router = inject(Router);
   private readonly doc = inject(DOCUMENT);
 
@@ -31,7 +33,6 @@ export class LoginComponent implements OnDestroy {
     password: ['', [Validators.required]],
   });
 
-  errorMessage = '';
   isSubmitting = false;
 
   submit(): void {
@@ -44,7 +45,6 @@ export class LoginComponent implements OnDestroy {
     const password = this.form.controls.password.value ?? '';
 
     this.isSubmitting = true;
-    this.errorMessage = '';
 
     this.authService.login(email, password).subscribe({
       next: () => {
@@ -53,7 +53,7 @@ export class LoginComponent implements OnDestroy {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage = error?.error?.message ?? 'Não foi possível iniciar sessão.';
+        this.notify.error(error?.error?.message ?? 'Não foi possível iniciar sessão.');
       },
     });
   }
