@@ -13,6 +13,10 @@ $database = new Database();
 $db = $database->getConnection();
 
 $evento = new Evento($db);
+
+// Antes de listar, arquiva (idState = 2) os eventos cuja data já passou.
+$evento->desativarPassados();
+
 $stmt = $evento->lerAtivos();
 
 if($stmt->rowCount() > 0) {

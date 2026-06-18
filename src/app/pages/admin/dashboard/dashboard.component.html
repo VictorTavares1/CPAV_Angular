@@ -1,12 +1,65 @@
 <div class="admin-container">
-  <h1>Bem-vindo 👋</h1>
-  <p>Selecione o que deseja gerir</p>
+
+  <!-- BARRA DE TOPO: utilizador + logout -->
+  <div class="dash-topbar">
+    <div class="dash-user">
+      <div class="dash-user-avatar">{{ userInitial }}</div>
+      <div class="dash-user-info">
+        <span class="dash-user-email">{{ userEmail }}</span>
+        <span class="dash-user-role">{{ userRoleLabel }}</span>
+      </div>
+    </div>
+    <div class="dash-topbar-actions">
+      <a href="/" target="_blank" class="dash-view-site-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Ver Site
+      </a>
+      <button type="button" class="dash-logout-btn" (click)="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Terminar Sessão
+      </button>
+    </div>
+  </div>
+
+  <!-- TÍTULO -->
+  <div class="dash-heading">
+    <h1>Painel Administrativo</h1>
+  </div>
+
+  <!-- ESTATÍSTICAS RÁPIDAS -->
+  <div class="dash-stats">
+    <div class="dash-stat">
+      <span class="dash-stat-value">{{ counts.noticias }}</span>
+      <span class="dash-stat-label">Notícias</span>
+    </div>
+    <div class="dash-stat">
+      <span class="dash-stat-value">{{ counts.eventos }}</span>
+      <span class="dash-stat-label">Eventos</span>
+    </div>
+    <div class="dash-stat">
+      <span class="dash-stat-value">{{ counts.servicos }}</span>
+      <span class="dash-stat-label">Serviços</span>
+    </div>
+    <div class="dash-stat">
+      <span class="dash-stat-value">{{ counts.relatorios }}</span>
+      <span class="dash-stat-label">Relatórios</span>
+    </div>
+  </div>
 
   <div class="admin-topics">
 
     <!-- CONTEÚDO -->
     <section class="admin-topic">
-      <h2>Conteúdo</h2>
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h11"/></svg>
+        Notícias
+      </h2>
       <div class="admin-cards">
         <a routerLink="/admin/noticias" class="admin-card">
           <span class="icon">
@@ -16,21 +69,19 @@
             </svg>
           </span>
           <span class="text">
-            <h3>Gerir Notícias</h3>
-            <p>Editar, ativar ou desativar notícias</p>
+            <h3>Gerir Notícias <span class="card-count">{{ counts.noticias }}</span></h3>
+            <p>Ver, editar, ativar ou desativar notícias publicadas</p>
           </span>
         </a>
-        <a routerLink="/admin/noticias/inserir" class="admin-card">
+        <a routerLink="/admin/noticias/inserir" class="admin-card admin-card--action">
           <span class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 7h11a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h11"/>
-              <path d="M8 11h6"/><path d="M8 15h6"/>
-              <circle cx="17.5" cy="16.5" r="3"/><path d="M17.5 15v3"/><path d="M16 16.5h3"/>
+              <path d="M12 5v14M5 12h14"/>
             </svg>
           </span>
           <span class="text">
-            <h3>Inserir Notícia</h3>
-            <p>Publicar uma notícia</p>
+            <h3>Nova Notícia</h3>
+            <p>Escrever e publicar uma notícia nova</p>
           </span>
         </a>
       </div>
@@ -38,7 +89,10 @@
 
     <!-- EVENTOS -->
     <section class="admin-topic">
-      <h2>Eventos</h2>
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3M16 2v3"/><path d="M3 9h18"/><path d="M5 5h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+        Eventos
+      </h2>
       <div class="admin-cards">
         <a routerLink="/admin/eventos" class="admin-card">
           <span class="icon">
@@ -48,93 +102,77 @@
             </svg>
           </span>
           <span class="text">
-            <h3>Gerir Eventos</h3>
-            <p>Editar, desativar ou ativar eventos</p>
+            <h3>Gerir Eventos <span class="card-count">{{ counts.eventos }}</span></h3>
+            <p>Ver, editar, desativar ou ativar eventos</p>
           </span>
         </a>
-        <a routerLink="/admin/eventos/inserir" class="admin-card">
+        <a routerLink="/admin/eventos/inserir" class="admin-card admin-card--action">
           <span class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 2v3M16 2v3"/><path d="M3 9h18"/>
-              <path d="M5 5h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>
-              <path d="M12 13v4"/><path d="M10 15h4"/>
+              <path d="M12 5v14M5 12h14"/>
             </svg>
           </span>
           <span class="text">
-            <h3>Inserir Evento</h3>
-            <p>Publicar um novo evento</p>
+            <h3>Novo Evento</h3>
+            <p>Marcar um novo evento no calendário</p>
           </span>
         </a>
       </div>
     </section>
 
-    <!-- CONTACTOS -->
-    <section class="admin-topic">
-      <h2>Contactos</h2>
-      <div class="admin-cards">
-        <a routerLink="/admin/contactos" class="admin-card">
-          <span class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-          </span>
-          <span class="text">
-            <h3>Gerir Contactos</h3>
-            <p>Editar, ativar ou desativar contactos</p>
-          </span>
-        </a>
-        <a routerLink="/admin/contactos/inserir" class="admin-card">
-          <span class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              <path d="M18 2v4M16 4h4"/>
-            </svg>
-          </span>
-          <span class="text">
-            <h3>Inserir Contacto</h3>
-            <p>Adicionar um novo contacto</p>
-          </span>
-        </a>
-      </div>
-    </section>
+    <!-- CONTACTOS + SERVIÇOS numa linha -->
+    <div class="admin-topic-row">
 
-    <!-- SERVIÇOS -->
-    <section class="admin-topic">
-      <h2>Serviços</h2>
-      <div class="admin-cards">
-        <a routerLink="/admin/servicos" class="admin-card">
-          <span class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
-            </svg>
-          </span>
-          <span class="text">
-            <h3>Gerir Serviços</h3>
-            <p>Editar, ativar ou desativar serviços</p>
-          </span>
-        </a>
-        <a routerLink="/admin/servicos/inserir" class="admin-card">
-          <span class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
-              <path d="M18 2v4M16 4h4"/>
-            </svg>
-          </span>
-          <span class="text">
-            <h3>Inserir Serviço</h3>
-            <p>Adicionar um novo serviço</p>
-          </span>
-        </a>
-      </div>
-    </section>
+      <section class="admin-topic">
+        <h2>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Contactos
+        </h2>
+        <div class="admin-cards">
+          <a routerLink="/admin/contactos" class="admin-card">
+            <span class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
+            <span class="text">
+              <h3>Gerir Contactos <span class="card-count">{{ counts.contactos }}</span></h3>
+              <p>Editar, ativar ou desativar contactos</p>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <section class="admin-topic">
+        <h2>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Serviços
+        </h2>
+        <div class="admin-cards">
+          <a routerLink="/admin/servicos" class="admin-card">
+            <span class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </span>
+            <span class="text">
+              <h3>Gerir Serviços <span class="card-count">{{ counts.servicos }}</span></h3>
+              <p>Editar, ativar ou desativar serviços</p>
+            </span>
+          </a>
+        </div>
+      </section>
+
+    </div>
 
     <!-- CONTEÚDO DAS PÁGINAS -->
     <section class="admin-topic">
-      <h2>Conteúdo das Páginas</h2>
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Conteúdo das Páginas
+      </h2>
       <div class="admin-cards">
         <a routerLink="/admin/page-contents" class="admin-card">
           <span class="icon">
@@ -144,8 +182,8 @@
             </svg>
           </span>
           <span class="text">
-            <h3>Editar Conteúdo</h3>
-            <p>Alterar títulos e textos das páginas</p>
+            <h3>Editar Conteúdo das Páginas</h3>
+            <p>Alterar títulos, textos, horários e informações do site</p>
           </span>
         </a>
       </div>
@@ -153,7 +191,10 @@
 
     <!-- RELATÓRIOS -->
     <section class="admin-topic">
-      <h2>Relatórios</h2>
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        Relatórios
+      </h2>
       <div class="admin-cards">
         <a routerLink="/admin/relatorios" class="admin-card">
           <span class="icon">
@@ -163,20 +204,19 @@
             </svg>
           </span>
           <span class="text">
-            <h3>Gerir Relatórios</h3>
-            <p>Ativar ou desativar relatórios</p>
+            <h3>Gerir Relatórios <span class="card-count">{{ counts.relatorios }}</span></h3>
+            <p>Ativar ou desativar relatórios publicados</p>
           </span>
         </a>
-        <a routerLink="/admin/relatorios/inserir" class="admin-card">
+        <a routerLink="/admin/relatorios/inserir" class="admin-card admin-card--action">
           <span class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/>
+              <path d="M12 5v14M5 12h14"/>
             </svg>
           </span>
           <span class="text">
-            <h3>Inserir Relatório</h3>
-            <p>Publicar um novo relatório</p>
+            <h3>Novo Relatório</h3>
+            <p>Publicar um novo relatório em PDF</p>
           </span>
         </a>
       </div>
@@ -185,7 +225,10 @@
     <!-- UTILIZADORES (só super_admin) -->
     @if (isSuperAdmin) {
       <section class="admin-topic">
-        <h2>Utilizadores</h2>
+        <h2>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+          Utilizadores
+        </h2>
         <div class="admin-cards">
           <a routerLink="/admin/utilizadores" class="admin-card">
             <span class="icon">
@@ -200,17 +243,15 @@
               <p>Criar, editar e desativar contas de acesso ao painel</p>
             </span>
           </a>
-          <a routerLink="/admin/utilizadores/inserir" class="admin-card">
+          <a routerLink="/admin/utilizadores/inserir" class="admin-card admin-card--action">
             <span class="icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="8.5" cy="7" r="4"/>
-                <line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/>
+                <path d="M12 5v14M5 12h14"/>
               </svg>
             </span>
             <span class="text">
-              <h3>Inserir Utilizador</h3>
-              <p>Criar uma nova conta de admin ou super-admin</p>
+              <h3>Novo Utilizador</h3>
+              <p>Criar uma nova conta de administrador</p>
             </span>
           </a>
         </div>
@@ -219,8 +260,11 @@
 
     <!-- SISTEMA -->
     <section class="admin-topic">
-      <h2>Sistema</h2>
-      <div class="admin-cards stack">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Sistema
+      </h2>
+      <div class="admin-cards">
         <a routerLink="/admin/logs" class="admin-card">
           <span class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -230,11 +274,10 @@
             </svg>
           </span>
           <span class="text">
-            <h3>Ver Logs</h3>
-            <p>Consultar o registo de operações do sistema</p>
+            <h3>Registos de Atividade</h3>
+            <p>Ver quem fez o quê e quando no painel de gestão</p>
           </span>
         </a>
-
         <a routerLink="/admin/conta" class="admin-card">
           <span class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -243,36 +286,10 @@
             </svg>
           </span>
           <span class="text">
-            <h3>A minha conta</h3>
-            <p>Alterar a minha password</p>
+            <h3>A Minha Conta</h3>
+            <p>Alterar a minha password de acesso</p>
           </span>
         </a>
-
-        <a href="/" target="_blank" class="admin-card">
-          <span class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-            </svg>
-          </span>
-          <span class="text">
-            <h3>Ver Site</h3>
-            <p>Abrir o site público numa nova aba</p>
-          </span>
-        </a>
-
-        <button type="button" class="admin-card logout-card" (click)="logout()">
-          <span class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-            </svg>
-          </span>
-          <span class="text">
-            <h3>Terminar Sessão</h3>
-            <p>Fechar sessão e regressar ao login</p>
-          </span>
-        </button>
       </div>
     </section>
 

@@ -10,7 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 $database = new Database();
+//echo "get connection";
+
 $db = $database->getConnection();
+
 
 $pageContent = new PageContent($db);
 

@@ -956,20 +956,108 @@ a {
     }
 }
 
+/* ===========================================================
+   PAGE TITLE BAR — cabeçalho leve com gradiente e linha decorativa
+   =========================================================== */
 .page-title-bar {
-    padding: 28px 0 16px;
+    position: relative;
+    padding: 56px 0 40px;
+    background:
+        radial-gradient(
+            1100px 280px at 12% 20%,
+            rgba(13, 100, 193, 0.07) 0%,
+            rgba(13, 100, 193, 0) 60%
+        ),
+        linear-gradient(180deg, #eef4fb 0%, #ffffff 100%);
+    border-bottom: 1px solid rgba(13, 100, 193, 0.08);
+    overflow: hidden;
+    animation: page-title-bar-fade 0.6s ease-out both;
+}
+
+/* Pequenas formas geométricas decorativas (puro CSS, sem ficheiros) */
+.page-title-bar::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -80px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(13, 100, 193, 0.06);
+    pointer-events: none;
+}
+
+.page-title-bar::after {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    left: 35%;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(13, 100, 193, 0.04);
+    pointer-events: none;
 }
 
 .page-title-bar h1 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c5aa0;
+    position: relative;
+    font-size: 38px;
+    font-weight: 800;
+    color: #0d3a73;
     margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    animation: page-title-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Linha decorativa azul por baixo do título */
+.page-title-bar h1::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin-top: 16px;
+    background: linear-gradient(90deg, #0d64c1 0%, rgba(13, 100, 193, 0) 100%);
+    border-radius: 2px;
+    transform-origin: left;
+    animation: page-title-line 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+@keyframes page-title-bar-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes page-title-fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes page-title-line {
+    from { transform: scaleX(0); opacity: 0; }
+    to   { transform: scaleX(1); opacity: 1; }
 }
 
 @media (max-width: 768px) {
+    .page-title-bar {
+        padding: 36px 0 28px;
+    }
     .page-title-bar h1 {
-        font-size: 18px;
+        font-size: 28px;
+    }
+    .page-title-bar::before {
+        top: -40px;
+        right: -60px;
+        width: 160px;
+        height: 160px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-title-bar,
+    .page-title-bar h1,
+    .page-title-bar h1::after {
+        animation: none;
     }
 }
 
@@ -3340,6 +3428,36 @@ a {
     font-size: 14.5px;
 }
 
+.footer-simple__social {
+    margin-top: 14px;
+}
+
+.footer-simple__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.footer-simple__social-link:hover {
+    background: rgba(255, 255, 255, 0.16);
+    text-decoration: none;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.footer-simple__social-link img {
+    display: block;
+}
+
 .footer-simple__links {
     list-style: none;
     margin: 0;
@@ -3644,3 +3762,654 @@ a {
         transition: all .25s ease;
     }
 }
+
+/* ===========================================================
+   BACKOFFICE - TEMA CLARO
+   ===========================================================
+   As variáveis CSS são redefinidas só dentro de .admin-shell,
+   por isso o site público fica intacto. Alguns componentes
+   tinham cores fixas (rgba escuros, vermelhos/verdes muito
+   claros, etc.) que aqui são ajustadas para legibilidade em
+   fundo claro.
+*/
+
+.admin-shell {
+    --primary: #0d64c1;
+    --primary-dark: #0a4f9a;
+    --primary-light: #0d64c1;
+    --dark: #ffffff;
+    --dark-gray: #ffffff;
+    --medium-gray: #e2e8f0;
+    --light-gray: #cbd5e1;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --shadow-lg: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+/* Containers e topics do dashboard ganham contraste com sombra subtil */
+.admin-shell .admin-container,
+.admin-shell .admin-page {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-shell .admin-topic {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-shell .admin-topic h2 {
+    color: #0d64c1;
+}
+
+/* Cartões do dashboard: fundo branco com ícone e título da cor primária.
+   O !important é necessário porque o CSS do dashboard.component
+   está scopado pelo Angular e tem a mesma especificidade. */
+.admin-shell .admin-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+}
+
+.admin-shell .admin-card:hover {
+    border-color: #0d64c1 !important;
+    background: #f8fbff !important;
+    box-shadow: 0 6px 14px rgba(13, 100, 193, 0.18) !important;
+    transform: translateY(-2px);
+}
+
+.admin-shell .admin-card.logout-card:hover {
+    border-color: rgba(239, 68, 68, 0.55) !important;
+    background: rgba(239, 68, 68, 0.05) !important;
+    box-shadow: 0 6px 14px rgba(239, 68, 68, 0.15) !important;
+}
+
+.admin-shell .admin-card .icon {
+    background: rgba(13, 100, 193, 0.10) !important;
+    border: 1px solid rgba(13, 100, 193, 0.22) !important;
+    color: #0d64c1 !important;
+}
+
+.admin-shell .admin-card.logout-card .icon {
+    background: rgba(239, 68, 68, 0.08) !important;
+    border-color: rgba(239, 68, 68, 0.25) !important;
+    color: #dc2626 !important;
+}
+
+.admin-shell .admin-card svg {
+    stroke: currentColor !important;
+    opacity: 1 !important;
+}
+
+.admin-shell .admin-card .text h3 {
+    color: #0d64c1 !important;
+}
+
+.admin-shell .admin-card .text p {
+    color: #64748b !important;
+}
+
+/* Tabelas */
+.admin-shell .admin-table {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-shell .admin-table thead {
+    background: #f1f5f9;
+}
+
+.admin-shell .admin-table th {
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-shell .admin-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-shell .admin-table tbody tr:hover {
+    background: rgba(13, 100, 193, 0.04);
+}
+
+/* Botão "voltar" */
+.admin-shell .back-btn {
+    background: rgba(13, 100, 193, 0.08);
+    border-color: rgba(13, 100, 193, 0.22);
+    color: #0d64c1;
+}
+
+.admin-shell .back-btn:hover {
+    background: rgba(13, 100, 193, 0.16);
+}
+
+/* Botão "inserir" */
+.admin-shell .insert-btn {
+    background: #0d64c1;
+    color: #ffffff;
+}
+
+.admin-shell .insert-btn:hover {
+    background: #0a4f9a;
+}
+
+/* Container do formulário */
+.admin-shell .admin-form-container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+/* Inputs */
+.admin-shell .form-input,
+.admin-shell .filter-input,
+.admin-shell .filter-select,
+.admin-shell .edit-textarea {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+.admin-shell .form-input:focus,
+.admin-shell .filter-input:focus,
+.admin-shell .filter-select:focus,
+.admin-shell .edit-textarea:focus {
+    border-color: #0d64c1;
+    box-shadow: 0 0 0 2px rgba(13, 100, 193, 0.15);
+}
+
+.admin-shell .filter-clear-btn {
+    border-color: #cbd5e1;
+    color: #64748b;
+}
+
+.admin-shell .filter-clear-btn:hover {
+    border-color: #0d64c1;
+    color: #0d64c1;
+}
+
+/* Botão principal de submissão */
+.admin-shell .submit-button {
+    background: #0d64c1;
+}
+
+.admin-shell .submit-button:hover:not([disabled]) {
+    background: #0a4f9a;
+}
+
+/* Status badges */
+.admin-shell .status-active {
+    background: rgba(16, 185, 129, 0.12);
+    color: #047857;
+    border-color: rgba(16, 185, 129, 0.45);
+}
+
+.admin-shell .status-inactive {
+    background: rgba(239, 68, 68, 0.10);
+    color: #b91c1c;
+    border-color: rgba(239, 68, 68, 0.40);
+}
+
+/* Role badges (utilizadores) */
+.admin-shell .role-badge {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #e2e8f0;
+}
+
+.admin-shell .role-badge.role-super {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fcd34d;
+}
+
+/* Botões de ação nas linhas das tabelas */
+.admin-shell .table-btn.edit {
+    background: rgba(13, 100, 193, 0.08);
+    border-color: rgba(13, 100, 193, 0.30);
+    color: #0d64c1;
+}
+
+.admin-shell .table-btn.edit:hover {
+    background: rgba(13, 100, 193, 0.16);
+}
+
+.admin-shell .table-btn.save {
+    background: rgba(16, 185, 129, 0.10);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #047857;
+}
+
+.admin-shell .table-btn.save:hover:not([disabled]) {
+    background: rgba(16, 185, 129, 0.18);
+}
+
+.admin-shell .table-btn.deactivate {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.30);
+    color: #b91c1c;
+}
+
+.admin-shell .table-btn.deactivate:hover {
+    background: rgba(239, 68, 68, 0.16);
+}
+
+.admin-shell .table-btn.activate {
+    background: rgba(16, 185, 129, 0.10);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #047857;
+}
+
+.admin-shell .table-btn.activate:hover {
+    background: rgba(16, 185, 129, 0.18);
+}
+
+.admin-shell .table-btn.cancel {
+    background: transparent;
+    border-color: #cbd5e1;
+    color: #64748b;
+}
+
+.admin-shell .table-btn.cancel:hover {
+    border-color: #0d64c1;
+    color: #0d64c1;
+}
+
+/* Section titles dentro de páginas admin */
+.admin-shell .section-title {
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-shell .page-title {
+    color: #0d64c1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-shell .section-hint,
+.admin-shell .field-hint {
+    color: #64748b;
+}
+
+.admin-shell .field-hint.warn {
+    color: #b45309;
+}
+
+/* Erros e mensagens inline */
+.admin-shell .field-error {
+    color: #dc2626;
+}
+
+.admin-shell .msg {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.admin-shell .msg-err {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.30);
+    color: #b91c1c;
+}
+
+.admin-shell .msg-ok {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #047857;
+}
+
+/* H1 das páginas admin com underline da cor primária */
+.admin-shell h1 {
+    color: #0f172a;
+    border-bottom-color: #0d64c1;
+}
+
+/* Page-contents-admin: cards do conteúdo */
+.admin-shell .content-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.admin-shell .content-key {
+    background: rgba(13, 100, 193, 0.08);
+    color: #0d64c1;
+}
+
+/* Tabela de info (logs e outros estados vazios) */
+.admin-shell .table-empty {
+    color: #94a3b8;
+}
+
+/* Cell de ícone (mostra classe FontAwesome em texto) */
+.admin-shell .icon-cell {
+    color: #475569;
+}
+
+/* Wrapper do editor Quill no page-contents-admin */
+.admin-shell .editor-wrap {
+    border: 1px solid #cbd5e1;
+}
+
+/* Badge "(você)" na lista de utilizadores */
+.admin-shell .me-badge {
+    color: #64748b;
+}
+
+/* Info card da página "A minha conta" */
+.admin-shell .info-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.admin-shell .info-label {
+    color: #64748b;
+}
+
+.admin-shell .info-value {
+    color: #0f172a;
+}
+
+/* ===== Paginação partilhada (lista de admins) ===== */
+.admin-shell .pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.admin-shell .pagination-info {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.admin-shell .pagination-center {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 15px;
+}
+
+.admin-shell .pagination-center .page-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d64c1;
+}
+
+.admin-shell .pagination-center .page-total {
+    color: #64748b;
+}
+
+.admin-shell .pagination-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-shell .pagination-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.admin-shell .pagination-btn:hover {
+    border-color: #0d64c1;
+    color: #0d64c1;
+}
+
+.admin-shell .pagination-btn.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: #f8fafc;
+    color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+    .admin-shell .pagination-container { justify-content: center; }
+    .admin-shell .pagination-info { display: none; }
+}
+
+/* ===========================================================
+   SCROLL REVEAL — usado pela directive ScrollRevealDirective
+   =========================================================== */
+
+.reveal {
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal--up    { transform: translateY(32px); }
+.reveal--down  { transform: translateY(-32px); }
+.reveal--left  { transform: translateX(32px); }
+.reveal--right { transform: translateX(-32px); }
+
+.reveal--visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Respeita a preferência "reduzir movimento" do utilizador */
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ===========================================================
+   SKELETON LOADERS — placeholders animados durante carregamento
+   =========================================================== */
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        #e2e8f0 0%,
+        #f1f5f9 50%,
+        #e2e8f0 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    border-radius: 8px;
+    display: block;
+}
+
+@keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px;
+    margin-top: 14px;
+}
+
+.skeleton-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.skeleton-card__media {
+    height: 180px;
+    border-radius: 0;
+    background: linear-gradient(
+        90deg,
+        #d8e0ea 0%,
+        #e9eef5 50%,
+        #d8e0ea 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-card__body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skeleton-card__chip {
+    width: 92px;
+    height: 22px;
+    border-radius: 999px;
+}
+
+.skeleton-card__title {
+    width: 88%;
+    height: 18px;
+}
+
+.skeleton-card__text {
+    width: 100%;
+    height: 12px;
+}
+
+.skeleton-card__text--short {
+    width: 70%;
+}
+
+.skeleton-card__link {
+    width: 90px;
+    height: 14px;
+    margin-top: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton, .skeleton-card__media {
+        animation: none;
+    }
+}
+
+/* ===========================================================
+   HERO DA HOME — entrada escalonada
+   =========================================================== */
+
+@keyframes hero-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.photo-band__content h2 {
+    animation: hero-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.photo-band__content .rich-text,
+.photo-band__content > p {
+    animation: hero-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.photo-band__actions {
+    animation: hero-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .photo-band__content h2,
+    .photo-band__content .rich-text,
+    .photo-band__content > p,
+    .photo-band__actions {
+        animation: none;
+    }
+}
+
+/* ===========================================================
+   TABELAS RESPONSIVAS PARA MOBILE
+   ===========================================================
+   1) Tabelas chave/valor das valências (.info-table--kv)
+      A coluna do label tem 240px no desktop, o que em mobile esmaga
+      a coluna do valor e parte palavras tipo "Crianças" em "Crianç as".
+      Reduz a 38% e diminui padding/font.
+   2) Tabela "Todas as Instalações" da página de contactos
+      Tem 5 colunas com min-width totalizando 960px. Em mobile fica
+      cortada. Anula esses min-widths e deixa scroll horizontal natural,
+      ou empilha em formato cartão. */
+
+@media (max-width: 768px) {
+    /* --- Tabelas KV (valência pages) --- */
+    .info-table--kv th {
+        width: 38%;
+        font-size: 14px;
+    }
+    .info-table--kv td {
+        font-size: 14px;
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+    .info-table--kv th,
+    .info-table--kv td {
+        padding: 10px 12px;
+    }
+
+    /* --- Tabela 5-col na página de contactos: empilha em cartão --- */
+    .info-table table {
+        min-width: 0 !important;
+        display: block;
+    }
+    .info-table thead {
+        display: none;
+    }
+    .info-table tbody {
+        display: block;
+    }
+    .info-table tr {
+        display: block;
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        margin-bottom: 10px;
+        background: #fff;
+    }
+    .info-table td {
+        display: block;
+        min-width: 0 !important;
+        padding: 4px 0;
+        border: none;
+        white-space: normal;
+    }
+    /* Primeira célula (Instalação) destaca-se como título do cartão */
+    .info-table td:first-child {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1e3d6f;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+}
+
+@media (max-width: 480px) {
+    .info-table--kv th {
+        width: 42%;
+        font-size: 13px;
+    }
+    .info-table--kv td {
+        font-size: 13px;
+    }
+    .info-table--kv th,
+    .info-table--kv td {
+        padding: 9px 10px;
+    }
+}
+
+

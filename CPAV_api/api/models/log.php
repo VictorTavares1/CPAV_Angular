@@ -6,16 +6,17 @@ class Log {
         $this->conn = $db;
     }
 
-    public function inserir($idUser, $idOperation, $idNews = null, $idReport = null, $idSchedule = null) {
+    public function inserir($idUser, $idOperation, $idNews = null, $idReport = null, $idSchedule = null, $alvo = null) {
         $stmt = $this->conn->prepare(
-            "INSERT INTO logs (idUser, idOperation, idNews, idReport, idSchedule)
-             VALUES (:idUser, :idOperation, :idNews, :idReport, :idSchedule)"
+            "INSERT INTO logs (idUser, idOperation, idNews, idReport, idSchedule, alvo)
+             VALUES (:idUser, :idOperation, :idNews, :idReport, :idSchedule, :alvo)"
         );
         $stmt->bindValue(':idUser',      (int)$idUser,      PDO::PARAM_INT);
         $stmt->bindValue(':idOperation', (int)$idOperation, PDO::PARAM_INT);
         $stmt->bindValue(':idNews',      $idNews,           PDO::PARAM_INT);
         $stmt->bindValue(':idReport',    $idReport,         PDO::PARAM_INT);
         $stmt->bindValue(':idSchedule',  $idSchedule,       PDO::PARAM_INT);
+        $stmt->bindValue(':alvo',        $alvo);
         return $stmt->execute();
     }
 
@@ -60,7 +61,7 @@ class Log {
         $offset = ($page - 1) * $perPage;
 
         $query = "SELECT l.dateHour, u.email AS adminEmail, o.title AS operationTitle,
-                         COALESCE(n.title, r.title, sc.title) AS alvoTitle
+                         COALESCE(n.title, r.title, sc.title, l.alvo) AS alvoTitle
                   FROM logs l
                   INNER JOIN users u ON l.idUser = u.id
                   INNER JOIN operations o ON l.idOperation = o.id

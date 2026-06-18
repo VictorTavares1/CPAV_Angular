@@ -37,6 +37,15 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
+// Um super_admin só pode editar admins normais ou a sua própria conta
+$stmtAlvo = $user->lerPorId($id);
+$alvo = $stmtAlvo->fetch(PDO::FETCH_ASSOC);
+if ($alvo && $alvo['role'] === 'super_admin' && (int)$_SESSION['idUser'] !== $id) {
+    http_response_code(403);
+    echo json_encode(["message" => "Não tem permissão para editar outro super-administrador."]);
+    exit;
+}
+
 if ($user->emailExiste($email, $id)) {
     http_response_code(409);
     echo json_encode(["message" => "Já existe outro utilizador com esse email."]);
@@ -55,7 +64,7 @@ if ((int)$_SESSION['idUser'] === $id && $role !== 'super_admin') {
 
 if ($user->editar($id, $email, $role)) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 24);
+    $log->inserir($_SESSION['idUser'], 24, null, null, null, $email);
 
     // Se editou a própria conta, atualizar a sessão
     if ((int)$_SESSION['idUser'] === $id) {

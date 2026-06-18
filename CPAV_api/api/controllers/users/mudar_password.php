@@ -36,9 +36,15 @@ $database = new Database();
 $db = $database->getConnection();
 
 $user = new User($db);
+
+// Lê o email do utilizador alvo para registar no log.
+$stmt = $user->lerPorId($id);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$alvo = $row ? $row['email'] : null;
+
 if ($user->mudarPassword($id, $password)) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 26);
+    $log->inserir($_SESSION['idUser'], 26, null, null, null, $alvo);
     http_response_code(200);
     echo json_encode(["message" => "Password alterada com sucesso."]);
 } else {

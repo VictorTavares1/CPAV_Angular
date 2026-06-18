@@ -17,7 +17,7 @@
 
     <section class="split-section" id="servicos">
         <div class="container split-section__inner">
-            <div class="split-section__text">
+            <div class="split-section__text" appScrollReveal revealDirection="right">
                 <h2>Serviços</h2>
                 @if (servicosDescription) {
                     <div class="lead rich-text" [innerHTML]="servicosDescription"></div>
@@ -25,34 +25,34 @@
                 <div class="service-actions">
                     <a class="service-actions__primary" routerLink="/servicos">Ver todos os serviços</a>
                     <div class="service-actions__grid">
-                        <a class="service-actions__tile" routerLink="/servicos/pre-escolar">
+                        <a class="service-actions__tile" routerLink="/servicos/pre-escolar" [appScrollReveal]="0">
                             <span class="tile-title">Pré-Escolar</span>
                             <span class="tile-sub">Rotinas, aprendizagem e desenvolvimento</span>
                         </a>
-                        <a class="service-actions__tile" routerLink="/servicos/catl">
+                        <a class="service-actions__tile" routerLink="/servicos/catl" [appScrollReveal]="60">
                             <span class="tile-title">C.A.T.L.</span>
                             <span class="tile-sub">Ocupação de tempos livres e apoio</span>
                         </a>
-                        <a class="service-actions__tile" routerLink="/servicos/apoio-estudo">
+                        <a class="service-actions__tile" routerLink="/servicos/apoio-estudo" [appScrollReveal]="120">
                             <span class="tile-title">Apoio ao Estudo</span>
                             <span class="tile-sub">Acompanhamento e métodos de estudo</span>
                         </a>
-                        <a class="service-actions__tile" routerLink="/servicos/sad">
+                        <a class="service-actions__tile" routerLink="/servicos/sad" [appScrollReveal]="180">
                             <span class="tile-title">Apoio Domiciliário</span>
                             <span class="tile-sub">Cuidado e acompanhamento no domicílio</span>
                         </a>
-                        <a class="service-actions__tile" routerLink="/servicos/paragem">
+                        <a class="service-actions__tile" routerLink="/servicos/paragem" [appScrollReveal]="240">
                             <span class="tile-title">Centro Comunitário P.A.R.A.G.E.M</span>
                             <span class="tile-sub">Projetos e participação comunitária</span>
                         </a>
-                        <a class="service-actions__tile" routerLink="/servicos/nossa-senhora-belem">
+                        <a class="service-actions__tile" routerLink="/servicos/nossa-senhora-belem" [appScrollReveal]="300">
                             <span class="tile-title">Centro Social N. Sra. de Belém</span>
                             <span class="tile-sub">Resposta social e apoio local</span>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="split-section__media" style="background-image:url('/images/home/servicos.jpg');">
+            <div class="split-section__media" style="background-image:url('/images/home/servicos.jpg');" appScrollReveal revealDirection="left">
                 <div class="split-section__mediaOverlay"></div>
                 <div class="split-section__mediaCaption">
                     <h3>Visitas, inscrições e informações</h3>
@@ -65,7 +65,7 @@
 
     <section class="banner-grid">
         <div class="container banner-grid__inner">
-            <a class="banner" routerLink="/noticias" style="background-image:url('/images/home/noticias.jpg');">
+            <a class="banner" routerLink="/noticias" style="background-image:url('/images/home/noticias.jpg');" [appScrollReveal]="0">
                 <div class="banner__overlay"></div>
                 <div class="banner__content">
                     <h3>Notícias</h3>
@@ -73,7 +73,7 @@
                     <span class="banner__cta">Abrir</span>
                 </div>
             </a>
-            <a class="banner" routerLink="/eventos" style="background-image:url('/images/home/eventos.jpg');">
+            <a class="banner" routerLink="/eventos" style="background-image:url('/images/home/eventos.jpg');" [appScrollReveal]="120">
                 <div class="banner__overlay"></div>
                 <div class="banner__content">
                     <h3>Eventos</h3>
@@ -81,7 +81,7 @@
                     <span class="banner__cta">Ver calendário</span>
                 </div>
             </a>
-            <a class="banner" routerLink="/relatorios" style="background-image:url('/images/home/relatorios.jpg');">
+            <a class="banner" routerLink="/relatorios" style="background-image:url('/images/home/relatorios.jpg');" [appScrollReveal]="240">
                 <div class="banner__overlay"></div>
                 <div class="banner__content">
                     <h3>Relatórios</h3>
@@ -94,26 +94,26 @@
 
     <section class="split-section" id="sad">
         <div class="container split-section__inner split-section__inner--reverse">
-            <div class="split-section__text">
+            <div class="split-section__text" appScrollReveal revealDirection="left">
                 <h2>Serviço de Apoio Domiciliário</h2>
                 <p class="lead">Um apoio que respeita rotinas, autonomia e dignidade.</p>
                 <div class="text-blocks">
-                    <div class="text-block">
+                    <div class="text-block" [appScrollReveal]="80">
                         <h3>Acompanhamento</h3>
                         <p>Presença regular e intervenção ajustada às necessidades reais da pessoa.</p>
                     </div>
-                    <div class="text-block">
+                    <div class="text-block" [appScrollReveal]="160">
                         <h3>Plano de apoio</h3>
                         <p>Organização do serviço para garantir consistência, confiança e continuidade.</p>
                     </div>
-                    <div class="text-block">
+                    <div class="text-block" [appScrollReveal]="240">
                         <h3>Coordenação</h3>
                         <p>Articulação com família e rede local, para uma resposta mais completa.</p>
                     </div>
                 </div>
                 <a class="service-actions__primary" routerLink="/servicos/sad">Ver detalhes do SAD</a>
             </div>
-            <div class="split-section__media" style="background-image:url('/images/home/sad.jpg');">
+            <div class="split-section__media" style="background-image:url('/images/home/sad.jpg');" appScrollReveal revealDirection="right">
                 <div class="split-section__mediaOverlay"></div>
             </div>
         </div>

@@ -1,9 +1,6 @@
 <?php
 require_once "../config/header.php";
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once "../config/session_init.php";
 
 if (!empty($_SESSION['idUser'])) {
     http_response_code(200);

@@ -60,7 +60,19 @@
       "Bash(curl -s \"http://localhost/CPAV_Angular/CPAV_api/api/controllers/facilities/listar_facilities.php?category=departamento\")",
       "Bash(/c/xampp/php/php.exe -r '$db=new PDO\\('\\\\''mysql:host=localhost;dbname=centros_paroquiais'\\\\'','\\\\''root'\\\\'','\\\\'''\\\\''\\); $db->exec\\('\\\\''set names utf8mb4'\\\\''\\); echo \"--- tabelas com '\\\\''user'\\\\'' ---\\\\n\"; foreach\\($db->query\\(\"SHOW TABLES LIKE '\\\\''%user%'\\\\''\"\\) as $r\\){ print_r\\($r\\); } echo \"\\\\n--- procura tabela de utilizadores ---\\\\n\"; foreach\\($db->query\\(\"SHOW TABLES\"\\) as $r\\){ echo $r[0].\"\\\\n\"; }')",
       "Bash(/c/xampp/php/php.exe -r '$db=new PDO\\('\\\\''mysql:host=localhost;dbname=centros_paroquiais'\\\\'','\\\\''root'\\\\'','\\\\'''\\\\''\\); $db->exec\\('\\\\''set names utf8mb4'\\\\''\\); echo \"--- colunas users ---\\\\n\"; foreach\\($db->query\\('\\\\''SHOW COLUMNS FROM users'\\\\''\\) as $c\\){ echo $c['\\\\''Field'\\\\''].'\\\\'' | '\\\\''.$c['\\\\''Type'\\\\''].'\\\\'' | null='\\\\''.$c['\\\\''Null'\\\\''].'\\\\'' | def='\\\\''.\\($c['\\\\''Default'\\\\'']??'\\\\''NULL'\\\\''\\).\"\\\\n\"; } echo \"\\\\n--- linhas users \\(sem password\\) ---\\\\n\"; foreach\\($db->query\\('\\\\''SELECT id, email, idState FROM users ORDER BY id'\\\\''\\) as $r\\){ echo $r['\\\\''id'\\\\''].'\\\\'' | '\\\\''.$r['\\\\''email'\\\\''].'\\\\'' | state='\\\\''.$r['\\\\''idState'\\\\''].\"\\\\n\"; }')",
-      "Bash(/c/xampp/php/php.exe -r ' *)"
+      "Bash(/c/xampp/php/php.exe -r ' *)",
+      "Bash(rm -f 50anos25deabril.jpg CPAVLogo.png CPAVLogo2.png atividades1.jpg boasferias.png carousel_kids_art.jpg carrinhas_atl.png catl_hauldeentrada.png catl_polivalente.png catl_refeitorio.png centro_paragem.jpg criancas.png criancasmaos.png donation_icon.png email_icon.png espaco_pre_escolar_ftprata.png espaco_sala_tartarugas.png icon_autonomia.png icon_brincar.png icon_criatividade.png igreja_nova.jpg igrejaalhosvedrosvisao.jpg igrejamatriz1.png info_icon.png jardim_infancia.png logout_icon.png nsp_exterior_hq.png paragem_exterior.png paragem_interior2.png paragem_interior3.png phone_icon.png po-apmc-logo.png refeitorio_ftprata.png sala_amarela.jpg sala_arco_iris_interior.png sala_das_tartarugas.jpg sala_pre_escolar_alhos_vedros2.png trash.png update.png)",
+      "Bash(rm -f apoioEstudo/edificio1/captions.json catl/edificio1/captions.json catl/edificio2/captions.json catl/edificio3/captions.json nossaSenhoraBelem/edificio1/captions.json paragem/edificio1/captions.json preEscolar/edificio1/captions.json preEscolar/edificio2/captions.json sad/edificio1/captions.json)",
+      "Bash(/c/xampp/php/php.exe --version)",
+      "Bash(python _clean_sql.py)",
+      "Bash(py _clean_sql.py)",
+      "Bash(python3 _clean_sql.py)",
+      "Bash(/c/xampp/php/php.exe \"/c/Users/jonny/OneDrive/Desktop/_clean_sql.php\")",
+      "Bash(sed -n '360,365p' \"/c/Users/jonny/OneDrive/Desktop/centros_paroquiais.sql\")",
+      "Bash(grep -c \"INSERT INTO \\\\`\\\\\\(news\\\\|images\\\\|logs\\\\|reports\\\\|schedules\\\\\\)\\\\`\" \"/c/Users/jonny/OneDrive/Desktop/centros_paroquiais.sql\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\jonny\\OneDrive\\Desktop"
     ]
   }
 }

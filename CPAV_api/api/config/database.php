@@ -1,10 +1,30 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "centros_paroquiais"; 
-    private $username = "root";
-    private $password = "";
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
     public $conn;
+
+    public function __construct() {
+        $httpHost = $_SERVER['HTTP_HOST'] ?? '';
+        $isLocal = (
+            strpos($httpHost, 'localhost') !== false ||
+            strpos($httpHost, '127.0.0.1') !== false
+        );
+
+        if ($isLocal) {
+            $this->host     = "localhost";
+            $this->db_name  = "centros_paroquiais";
+            $this->username = "root";
+            $this->password = "";
+        } else {
+            $this->host     = "cspsla-bd.db.tb-hosting.com";
+            $this->db_name  = "cspsla_bd";
+            $this->username = "cspsla_admin";
+            $this->password = "SaoLourenco26!";
+        }
+    }
 
     public function getConnection() {
         $this->conn = null;

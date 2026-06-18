@@ -49,9 +49,9 @@ export class AuthService {
     return this.currentUserSubject.value?.role === 'super_admin';
   }
 
-  login(email: string, password: string): Observable<LoginResponse> {
+  login(email: string, password: string, captchaToken: string): Observable<LoginResponse> {
     return this.http
-      .post<LoginResponse>(`${this.apiConfig.authUrl}/login.php`, { email, password })
+      .post<LoginResponse>(`${this.apiConfig.authUrl}/login.php`, { email, password, captchaToken })
       .pipe(tap((res) => {
         this.isAuthenticatedSubject.next(true);
         this.currentUserSubject.next({

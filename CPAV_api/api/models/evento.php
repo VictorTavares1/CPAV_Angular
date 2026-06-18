@@ -71,7 +71,7 @@ public function toggleState($id) {
     return $stmt->execute();
 }
 public function editar($id, $title, $event_date, $event_time) {
-    $query = "UPDATE " . $this->table_name . " 
+    $query = "UPDATE " . $this->table_name . "
               SET title = :title, event_date = :event_date, event_time = :event_time
               WHERE id = :id";
 
@@ -82,6 +82,21 @@ public function editar($id, $title, $event_date, $event_time) {
     $stmt->bindParam(":event_time", $event_time);
 
     return $stmt->execute();
+}
+
+/**
+ * Marca como inativos (idState = 2) todos os eventos ativos cuja data já passou.
+ * Eventos do dia atual continuam ativos até à meia-noite.
+ * Devolve o número de eventos arquivados.
+ */
+public function desativarPassados() {
+    $stmt = $this->conn->prepare(
+        "UPDATE " . $this->table_name . "
+         SET idState = 2
+         WHERE idState = 1 AND event_date < CURDATE()"
+    );
+    $stmt->execute();
+    return $stmt->rowCount();
 }
 }
     

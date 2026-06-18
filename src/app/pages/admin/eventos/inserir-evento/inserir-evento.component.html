@@ -33,9 +33,13 @@
         <div class="form-group">
           <label class="form-label required" for="event_date">Data</label>
           <input id="event_date" type="date" class="form-input"
-            formControlName="event_date" />
+            formControlName="event_date" [min]="today" />
           @if (form.controls.event_date.touched && form.controls.event_date.invalid) {
-            <p class="field-error">A data é obrigatória.</p>
+            @if (form.controls.event_date.errors?.['required']) {
+              <p class="field-error">A data é obrigatória.</p>
+            } @else if (form.controls.event_date.errors?.['dataPassada']) {
+              <p class="field-error">Não é possível inserir um evento numa data já passada.</p>
+            }
           }
         </div>
 

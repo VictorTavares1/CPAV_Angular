@@ -40,7 +40,7 @@ $db = $database->getConnection();
 $facility = new Facility($db);
 if ($facility->editar((int)$data['id'], $payload)) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 21);
+    $log->inserir($_SESSION['idUser'], 21, null, null, null, $payload['name']);
     http_response_code(200);
     echo json_encode(["message" => "Registo atualizado com sucesso."]);
 } else {

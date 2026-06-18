@@ -1,7 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . "/session_init.php";
 
 if (empty($_SESSION['idUser'])) {
     http_response_code(401);

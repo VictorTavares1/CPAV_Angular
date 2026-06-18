@@ -41,7 +41,7 @@ $facility = new Facility($db);
 $id = $facility->inserir($payload);
 if ($id) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 20);
+    $log->inserir($_SESSION['idUser'], 20, null, null, null, $payload['name']);
     http_response_code(201);
     echo json_encode(["message" => "Registo inserido com sucesso.", "id" => $id]);
 } else {

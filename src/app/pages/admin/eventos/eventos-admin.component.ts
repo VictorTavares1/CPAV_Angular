@@ -24,6 +24,9 @@ export class EventosAdminComponent implements OnInit {
   dateFrom = '';
   dateTo = '';
 
+  currentPage = 1;
+  readonly perPage = 10;
+
   ngOnInit(): void {
     this.load();
   }
@@ -48,6 +51,24 @@ export class EventosAdminComponent implements OnInit {
       const matchTo   = !this.dateTo   || e.event_date <= this.dateTo;
       return matchSearch && matchStatus && matchFrom && matchTo;
     });
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filtered.length / this.perPage));
+  }
+
+  get paginated(): EventoItemAdmin[] {
+    const page = Math.min(this.currentPage, this.totalPages);
+    const start = (page - 1) * this.perPage;
+    return this.filtered.slice(start, start + this.perPage);
+  }
+
+  goTo(page: number): void {
+    this.currentPage = Math.max(1, Math.min(page, this.totalPages));
+  }
+
+  resetPage(): void {
+    this.currentPage = 1;
   }
 
   async toggle(e: EventoItemAdmin): Promise<void> {
@@ -81,5 +102,6 @@ export class EventosAdminComponent implements OnInit {
     this.selectedStatus = '';
     this.dateFrom = '';
     this.dateTo = '';
+    this.resetPage();
   }
 }

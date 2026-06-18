@@ -46,7 +46,7 @@ if (!$user->verificarPassword($idUtilizador, $currentPassword)) {
 
 if ($user->mudarPassword($idUtilizador, $newPassword)) {
     $log = new Log($db);
-    $log->inserir($idUtilizador, 26);
+    $log->inserir($idUtilizador, 26, null, null, null, $_SESSION['email'] ?? null);
     http_response_code(200);
     echo json_encode(["message" => "Password alterada com sucesso."]);
 } else {

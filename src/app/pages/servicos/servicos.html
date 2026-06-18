@@ -6,26 +6,40 @@
 
 <main class="sections container">
     <section class="section">
-        <div class="servicos-grid servicos-grid--images">
-
-            @for (s of servicos; track s.id) {
-                <article class="servico-card-img">
-                    <a class="servico-card-img__link" [routerLink]="routeFor(s.title)">
-                        <img class="servico-card-img__media" [src]="s.icon_or_image" [alt]="s.title">
-                        <span class="servico-card-img__overlay"></span>
-                        <div class="servico-card-img__content">
-                            <h3 class="servico-card-img__title">{{ s.title }}</h3>
-                            <p class="servico-card-img__text">{{ s.description }}</p>
-                            <span class="servico-card-img__cta">Mais Informações →</span>
+        @if (isLoading) {
+            <div class="skeleton-grid">
+                @for (_ of [1,2,3,4,5,6]; track _) {
+                    <article class="skeleton-card">
+                        <div class="skeleton-card__media"></div>
+                        <div class="skeleton-card__body">
+                            <span class="skeleton skeleton-card__title"></span>
+                            <span class="skeleton skeleton-card__text"></span>
+                            <span class="skeleton skeleton-card__text skeleton-card__text--short"></span>
+                            <span class="skeleton skeleton-card__link"></span>
                         </div>
-                    </a>
-                </article>
-            }
-
-        </div>
+                    </article>
+                }
+            </div>
+        } @else {
+            <div class="servicos-grid servicos-grid--images">
+                @for (s of servicos; track s.id; let i = $index) {
+                    <article class="servico-card-img" [appScrollReveal]="i * 60">
+                        <a class="servico-card-img__link" [routerLink]="routeFor(s.title)">
+                            <img class="servico-card-img__media" [src]="s.icon_or_image" [alt]="s.title">
+                            <span class="servico-card-img__overlay"></span>
+                            <div class="servico-card-img__content">
+                                <h3 class="servico-card-img__title">{{ s.title }}</h3>
+                                <p class="servico-card-img__text">{{ s.description }}</p>
+                                <span class="servico-card-img__cta">Mais Informações →</span>
+                            </div>
+                        </a>
+                    </article>
+                }
+            </div>
+        }
     </section>
 
-    <section class="po-apmc-container">
+    <section class="po-apmc-container" appScrollReveal>
         <div class="po-apmc-image">
             <img src="/images/servicos/po_apmc.png" alt="PO APMC – Programa de Apoio Alimentar">
         </div>

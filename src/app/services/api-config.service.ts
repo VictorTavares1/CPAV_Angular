@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
+/**
+ * Serviço central que disponibiliza os URLs da API e dos uploads.
+ * Os valores vêm dos ficheiros de ambiente (environment.ts / environment.development.ts),
+ * pelo que mudam automaticamente entre desenvolvimento e produção sem alterar código.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ApiConfigService {
-  private readonly baseUrl = 'http://localhost/CPAV_Angular/CPAV_api/api';
-  readonly uploadsUrl = 'http://localhost/CPAV_Angular/CPAV_api/uploads';
+  private readonly baseUrl = environment.apiBaseUrl;
+  readonly uploadsUrl = environment.uploadsBaseUrl;
 
   get authUrl(): string {
     return `${this.baseUrl}/auth`;

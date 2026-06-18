@@ -28,20 +28,33 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="img">Imagem</label>
+        <label class="form-label">Imagens</label>
         <div class="file-input-wrap">
-          <label class="file-btn" for="img">Escolher ficheiro</label>
+          <label class="file-btn" for="img">Adicionar imagens</label>
           <span class="file-name">
-            {{ selectedFile ? selectedFile.name : 'Nenhum ficheiro selecionado' }}
+            {{ previews.length ? previews.length + ' imagem(ns) selecionada(s)' : 'Nenhuma imagem selecionada' }}
           </span>
           <input id="img" type="file" class="file-input-hidden"
+            multiple
             accept=".jpg,.jpeg,.png,.webp"
             (change)="onFileChange($event)">
         </div>
         @if (fileError) {
           <p class="field-error">{{ fileError }}</p>
         } @else {
-          <div class="form-hint">Opcional. JPG, PNG ou WEBP. Máx. 500kb.</div>
+          <div class="form-hint">Opcional. Podes escolher várias. JPG, PNG ou WEBP. Máx. 500kb cada.</div>
+        }
+
+        @if (previews.length > 0) {
+          <div class="img-grid">
+            @for (p of previews; track p.url; let i = $index) {
+              <div class="img-thumb">
+                <img [src]="p.url" [alt]="p.file.name">
+                <button type="button" class="img-thumb__remove" (click)="removePreview(i)" aria-label="Remover">×</button>
+                <span class="img-thumb__name" [title]="p.file.name">{{ p.file.name }}</span>
+              </div>
+            }
+          </div>
         }
       </div>
 

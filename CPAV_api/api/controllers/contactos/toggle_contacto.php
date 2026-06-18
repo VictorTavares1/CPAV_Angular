@@ -19,9 +19,14 @@ if(!empty($data->id)) {
 
     $contacto = new Contacto($db);
 
+    // Lê o tipo antes do toggle para registar no log.
+    $stmt = $contacto->lerPorId($data->id);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $alvo = $row ? $row['type'] : null;
+
     if($contacto->toggleState($data->id)) {
         $log = new Log($db);
-        $log->inserir($_SESSION['idUser'], 15);
+        $log->inserir($_SESSION['idUser'], 15, null, null, null, $alvo);
         http_response_code(200);
         echo json_encode(["message" => "Estado do contacto alterado com sucesso."]);
     } else {

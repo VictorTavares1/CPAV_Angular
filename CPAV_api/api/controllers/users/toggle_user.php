@@ -32,9 +32,17 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
-// Antes de desativar, verificar se é o último super_admin ativo
 $stmt = $user->lerPorId($id);
 $alvo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Um super_admin só pode agir sobre admins normais ou sobre si próprio
+if ($alvo && $alvo['role'] === 'super_admin' && (int)$_SESSION['idUser'] !== $id) {
+    http_response_code(403);
+    echo json_encode(["message" => "Não tem permissão para alterar o estado de outro super-administrador."]);
+    exit;
+}
+
+// Antes de desativar, verificar se é o último super_admin ativo
 if ($alvo && $alvo['role'] === 'super_admin' && (int)$alvo['idState'] === 1) {
     $outrosSuper = $user->contarSuperAdminsAtivos($id);
     if ($outrosSuper === 0) {
@@ -46,7 +54,7 @@ if ($alvo && $alvo['role'] === 'super_admin' && (int)$alvo['idState'] === 1) {
 
 if ($user->toggleState($id)) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 25);
+    $log->inserir($_SESSION['idUser'], 25, null, null, null, $alvo['email'] ?? null);
     http_response_code(200);
     echo json_encode(["message" => "Estado alterado com sucesso."]);
 } else {

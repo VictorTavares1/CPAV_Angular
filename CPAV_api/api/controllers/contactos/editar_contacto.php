@@ -27,7 +27,7 @@ if(
     $category = !empty($data->category) ? $data->category : 'footer';
     if($contacto->editar($data->id, $data->type, $data->value, $data->icon, $category)) {
         $log = new Log($db);
-        $log->inserir($_SESSION['idUser'], 14);
+        $log->inserir($_SESSION['idUser'], 14, null, null, null, $data->type);
         http_response_code(200);
         echo json_encode(["message" => "Contacto atualizado com sucesso."]);
     } else {

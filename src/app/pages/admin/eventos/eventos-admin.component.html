@@ -14,16 +14,17 @@
       class="filter-input"
       placeholder="Pesquisar por título..."
       [(ngModel)]="searchQuery"
+      (ngModelChange)="resetPage()"
     />
 
-    <select class="filter-select" [(ngModel)]="selectedStatus">
+    <select class="filter-select" [(ngModel)]="selectedStatus" (ngModelChange)="resetPage()">
       <option value="">Todos os estados</option>
       <option value="1">Ativo</option>
       <option value="2">Inativo</option>
     </select>
 
-    <input type="date" class="filter-date" [(ngModel)]="dateFrom" aria-label="De" />
-    <input type="date" class="filter-date" [(ngModel)]="dateTo"   aria-label="Até" />
+    <input type="date" class="filter-date" [(ngModel)]="dateFrom" (ngModelChange)="resetPage()" aria-label="De" />
+    <input type="date" class="filter-date" [(ngModel)]="dateTo"   (ngModelChange)="resetPage()" aria-label="Até" />
 
     <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
   </div>
@@ -44,10 +45,10 @@
           </tr>
         </thead>
         <tbody>
-          @if (filtered.length === 0) {
+          @if (paginated.length === 0) {
             <tr><td colspan="6" class="table-empty">Sem eventos.</td></tr>
           } @else {
-            @for (e of filtered; track e.id) {
+            @for (e of paginated; track e.id) {
               <tr>
                 <td>{{ e.title }}</td>
                 <td class="nowrap">{{ fmtDate(e.event_date) }}</td>
@@ -75,6 +76,31 @@
         </tbody>
       </table>
     </div>
+
+    @if (filtered.length > perPage) {
+      <div class="pagination-container">
+        <div class="pagination-info">Total: {{ filtered.length }} evento(s)</div>
+
+        <div class="pagination-center">
+          <span class="page-number">{{ currentPage }}</span>
+          <span class="page-total">/ {{ totalPages }}</span>
+        </div>
+
+        <div class="pagination-actions">
+          @if (currentPage > 1) {
+            <button class="pagination-btn prev" type="button" (click)="goTo(currentPage - 1)">← Anterior</button>
+          } @else {
+            <span class="pagination-btn prev disabled">← Anterior</span>
+          }
+
+          @if (currentPage < totalPages) {
+            <button class="pagination-btn next" type="button" (click)="goTo(currentPage + 1)">Próxima →</button>
+          } @else {
+            <span class="pagination-btn next disabled">Próxima →</span>
+          }
+        </div>
+      </div>
+    }
   }
 
 </section>

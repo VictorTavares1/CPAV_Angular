@@ -55,7 +55,7 @@ if ($user->emailExiste($email)) {
 $id = $user->inserir($email, $password, $role);
 if ($id) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 23);
+    $log->inserir($_SESSION['idUser'], 23, null, null, null, $email);
     http_response_code(201);
     echo json_encode(["message" => "Utilizador inserido com sucesso.", "id" => $id]);
 } else {

@@ -22,8 +22,19 @@
   <div class="container">
 
     @if (loading()) {
-      <div class="section-card" style="text-align:center;">
-        <p class="section-lead">A carregar notícias...</p>
+      <div class="skeleton-grid">
+        @for (_ of [1,2,3,4,5,6]; track _) {
+          <article class="skeleton-card">
+            <div class="skeleton-card__media"></div>
+            <div class="skeleton-card__body">
+              <span class="skeleton skeleton-card__chip"></span>
+              <span class="skeleton skeleton-card__title"></span>
+              <span class="skeleton skeleton-card__text"></span>
+              <span class="skeleton skeleton-card__text skeleton-card__text--short"></span>
+              <span class="skeleton skeleton-card__link"></span>
+            </div>
+          </article>
+        }
       </div>
     } @else if (filtered().length === 0) {
       <div class="section-card" style="text-align:center;">
@@ -34,8 +45,8 @@
       </div>
     } @else {
       <div class="news-grid">
-        @for (n of filtered(); track n.id) {
-          <article class="news-card">
+        @for (n of filtered(); track n.id; let i = $index) {
+          <article class="news-card" [appScrollReveal]="i * 60">
 
             @if (n.images && n.images.length > 1) {
               <div class="news-card__media">

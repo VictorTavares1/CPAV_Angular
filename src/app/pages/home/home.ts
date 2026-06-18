@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PageContentsService, PageContentItem } from '../../services/page-contents.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, ScrollRevealDirective],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

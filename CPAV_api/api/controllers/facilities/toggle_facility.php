@@ -23,9 +23,15 @@ $database = new Database();
 $db = $database->getConnection();
 
 $facility = new Facility($db);
+
+// Lê o nome antes do toggle para registar no log.
+$stmt = $facility->lerPorId((int)$data['id']);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$alvo = $row ? $row['name'] : null;
+
 if ($facility->toggleState((int)$data['id'])) {
     $log = new Log($db);
-    $log->inserir($_SESSION['idUser'], 22);
+    $log->inserir($_SESSION['idUser'], 22, null, null, null, $alvo);
     http_response_code(200);
     echo json_encode(["message" => "Estado alterado com sucesso."]);
 } else {

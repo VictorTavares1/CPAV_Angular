@@ -19,9 +19,14 @@ if (!empty($data->id) && isset($data->content_value)) {
 
     $pageContent = new PageContent($db);
 
+    // Lê o nome da página + chave para registar no log.
+    $stmt = $pageContent->lerPorId($data->id);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $alvo = $row ? ($row['Page_name'] . ': ' . $row['section_key']) : null;
+
     if ($pageContent->editar($data->id, $data->content_value)) {
         $log = new Log($db);
-        $log->inserir($_SESSION['idUser'], 19);
+        $log->inserir($_SESSION['idUser'], 19, null, null, null, $alvo);
         http_response_code(200);
         echo json_encode(["message" => "Conteúdo atualizado com sucesso."]);
     } else {

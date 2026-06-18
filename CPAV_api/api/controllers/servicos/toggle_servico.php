@@ -19,9 +19,14 @@ if(!empty($data->id)) {
 
     $servico = new Servico($db);
 
+    // Lê o título antes do toggle para registar no log.
+    $stmt = $servico->lerPorId($data->id);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $alvo = $row ? $row['title'] : null;
+
     if($servico->toggleState($data->id)) {
         $log = new Log($db);
-        $log->inserir($_SESSION['idUser'], 18);
+        $log->inserir($_SESSION['idUser'], 18, null, null, null, $alvo);
         http_response_code(200);
         echo json_encode(["message" => "Estado do serviço alterado com sucesso."]);
     } else {

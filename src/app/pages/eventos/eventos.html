@@ -54,8 +54,18 @@
     }
 
     @if (loading()) {
-      <div class="events-empty">
-        <p>A carregar eventos...</p>
+      <div class="skeleton-grid">
+        @for (_ of [1,2,3,4,5,6]; track _) {
+          <article class="skeleton-card">
+            <div class="skeleton-card__body">
+              <span class="skeleton skeleton-card__chip"></span>
+              <span class="skeleton skeleton-card__title"></span>
+              <span class="skeleton skeleton-card__text"></span>
+              <span class="skeleton skeleton-card__text skeleton-card__text--short"></span>
+              <span class="skeleton skeleton-card__text"></span>
+            </div>
+          </article>
+        }
       </div>
     } @else if (paginated().length === 0) {
       <div class="events-empty">
@@ -64,8 +74,8 @@
       </div>
     } @else {
       <div class="events-grid">
-        @for (e of paginated(); track e.id) {
-          <article class="event-card">
+        @for (e of paginated(); track e.id; let i = $index) {
+          <article class="event-card" [appScrollReveal]="i * 60">
             <div class="event-card__top">
               <div class="event-badge">Evento</div>
               <h2 class="event-title">{{ e.title }}</h2>

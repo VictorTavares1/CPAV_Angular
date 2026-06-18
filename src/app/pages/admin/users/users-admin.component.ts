@@ -54,6 +54,11 @@ export class UsersAdminComponent implements OnInit {
     return this.authService.currentUser?.idUser === u.id;
   }
 
+  // Pode editar/toggle se for ele próprio OU se o alvo não for super_admin
+  canAct(u: UserItem): boolean {
+    return this.isMe(u) || u.role !== 'super_admin';
+  }
+
   roleLabel(role: string): string {
     return role === 'super_admin' ? 'Super-Admin' : 'Admin';
   }

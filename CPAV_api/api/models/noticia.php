@@ -43,6 +43,50 @@ class Noticia {
         return $stmt;
     }
 
+    public function lerPorIdAdmin($id) {
+        $query = "SELECT id, title, content, dateHour, idState
+                  FROM " . $this->table_name . "
+                  WHERE id = :id
+                  LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function lerImagensPorIdNoticia($idNews) {
+        $query = "SELECT id, url
+                  FROM images
+                  WHERE idNews = :idNews
+                  ORDER BY id ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idNews", $idNews, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function inserirImagem($idNews, $url) {
+        $query = "INSERT INTO images (url, idNews) VALUES (:url, :idNews)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":url", $url);
+        $stmt->bindParam(":idNews", $idNews, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function apagarImagem($idImagem) {
+        // Devolve o url antes de apagar para o controlador remover o ficheiro físico.
+        $stmt = $this->conn->prepare("SELECT url FROM images WHERE id = :id LIMIT 1");
+        $stmt->bindParam(":id", $idImagem, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) return null;
+
+        $del = $this->conn->prepare("DELETE FROM images WHERE id = :id");
+        $del->bindParam(":id", $idImagem, PDO::PARAM_INT);
+        $del->execute();
+        return $row['url'];
+    }
+
     public function inserir($title, $content, $image = null) {
         $query = "INSERT INTO " . $this->table_name . " (title, content)
                   VALUES (:title, :content)";

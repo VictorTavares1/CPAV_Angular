@@ -2,9 +2,7 @@
 // Valida que existe uma sessão activa e que o utilizador é super_admin.
 // Os controladores de gestão de utilizadores incluem este ficheiro em vez do require_auth.php.
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . "/session_init.php";
 
 if (empty($_SESSION['idUser'])) {
     http_response_code(401);

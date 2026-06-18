@@ -1,10 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Servicos as ServicosService, ServicoItem } from '../../services/servicos';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-servicos',
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink, ScrollRevealDirective],
   templateUrl: './servicos.html',
   styleUrl: './servicos.css'
 })
@@ -13,11 +15,19 @@ export class Servicos implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   servicos: ServicoItem[] = [];
+  isLoading = true;
 
   ngOnInit(): void {
-    this.servicosService.listar().subscribe(s => {
-      this.servicos = s;
-      this.cdr.markForCheck();
+    this.servicosService.listar().subscribe({
+      next: (s) => {
+        this.servicos = s;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
     });
   }
 

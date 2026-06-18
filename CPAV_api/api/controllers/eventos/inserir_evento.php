@@ -19,6 +19,14 @@ if(
     !empty($data->event_time) &&
     !empty($data->idLocation)
 ) {
+    $today    = new DateTime('today');
+    $eventDay = DateTime::createFromFormat('Y-m-d', $data->event_date);
+    if (!$eventDay || $eventDay < $today) {
+        http_response_code(400);
+        echo json_encode(["message" => "Não é possível inserir um evento numa data já passada."]);
+        exit;
+    }
+
     $database = new Database();
     $db = $database->getConnection();
 

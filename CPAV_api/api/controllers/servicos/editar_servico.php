@@ -26,7 +26,7 @@ if(
 
     if($servico->editar($data->id, $data->title, $data->description, $data->icon_or_image)) {
         $log = new Log($db);
-        $log->inserir($_SESSION['idUser'], 17);
+        $log->inserir($_SESSION['idUser'], 17, null, null, null, $data->title);
         http_response_code(200);
         echo json_encode(["message" => "Serviço atualizado com sucesso."]);
     } else {

@@ -7,78 +7,39 @@
 <main class="page-content">
     <div class="container">
 
-        <!-- CONTACTOS PRINCIPAIS -->
+        <!-- HORÁRIOS -->
         <section class="section-card">
-            <h2>Contactos Principais</h2>
-            <p class="section-lead">
-                Contacte-nos através dos seguintes meios. Estamos disponíveis para esclarecer
-                todas as suas dúvidas sobre os nossos serviços.
-            </p>
+            <h2>Horários de Atendimento</h2>
+            <div class="horarios-grid">
 
-            <div class="contact-grid">
-
-                <div class="contact-card">
-                    <div class="contact-header">
-                        <div class="contact-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z" />
-                            </svg>
-                        </div>
-                        <div><h3 class="contact-title">Sede Principal</h3></div>
+                <div class="horario-block">
+                    <div class="horario-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V8l8 5 8-5v10m-8-7L4 6h16l-8 5Z"/>
+                        </svg>
                     </div>
-                    <div class="contact-content">
-                        <p>
-                            <strong>Morada:</strong><br>
-                            <span style="white-space: pre-line">{{ sedeMorada }}</span>
-                        </p>
-                        <ul class="contact-list">
-                            <li><strong>Telefone Geral: </strong>{{ sedeTelGeral }}</li>
-                            <li><strong>Telefone Móvel: </strong>{{ sedeTelMovel }}</li>
-                            <li><strong>Email: </strong>{{ sedeEmail }}</li>
-                            <li><strong>Responsável: </strong>{{ sedeResponsavel }}</li>
-                        </ul>
-                    </div>
+                    <h3>Secretaria (Sede)</h3>
+                    <p style="white-space: pre-line">{{ horariosSecretaria }}</p>
                 </div>
 
-                <div class="contact-card">
-                    <div class="contact-header">
-                        <div class="contact-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9m0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7m-1-12h2v7h-2V7m0 8h2v2h-2v-2Z" />
-                            </svg>
-                        </div>
-                        <div><h3 class="contact-title">Horários</h3></div>
+                <div class="horario-block">
+                    <div class="horario-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3m-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3m0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5m8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5Z"/>
+                        </svg>
                     </div>
-                    <div class="contact-content">
-                        <p><strong>Secretaria (Sede)</strong></p>
-                        <p style="white-space: pre-line">{{ horariosSecretaria }}</p>
-                        <p style="margin-top:15px"><strong>Serviços Sociais</strong></p>
-                        <p style="white-space: pre-line">{{ horariosSociais }}</p>
-                        <p style="margin-top:15px"><strong>Pré-Escolar e CATL</strong></p>
-                        <p style="white-space: pre-line">{{ horariosPreCatl }}</p>
-                    </div>
+                    <h3>Serviços Sociais</h3>
+                    <p style="white-space: pre-line">{{ horariosSociais }}</p>
                 </div>
 
-                <div class="contact-card">
-                    <div class="contact-header">
-                        <div class="contact-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14v14M7 12h2v5H7v-5m4-3h2v8h-2V9m4-2h2v10h-2V7Z" />
-                            </svg>
-                        </div>
-                        <div><h3 class="contact-title">Contactos Rápidos</h3></div>
+                <div class="horario-block">
+                    <div class="horario-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z"/>
+                        </svg>
                     </div>
-                    <div class="contact-content">
-                        <ul class="contact-list">
-                            @for (c of contactos; track c.id) {
-                                <li>
-                                    <strong>{{ c.type }}: </strong>@if (hrefFor(c)) {<a [href]="hrefFor(c)">{{ c.value }}</a>} @else {{{ c.value }}}
-                                </li>
-                            } @empty {
-                                <li>Sem contactos disponíveis.</li>
-                            }
-                        </ul>
-                    </div>
+                    <h3>Pré-Escolar e CATL</h3>
+                    <p style="white-space: pre-line">{{ horariosPreCatl }}</p>
                 </div>
 
             </div>
@@ -175,9 +136,14 @@
                                 <p><strong>Responsável:</strong> {{ d.responsavel_nome }}</p>
                             }
                             @if (d.linked_facility) {
-                                <p><strong>Contacto:</strong> {{ d.linked_facility }}</p>
+                                <p><strong>Instalação:</strong> {{ d.linked_facility }}</p>
                             }
-                            <p style="white-space: pre-line">{{ d.address }}@if (d.tel) {<br>Tel: {{ d.tel }}}@if (d.mobile) {<br>Móvel: {{ d.mobile }}}@if (d.email) {<br>Email: {{ d.email }}}</p>
+                            @if (d.email) {
+                                <p><strong>Email:</strong> <a [href]="'mailto:' + d.email">{{ d.email }}</a></p>
+                            }
+                            @if (d.tel) {
+                                <p><strong>Tel:</strong> <a [href]="'tel:+351' + d.tel.replace(' ', '')">{{ d.tel }}</a></p>
+                            }
                         </div>
                     </div>
                 } @empty {

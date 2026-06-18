@@ -67,14 +67,19 @@
                   </span>
                 </td>
                 <td class="actions">
-                  <a [routerLink]="['/admin/utilizadores/editar', u.id]" class="table-btn edit">Editar</a>
-                  @if (!isMe(u)) {
+                  @if (canAct(u)) {
+                    <a [routerLink]="['/admin/utilizadores/editar', u.id]" class="table-btn edit">Editar</a>
+                  }
+                  @if (canAct(u) && !isMe(u)) {
                     <button type="button" class="table-btn"
                       [class.deactivate]="u.idState === 1"
                       [class.activate]="u.idState !== 1"
                       (click)="toggle(u)">
                       {{ u.idState === 1 ? 'Desativar' : 'Ativar' }}
                     </button>
+                  }
+                  @if (!canAct(u)) {
+                    <span class="table-protected">— protegido —</span>
                   }
                 </td>
               </tr>

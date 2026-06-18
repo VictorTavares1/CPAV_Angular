@@ -14,6 +14,11 @@ $database = new Database();
 $db = $database->getConnection();
 
 $evento = new Evento($db);
+
+// Antes de listar, arquiva (idState = 2) os eventos cuja data já passou.
+// Garante que o admin vê eventos passados como "Inativo" automaticamente.
+$evento->desativarPassados();
+
 $stmt = $evento->lerTodos();
 
 $eventos = [];

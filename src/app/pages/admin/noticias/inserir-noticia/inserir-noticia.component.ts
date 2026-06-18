@@ -1,13 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef, afterNextRender, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Noticias } from '../../../../services/noticias';
 import { NotifyService } from '../../../../services/notify.service';
 
+interface PreviewImage {
+  file: File;
+  url: string;
+}
+
 @Component({
   selector: 'app-inserir-noticia',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './inserir-noticia.component.html',
   styleUrl: './inserir-noticia.component.css',
 })
@@ -27,9 +33,12 @@ export class InserirNoticiaComponent {
     content: ['', [Validators.required]],
   });
 
-  selectedFile: File | null = null;
+  previews: PreviewImage[] = [];
   fileError = '';
   isSubmitting = false;
+
+  private readonly allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  private readonly maxSize = 0.5 * 1024 * 1024; // 500 KB
 
   constructor() {
     afterNextRender(() => {
@@ -54,27 +63,32 @@ export class InserirNoticiaComponent {
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.fileError = '';
-    this.selectedFile = null;
 
     if (!input.files || input.files.length === 0) return;
 
-    const file = input.files[0];
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const maxSize = 0.5 * 1024 * 1024; // 500 KB
-
-    if (!allowedTypes.includes(file.type)) {
-      this.fileError = 'Formato inválido. Só são permitidos JPG, PNG ou WEBP.';
-      input.value = '';
-      return;
+    const novos: PreviewImage[] = [];
+    for (const file of Array.from(input.files)) {
+      if (!this.allowedTypes.includes(file.type)) {
+        this.fileError = `'${file.name}': formato inválido. Só JPG, PNG ou WEBP.`;
+        input.value = '';
+        return;
+      }
+      if (file.size > this.maxSize) {
+        this.fileError = `'${file.name}': demasiado grande. Máx. 500kb.`;
+        input.value = '';
+        return;
+      }
+      novos.push({ file, url: URL.createObjectURL(file) });
     }
 
-    if (file.size > maxSize) {
-      this.fileError = 'A imagem é demasiado grande. O tamanho máximo é 500kb.';
-      input.value = '';
-      return;
-    }
+    this.previews = [...this.previews, ...novos];
+    input.value = '';
+  }
 
-    this.selectedFile = file;
+  removePreview(index: number): void {
+    const removed = this.previews[index];
+    if (removed) URL.revokeObjectURL(removed.url);
+    this.previews = this.previews.filter((_, i) => i !== index);
   }
 
   submit(): void {
@@ -88,8 +102,8 @@ export class InserirNoticiaComponent {
     const formData = new FormData();
     formData.append('title', this.form.controls.title.value ?? '');
     formData.append('content', this.form.controls.content.value ?? '');
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
+    for (const p of this.previews) {
+      formData.append('images[]', p.file, p.file.name);
     }
 
     this.noticiasService.inserirComImagem(formData).subscribe({
@@ -97,8 +111,10 @@ export class InserirNoticiaComponent {
         this.isSubmitting = false;
         this.form.reset();
         if (this.quill) this.quill.setText('');
-        this.selectedFile = null;
+        this.previews.forEach(p => URL.revokeObjectURL(p.url));
+        this.previews = [];
         this.notify.success('Notícia inserida com sucesso.');
+        setTimeout(() => this.router.navigate(['/admin/noticias']), 600);
       },
       error: (error) => {
         this.isSubmitting = false;

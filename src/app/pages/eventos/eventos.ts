@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EventosService, EventoItem } from '../../services/eventos.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-eventos',
-  imports: [FormsModule],
+  imports: [FormsModule, ScrollRevealDirective],
   templateUrl: './eventos.html',
   styleUrl: './eventos.css',
 })

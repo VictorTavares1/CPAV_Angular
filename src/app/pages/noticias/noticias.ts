@@ -6,12 +6,13 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Noticias as NoticiasService, NoticiaItem } from '../../services/noticias';
 import { ApiConfigService } from '../../services/api-config.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 declare const bootstrap: any;
 
 @Component({
   selector: 'app-noticias',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ScrollRevealDirective],
   templateUrl: './noticias.html',
   styleUrl: './noticias.css',
 })

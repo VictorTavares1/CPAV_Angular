@@ -1,9 +1,17 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventosService, LocalizacaoItem } from '../../../../services/eventos.service';
 import { NotifyService } from '../../../../services/notify.service';
+
+function dataFuturaValidator(control: AbstractControl): ValidationErrors | null {
+  if (!control.value) return null;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const chosen = new Date(control.value + 'T00:00:00');
+  return chosen < today ? { dataPassada: true } : null;
+}
 
 @Component({
   selector: 'app-inserir-evento',
@@ -17,10 +25,13 @@ export class InserirEventoComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly cdr = inject(ChangeDetectorRef);
 
+  // Data de hoje em formato YYYY-MM-DD para o atributo [min] do input date
+  readonly today = new Date().toISOString().split('T')[0];
+
   readonly form = this.fb.group({
     title:      ['', [Validators.required]],
     idLocation: ['', [Validators.required]],
-    event_date: ['', [Validators.required]],
+    event_date: ['', [Validators.required, dataFuturaValidator]],
     event_time: ['', [Validators.required]],
   });
 
@@ -52,10 +63,12 @@ export class InserirEventoComponent implements OnInit {
         this.isSubmitting = false;
         this.form.reset();
         this.notify.success('Evento inserido com sucesso.');
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.isSubmitting = false;
         this.notify.error(err?.error?.message ?? 'Erro ao inserir o evento.');
+        this.cdr.markForCheck();
       },
     });
   }

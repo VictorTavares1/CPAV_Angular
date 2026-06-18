@@ -7,36 +7,24 @@
     <a routerLink="/admin/noticias/inserir" class="insert-btn">+ Inserir Notícia</a>
   </div>
 
-  <!-- Formulário de edição (sempre no DOM para o Quill inicializar, oculto quando não está a editar) -->
-  <div class="admin-form-container" [class.form-hidden]="!editingId">
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <h2>Editar notícia</h2>
-
-      <div class="form-group">
-        <label class="form-label required" for="title">Título</label>
-        <input id="title" type="text" class="form-input"
-          formControlName="title" placeholder="Título da notícia" />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label required">Conteúdo</label>
-        <div class="editor-wrap">
-          <div #quillEditor class="quill-editor-container"></div>
-        </div>
-        @if (form.controls.content.touched && form.controls.content.invalid) {
-          <p class="field-error">O conteúdo é obrigatório.</p>
-        }
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="submit-button">Atualizar</button>
-        <button type="button" class="cancel-button" (click)="cancelEdit()">Cancelar</button>
-      </div>
-    </form>
+  <div class="filters-bar">
+    <input
+      type="text"
+      class="filter-input"
+      placeholder="Pesquisar por título..."
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="resetPage()"
+    />
+    <select class="filter-select" [(ngModel)]="selectedStatus" (ngModelChange)="resetPage()">
+      <option value="">Todos os estados</option>
+      <option value="1">Ativo</option>
+      <option value="2">Inativo</option>
+    </select>
+    <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
   </div>
 
   @if (isLoading) {
-    <p class="msg">A carregar...</p>
+    <p class="table-empty">A carregar...</p>
   } @else {
     <div class="admin-table">
       <table>
@@ -45,33 +33,66 @@
             <th>Título</th>
             <th>Data</th>
             <th>Estado</th>
-            <th class="actions">Ações</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          @for (noticia of noticias; track noticia.id) {
-            <tr>
-              <td>{{ noticia.title }}</td>
-              <td>{{ noticia.dateHour || '-' }}</td>
-              <td>
-                <span class="status-badge"
-                  [class]="noticia.idState === 1 ? 'status-active' : 'status-inactive'">
-                  {{ noticia.idState === 1 ? 'Ativa' : 'Inativa' }}
-                </span>
-              </td>
-              <td class="actions">
-                <button type="button" class="table-btn edit" (click)="edit(noticia)">Editar</button>
-                <button type="button" class="table-btn delete" (click)="toggle(noticia)">
-                  {{ noticia.idState === 1 ? 'Desativar' : 'Ativar' }}
-                </button>
-              </td>
-            </tr>
-          } @empty {
+          @if (paginated.length === 0) {
             <tr><td colspan="4" class="table-empty">Sem notícias.</td></tr>
+          } @else {
+            @for (n of paginated; track n.id) {
+              <tr>
+                <td><strong>{{ n.title }}</strong></td>
+                <td>{{ fmtDate(n.dateHour) }}</td>
+                <td>
+                  <span class="status-badge"
+                        [class.status-active]="n.idState === 1"
+                        [class.status-inactive]="n.idState !== 1">
+                    {{ n.idState === 1 ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  <a [routerLink]="['/admin/noticias/editar', n.id]" class="table-btn edit">Editar</a>
+                  <button
+                    type="button"
+                    class="table-btn"
+                    [class.deactivate]="n.idState === 1"
+                    [class.activate]="n.idState !== 1"
+                    (click)="toggle(n)">
+                    {{ n.idState === 1 ? 'Desativar' : 'Ativar' }}
+                  </button>
+                </td>
+              </tr>
+            }
           }
         </tbody>
       </table>
     </div>
+
+    @if (filtered.length > perPage) {
+      <div class="pagination-container">
+        <div class="pagination-info">Total: {{ filtered.length }} notícia(s)</div>
+
+        <div class="pagination-center">
+          <span class="page-number">{{ currentPage }}</span>
+          <span class="page-total">/ {{ totalPages }}</span>
+        </div>
+
+        <div class="pagination-actions">
+          @if (currentPage > 1) {
+            <button class="pagination-btn prev" type="button" (click)="goTo(currentPage - 1)">← Anterior</button>
+          } @else {
+            <span class="pagination-btn prev disabled">← Anterior</span>
+          }
+
+          @if (currentPage < totalPages) {
+            <button class="pagination-btn next" type="button" (click)="goTo(currentPage + 1)">Próxima →</button>
+          } @else {
+            <span class="pagination-btn next disabled">Próxima →</span>
+          }
+        </div>
+      </div>
+    }
   }
 
 </section>

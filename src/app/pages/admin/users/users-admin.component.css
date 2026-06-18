@@ -225,6 +225,13 @@ h1 {
 }
 .table-btn.activate:hover { background: rgba(16,185,129,0.22); }
 
+.table-protected {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  opacity: 0.6;
+}
+
 @media (max-width: 768px) {
   .admin-page { margin: 16px; padding: 20px; }
 }

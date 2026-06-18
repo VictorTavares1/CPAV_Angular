@@ -72,6 +72,12 @@ export const routes: Routes = [
                     import('./pages/admin/noticias/inserir-noticia/inserir-noticia.component').then((m) => m.InserirNoticiaComponent),
             },
             {
+                path: 'noticias/editar/:id',
+                canActivate: [authGuard],
+                loadComponent: () =>
+                    import('./pages/admin/noticias/editar-noticia/editar-noticia.component').then((m) => m.EditarNoticiaComponent),
+            },
+            {
                 path: 'relatorios',
                 canActivate: [authGuard],
                 loadComponent: () =>
@@ -108,12 +114,6 @@ export const routes: Routes = [
                     import('./pages/admin/contactos/contactos-admin.component').then((m) => m.ContactosAdminComponent),
             },
             {
-                path: 'contactos/inserir',
-                canActivate: [authGuard],
-                loadComponent: () =>
-                    import('./pages/admin/contactos/inserir-contacto/inserir-contacto.component').then((m) => m.InserirContactoComponent),
-            },
-            {
                 path: 'contactos/editar/:id',
                 canActivate: [authGuard],
                 loadComponent: () =>
@@ -136,12 +136,6 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 loadComponent: () =>
                     import('./pages/admin/servicos/servicos-admin.component').then((m) => m.ServicosAdminComponent),
-            },
-            {
-                path: 'servicos/inserir',
-                canActivate: [authGuard],
-                loadComponent: () =>
-                    import('./pages/admin/servicos/inserir-servico/inserir-servico.component').then((m) => m.InserirServicoComponent),
             },
             {
                 path: 'servicos/editar/:id',
