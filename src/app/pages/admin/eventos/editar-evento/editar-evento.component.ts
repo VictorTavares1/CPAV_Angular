@@ -23,8 +23,25 @@ export class EditarEventoComponent implements OnInit {
     title:      ['', [Validators.required]],
     idLocation: ['', [Validators.required]],
     event_date: ['', [Validators.required]],
+    end_date:   [''],
     event_time: ['', [Validators.required]],
   });
+
+  get minEndDate(): string {
+    const d = this.form.controls.event_date.value;
+    if (!d) return '';
+    const next = new Date(d + 'T00:00:00');
+    next.setDate(next.getDate() + 1);
+    return next.toISOString().split('T')[0];
+  }
+
+  get maxEndDate(): string {
+    const d = this.form.controls.event_date.value;
+    if (!d) return '';
+    const max = new Date(d + 'T00:00:00');
+    max.setDate(max.getDate() + 7);
+    return max.toISOString().split('T')[0];
+  }
 
   localizacoes: LocalizacaoItem[] = [];
   eventoId = 0;
@@ -49,6 +66,7 @@ export class EditarEventoComponent implements OnInit {
           title:      evento.title,
           idLocation: String(evento.idLocation),
           event_date: evento.event_date,
+          end_date:   evento.end_date ?? '',
           event_time: evento.event_time?.substring(0, 5) ?? '',
         });
         this.isLoading = false;
@@ -66,10 +84,12 @@ export class EditarEventoComponent implements OnInit {
 
     this.isSubmitting = true;
 
+    const end = this.form.controls.end_date.value || undefined;
     this.eventosService.editar({
       id:         this.eventoId,
       title:      this.form.controls.title.value ?? '',
       event_date: this.form.controls.event_date.value ?? '',
+      ...(end ? { end_date: end } : {}),
       event_time: this.form.controls.event_time.value ?? '',
     }).subscribe({
       next: () => {

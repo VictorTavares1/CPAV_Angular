@@ -1,18 +1,38 @@
 <div class="page-title-bar">
   <div class="container page-title-bar--flex">
     <h1>Notícias</h1>
-    <div class="news-search">
+    <div class="news-filters">
       <input
         class="news-search__input"
         type="text"
         placeholder="Pesquisar notícias..."
         [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
+        (ngModelChange)="setSearch($event)"
         name="q"
         autocomplete="off"
       />
-      @if (searchQuery()) {
-        <button type="button" class="btn news-search__btn" (click)="clearSearch()">Limpar</button>
+      <label class="search-date-label">
+        De
+        <input
+          class="news-search__input news-date-input"
+          type="date"
+          [ngModel]="dateFrom()"
+          [attr.max]="dateTo() || null"
+          (ngModelChange)="setDateFrom($event)"
+        />
+      </label>
+      <label class="search-date-label">
+        Até
+        <input
+          class="news-search__input news-date-input"
+          type="date"
+          [ngModel]="dateTo()"
+          [attr.min]="dateFrom() || null"
+          (ngModelChange)="setDateTo($event)"
+        />
+      </label>
+      @if (hasFilters()) {
+        <button type="button" class="events-search__clear" (click)="clearFilters()">Limpar</button>
       }
     </div>
   </div>
@@ -40,32 +60,37 @@
       <div class="section-card" style="text-align:center;">
         <h2>Sem resultados</h2>
         <p class="section-lead">
-          {{ searchQuery() ? 'Não encontrámos notícias para essa pesquisa.' : 'Ainda não existem notícias ativas.' }}
+          {{ hasFilters() ? 'Não encontrámos notícias para os filtros selecionados.' : 'Ainda não existem notícias ativas.' }}
         </p>
       </div>
     } @else {
       <div class="news-grid">
-        @for (n of filtered(); track n.id; let i = $index) {
+        @for (n of paginated(); track n.id; let i = $index) {
           <article class="news-card" [appScrollReveal]="i * 60">
 
             @if (n.images && n.images.length > 1) {
-              <div class="news-card__media">
-                <div [id]="'carousel-news-' + n.id" class="carousel slide h-100" data-bs-ride="carousel">
-                  <div class="carousel-inner h-100">
-                    @for (img of n.images; track img; let i = $index) {
-                      <div class="carousel-item h-100" [class.active]="i === 0">
-                        <img [src]="uploadsUrl + '/' + img" [alt]="n.title" class="news-card__carousel-img">
-                      </div>
-                    }
-                  </div>
-                  <button class="carousel-control-prev" type="button"
-                    [attr.data-bs-target]="'#carousel-news-' + n.id" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button"
-                    [attr.data-bs-target]="'#carousel-news-' + n.id" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
+              <div class="news-card__media news-carousel">
+                @for (img of n.images; track img; let idx = $index) {
+                  <img [src]="uploadsUrl + '/' + img" [alt]="n.title"
+                       class="news-carousel__slide"
+                       [class.is-active]="idx === imgIndexOf(n.id)">
+                }
+
+                <button type="button" class="news-carousel__ctrl news-carousel__ctrl--prev"
+                  (click)="prevImg($event, n)" aria-label="Imagem anterior">
+                  <span class="news-carousel__chevron news-carousel__chevron--prev"></span>
+                </button>
+                <button type="button" class="news-carousel__ctrl news-carousel__ctrl--next"
+                  (click)="nextImg($event, n)" aria-label="Imagem seguinte">
+                  <span class="news-carousel__chevron news-carousel__chevron--next"></span>
+                </button>
+
+                <div class="news-carousel__indicators">
+                  @for (img of n.images; track img; let i = $index) {
+                    <button type="button" class="news-carousel__indicator"
+                      [class.is-active]="i === imgIndexOf(n.id)"
+                      (click)="goToImg($event, n, i)" [attr.aria-label]="'Imagem ' + (i + 1)"></button>
+                  }
                 </div>
               </div>
             } @else {
@@ -92,6 +117,34 @@
           </article>
         }
       </div>
+
+      @if (totalPages() > 1) {
+        <div class="news-pagination">
+          @if (currentPage() > 1) {
+            <button type="button" class="news-pagination__btn" (click)="goTo(currentPage() - 1)">← Anterior</button>
+          } @else {
+            <span class="news-pagination__btn news-pagination__btn--disabled">← Anterior</span>
+          }
+
+          <div class="news-pagination__pages">
+            @for (p of pageNumbers(); track p) {
+              @if (p === -1) {
+                <span class="news-pagination__ellipsis">…</span>
+              } @else {
+                <button type="button" class="news-pagination__page"
+                  [class.is-active]="p === currentPage()"
+                  (click)="goTo(p)">{{ p }}</button>
+              }
+            }
+          </div>
+
+          @if (currentPage() < totalPages()) {
+            <button type="button" class="news-pagination__btn" (click)="goTo(currentPage() + 1)">Próxima →</button>
+          } @else {
+            <span class="news-pagination__btn news-pagination__btn--disabled">Próxima →</span>
+          }
+        </div>
+      }
     }
 
   </div>

@@ -35,7 +35,41 @@ body {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
-    padding-top: 80px
+}
+
+/* Elementos custom do Angular são display:inline por defeito, o que faz a
+   largura encolher/expandir com o conteúdo (ex: tabelas com min-width largas
+   alargavam o painel admin e transbordavam no telemóvel). Forçar block + 100%. */
+app-root,
+app-public-layout,
+app-admin-layout {
+    display: block;
+    width: 100%;
+}
+
+/* O padding-top compensa a navbar pública fixa. Só o layout público a tem,
+   por isso fica aqui em vez de no body (o admin tem o seu próprio topbar). */
+app-public-layout {
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+@media (max-width: 991px) {
+    app-public-layout {
+        padding-top: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    app-public-layout {
+        padding-top: 65px;
+    }
+}
+
+app-public-layout main {
+    flex: 1;
 }
 
 .hamburger-btn span,
@@ -376,10 +410,6 @@ a {
 }
 
 @media (max-width:991px) {
-    body {
-        padding-top: 70px
-    }
-
     .site-header .container {
         padding: 0 20px
     }
@@ -961,7 +991,7 @@ a {
    =========================================================== */
 .page-title-bar {
     position: relative;
-    padding: 56px 0 40px;
+    padding: 28px 0 32px;
     background:
         radial-gradient(
             1100px 280px at 12% 20%,
@@ -1038,12 +1068,25 @@ a {
     to   { transform: scaleX(1); opacity: 1; }
 }
 
+.page-slogan {
+    margin: 10px 0 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2c5aa0;
+    font-style: italic;
+    opacity: 0.85;
+    position: relative;
+}
+
 @media (max-width: 768px) {
     .page-title-bar {
         padding: 36px 0 28px;
     }
     .page-title-bar h1 {
         font-size: 28px;
+    }
+    .page-slogan {
+        font-size: 14px;
     }
     .page-title-bar::before {
         top: -40px;
@@ -1068,14 +1111,23 @@ a {
     gap: 16px;
 }
 
-.page-title-bar .news-search {
+.page-title-bar .news-search,
+.page-title-bar .news-filters {
     margin-top: 0;
     justify-content: flex-end;
     flex-shrink: 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .page-title-bar .news-search__input {
-    width: 300px;
+    width: 220px;
+}
+
+.page-title-bar .news-date-input {
+    width: 150px;
 }
 
 @media (max-width: 768px) {
@@ -1083,8 +1135,24 @@ a {
         flex-wrap: wrap;
         gap: 10px;
     }
+    /* Filtros das notícias empilham e ocupam a largura toda */
+    .page-title-bar .news-search,
+    .page-title-bar .news-filters {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
     .page-title-bar .news-search__input {
         width: 100%;
+    }
+    .page-title-bar .search-date-label {
+        width: 100%;
+    }
+    .page-title-bar .news-date-input {
+        flex: 1;
+        width: auto;
+        min-width: 0;
     }
 }
 
@@ -1962,6 +2030,7 @@ a {
 
 .events-search {
     margin-top: 18px;
+    margin-bottom: 24px;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -1988,15 +2057,38 @@ a {
     font-size: 14px
 }
 
+.search-date-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+}
+
 .events-search__btn {
     padding: 12px 18px
 }
 
 .events-search__clear {
-    font-weight: 700;
+    padding: 10px 18px;
+    border: 1.5px solid rgba(44, 90, 160, 0.35);
+    border-radius: 10px;
+    background: transparent;
     color: #2c5aa0;
-    text-decoration: underline;
-    text-underline-offset: 3px
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.events-search__clear:hover {
+    background: #2c5aa0;
+    border-color: #2c5aa0;
+    color: #fff;
 }
 
 .events-meta {
@@ -2195,6 +2287,77 @@ a {
     grid-template-columns: 1fr;
     gap: 30px;
     margin-top: 30px
+}
+
+/* Órgãos sociais */
+.orgaos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px
+}
+
+@media (max-width: 640px) {
+    .orgaos-grid { grid-template-columns: 1fr }
+}
+
+.orgao-group {
+    background: #f0f5ff;
+    border: 1px solid #c7d9f8;
+    border-radius: 10px;
+    padding: 20px 24px
+}
+
+.orgao-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c5aa0;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c7d9f8
+}
+
+.orgao-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.orgao-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 1px
+}
+
+.orgao-email {
+    margin-top: 12px;
+    font-size: 0.88rem;
+}
+
+.orgao-email a {
+    color: #2c5aa0;
+    text-decoration: none;
+}
+
+.orgao-email a:hover {
+    text-decoration: underline;
+}
+
+.orgao-cargo {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em
+}
+
+.orgao-nome {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e3a5f
 }
 
 @media (min-width:768px) {
@@ -2897,7 +3060,8 @@ a {
     grid-template-columns: 1.4fr .8fr;
     gap: 26px;
     align-items: end;
-    padding: 44px 0;
+    padding-top: 44px;
+    padding-bottom: 44px;
 }
 
 .photo-band__content h2 {
@@ -3264,10 +3428,9 @@ a {
 
 /* Better spacing and vertical alignment */
 .photo-band__inner {
-    padding: 72px 0 64px;
-    /* more breathing room */
+    padding-top: 72px;
+    padding-bottom: 64px;
     align-items: center;
-    /* stops it feeling “bottom heavy” */
 }
 
 /* Make the text block behave better */
@@ -3298,7 +3461,8 @@ a {
     }
 
     .photo-band__inner {
-        padding: 44px 0 34px;
+        padding-top: 64px;
+        padding-bottom: 56px;
         gap: 16px;
         align-items: start;
     }
@@ -3338,7 +3502,8 @@ a {
 
     /* Give the hero real breathing room */
     .photo-band__inner {
-        padding: 64px 24px 48px;
+        padding-top: 64px;
+        padding-bottom: 48px;
     }
 
     /* Prevent text from visually touching edges */
@@ -3534,7 +3699,7 @@ a {
 
 .footer-simple__bottom-inner {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
@@ -3548,6 +3713,37 @@ a {
     font-weight: 600;
 }
 
+.footer-dev {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 20px 4px;
+    opacity: 0.8;
+    font-size: 12px;
+    color: #fff;
+}
+
+.footer-dev__logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.footer-livro-reclamacoes {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.footer-livro-reclamacoes:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .footer-simple__top {
     display: inline-flex;
     align-items: center;
@@ -3555,6 +3751,13 @@ a {
     color: rgba(255, 255, 255, 0.92);
     text-decoration: none;
     font-weight: 800;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    align-self: center;
 }
 
 .footer-simple__top:hover {
@@ -3905,9 +4108,18 @@ a {
 .admin-shell .filter-input,
 .admin-shell .filter-select,
 .admin-shell .edit-textarea {
-    background: #ffffff;
-    border-color: #cbd5e1;
+    background-color: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
     color: #0f172a;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-shell .form-input:hover,
+.admin-shell .filter-input:hover,
+.admin-shell .edit-textarea:hover {
+    border-color: #94a3b8;
 }
 
 .admin-shell .form-input:focus,
@@ -3915,7 +4127,42 @@ a {
 .admin-shell .filter-select:focus,
 .admin-shell .edit-textarea:focus {
     border-color: #0d64c1;
-    box-shadow: 0 0 0 2px rgba(13, 100, 193, 0.15);
+    box-shadow: 0 0 0 3px rgba(13,100,193,0.12);
+    outline: none;
+}
+
+/* Select elegante com seta personalizada */
+.admin-shell select.form-input,
+.admin-shell select.filter-input,
+.admin-shell .filter-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d64c1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    background-size: 16px 16px !important;
+    padding: 9px 36px 9px 12px !important;
+    cursor: pointer !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.06) !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+    font-size: 14px !important;
+}
+
+.admin-shell select.form-input:hover,
+.admin-shell select.filter-input:hover,
+.admin-shell .filter-select:hover {
+    border-color: #94a3b8 !important;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.1) !important;
+}
+
+.admin-shell select.form-input:focus,
+.admin-shell select.filter-input:focus,
+.admin-shell .filter-select:focus {
+    border-color: #0d64c1 !important;
+    box-shadow: 0 0 0 3px rgba(13,100,193,0.12) !important;
+    outline: none !important;
 }
 
 .admin-shell .filter-clear-btn {
@@ -4176,6 +4423,126 @@ a {
 @media (max-width: 768px) {
     .admin-shell .pagination-container { justify-content: center; }
     .admin-shell .pagination-info { display: none; }
+
+    /* ----------------------------------------------------------
+       Impede overflow horizontal: a cadeia flex precisa de poder
+       encolher (o min-width:auto por defeito da flexbox força a
+       largura do conteúdo e empurra tudo para fora do ecrã).
+       ---------------------------------------------------------- */
+    .admin-shell .admin-main,
+    .admin-shell .admin-content {
+        min-width: 0;
+        max-width: 100%;
+    }
+    .admin-shell .admin-page,
+    .admin-shell .admin-container {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Barra de filtros: cada controlo ocupa a linha toda, sem largura mínima */
+    .admin-shell .filters-bar,
+    .admin-shell .filters-grid {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .admin-shell .filters-bar > *,
+    .admin-shell .filters-grid > *,
+    .admin-shell .filter-input,
+    .admin-shell .filter-select,
+    .admin-shell .filter-clear-btn,
+    .admin-shell .filter-group {
+        width: 100%;
+        min-width: 0;
+        flex: 0 0 auto;
+        box-sizing: border-box;
+    }
+
+    /* Cabeçalho (título + botão inserir) embrulha em vez de transbordar */
+    .admin-shell .admin-header {
+        flex-wrap: wrap;
+    }
+
+    /* ----------------------------------------------------------
+       Tabelas admin em ecrãs pequenos: em vez de scroll horizontal
+       (onde só se via 1/3 da tabela), cada linha passa a um cartão
+       vertical empilhado. Aplica-se a TODAS as páginas admin.
+       ---------------------------------------------------------- */
+    .admin-shell .admin-table {
+        overflow-x: visible;
+        border: none;
+        background: transparent;
+    }
+    .admin-shell .admin-table table {
+        min-width: 0;
+        width: 100%;
+    }
+    .admin-shell .admin-table thead {
+        /* esconde os cabeçalhos: cada linha-cartão é autoexplicativa */
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+    .admin-shell .admin-table tbody { display: block; }
+
+    .admin-shell .admin-table tbody tr {
+        display: block;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 12px;
+    }
+
+    .admin-shell .admin-table tbody td {
+        display: block;
+        border: none;
+        padding: 4px 0;
+        text-align: left;
+    }
+
+    /* Quando a célula tem data-label, mostra "Rótulo: valor" em linha */
+    .admin-shell .admin-table tbody td[data-label] {
+        display: block;
+        text-align: left;
+    }
+    .admin-shell .admin-table tbody td[data-label]::before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+        color: #475569;
+        margin-right: 4px;
+    }
+
+    /* Primeira célula da linha realçada como "título" do cartão
+       (exceto quando a célula usa data-label, aí mostra "Rótulo: valor") */
+    .admin-shell .admin-table tbody td:first-child:not([data-label]) {
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f172a;
+        padding-bottom: 8px;
+        margin-bottom: 6px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Botões de ação: linha própria, alinhados à esquerda e a poder embrulhar */
+    .admin-shell .admin-table tbody td.actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding-top: 10px;
+        text-align: left;
+    }
+    .admin-shell .admin-table tbody td.actions::before { content: none; }
+
+    /* Linha "sem dados" (colspan) volta ao centro normal */
+    .admin-shell .admin-table tbody td[colspan] {
+        text-align: center;
+        border-bottom: none;
+        font-weight: 400;
+        font-size: 14px;
+    }
 }
 
 /* ===========================================================

@@ -6,6 +6,33 @@ import { ApiConfigService } from './api-config.service';
 
 export type FacilityCategory = 'instalacao' | 'departamento';
 
+export type ServiceKey = 'pre-escolar' | 'catl' | 'sad' | 'paragem' | 'apoio-estudo' | 'nossa-senhora-belem';
+
+export interface FacilityServiceItem {
+  id: number;
+  id_facility: number;
+  service_key: ServiceKey;
+  description: string | null;
+  note: string | null;
+  sort_order: number;
+}
+
+export interface FacilityServiceWithFacility extends FacilityServiceItem {
+  name: string;
+  address: string | null;
+  tel: string | null;
+  mobile: string | null;
+  email: string | null;
+}
+
+export interface FacilityServicePayload {
+  id_facility: number;
+  service_key: ServiceKey;
+  description: string | null;
+  note: string | null;
+  sort_order: number;
+}
+
 export interface FacilityItem {
   id: number;
   category: FacilityCategory;
@@ -88,6 +115,55 @@ export class FacilitiesService {
   toggle(id: number): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiConfig.controllersUrl}/facilities/toggle_facility.php`,
+      { id },
+      { withCredentials: true }
+    );
+  }
+
+  editarContactos(data: { id: number; name: string; address: string | null; tel: string | null; mobile: string | null; email: string | null }): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiConfig.controllersUrl}/facilities/editar_facility_contactos.php`,
+      data,
+      { withCredentials: true }
+    );
+  }
+
+  listarPorServico(serviceKey: ServiceKey): Observable<FacilityServiceWithFacility[]> {
+    return this.http
+      .get<FacilityServiceWithFacility[]>(
+        `${this.apiConfig.controllersUrl}/facilities/listar_por_servico.php?service_key=${serviceKey}`
+      )
+      .pipe(catchError(() => of([])));
+  }
+
+  lerServicosDaFacility(id: number): Observable<FacilityServiceItem[]> {
+    return this.http
+      .get<FacilityServiceItem[]>(
+        `${this.apiConfig.controllersUrl}/facilities/listar_servicos_facility.php?id=${id}`,
+        { withCredentials: true }
+      )
+      .pipe(catchError(() => of([])));
+  }
+
+  inserirServico(data: FacilityServicePayload): Observable<{ message: string; id: number }> {
+    return this.http.post<{ message: string; id: number }>(
+      `${this.apiConfig.controllersUrl}/facilities/inserir_facility_service.php`,
+      data,
+      { withCredentials: true }
+    );
+  }
+
+  editarServico(data: FacilityServiceItem): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiConfig.controllersUrl}/facilities/editar_facility_service.php`,
+      data,
+      { withCredentials: true }
+    );
+  }
+
+  apagarServico(id: number): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiConfig.controllersUrl}/facilities/apagar_facility_service.php`,
       { id },
       { withCredentials: true }
     );

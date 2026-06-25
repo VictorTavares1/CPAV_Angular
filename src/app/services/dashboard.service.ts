@@ -19,22 +19,22 @@ export class DashboardService {
   ) {}
 
   getNoticiasCount() {
-    return this.noticiasService.listar().pipe(map((rows) => rows.length));
+    return this.noticiasService.listarAdmin().pipe(map((rows) => rows.length));
   }
 
   getEventosCount() {
-    return this.eventosService.listar().pipe(map((rows) => rows.length));
+    return this.eventosService.listarAdmin().pipe(map((rows) => rows.length));
   }
 
   getServicosCount() {
-    return this.servicosService.listar().pipe(map((rows) => rows.length));
+    return this.servicosService.listarAdmin().pipe(map((rows) => rows.length));
   }
 
   getContactosCount() {
-    return this.contactosService.listar().pipe(map((rows) => rows.length));
+    return this.contactosService.listarAdmin().pipe(map((rows) => rows.length));
   }
 
   getRelatoriosCount() {
-    return this.relatoriosService.listar().pipe(map((rows) => rows.length));
+    return this.relatoriosService.listarAdmin().pipe(map((rows) => rows.length));
   }
 }

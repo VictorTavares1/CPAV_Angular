@@ -1,33 +1,57 @@
 <div class="admin-container">
   <a routerLink="/admin/dashboard" class="back-btn">← Voltar</a>
 
-  <h1>Logs</h1>
+  <h1>Registo de Auditoria</h1>
 
   <!-- FILTROS -->
   <div class="filters-table">
     <div class="filters-grid">
       <div class="filter-group">
-        <label for="op-filter">Operação</label>
-        <select id="op-filter" class="filter-select" [(ngModel)]="operationId">
-          <option [ngValue]="0">Todas</option>
-          @for (op of operations(); track op.id) {
-            <option [ngValue]="op.id">{{ op.title }}</option>
-          }
-        </select>
+        <label>Operação</label>
+        <div class="op-dropdown" [class.is-open]="dropdownOpen">
+          <button type="button" class="op-dropdown__trigger" (click)="toggleDropdown($event)">
+            <span>{{ selectedLabel }}</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="op-dropdown__panel">
+            <button type="button" class="op-dropdown__all"
+              [class.is-active]="operationId === 0"
+              (click)="selectOperation(0, $event)">
+              Todas as operações
+            </button>
+            <div class="op-dropdown__divider"></div>
+            @for (group of groupedOps; track group.label) {
+              <div class="op-dropdown__group">
+                <div class="op-dropdown__group-row">
+                  <span>{{ group.label }}</span>
+                  <i class="fa-solid fa-chevron-right"></i>
+                </div>
+                <div class="op-dropdown__submenu">
+                  @for (op of group.items; track op.id) {
+                    <button type="button" class="op-dropdown__option"
+                      [class.is-active]="operationId === op.id"
+                      (click)="selectOperation(op.id, $event)">
+                      {{ op.title }}
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
       </div>
 
       <div class="filter-group">
         <label for="from-filter">De</label>
-        <input id="from-filter" class="filter-input" type="date" [(ngModel)]="dateFrom" />
+        <input id="from-filter" class="filter-input" type="date" [(ngModel)]="dateFrom" [attr.max]="dateTo || null" (ngModelChange)="onDateChange()" />
       </div>
 
       <div class="filter-group">
         <label for="to-filter">Até</label>
-        <input id="to-filter" class="filter-input" type="date" [(ngModel)]="dateTo" />
+        <input id="to-filter" class="filter-input" type="date" [(ngModel)]="dateTo" [attr.min]="dateFrom || null" (ngModelChange)="onDateChange()" />
       </div>
 
       <div class="filter-actions">
-        <button class="filter-btn primary" type="button" (click)="applyFilters()">Filtrar</button>
         <button class="filter-btn ghost" type="button" (click)="clearFilters()">Limpar</button>
       </div>
     </div>
@@ -44,7 +68,7 @@
         <thead>
           <tr>
             <th>Data/Hora</th>
-            <th>Admin</th>
+            <th>Utilizador</th>
             <th>Operação</th>
             <th>Alvo</th>
           </tr>
@@ -55,10 +79,10 @@
           } @else {
             @for (log of logs(); track log.dateHour + log.adminEmail) {
               <tr>
-                <td>{{ log.dateHour }}</td>
-                <td>{{ log.adminEmail }}</td>
-                <td class="operation-cell">{{ log.operationTitle }}</td>
-                <td>{{ affectedItem(log) }}</td>
+                <td data-label="Data/Hora">{{ log.dateHour }}</td>
+                <td data-label="Utilizador">{{ log.adminEmail }}</td>
+                <td class="operation-cell" data-label="Operação">{{ log.operationTitle }}</td>
+                <td data-label="Alvo">{{ affectedItem(log) }}</td>
               </tr>
             }
           }

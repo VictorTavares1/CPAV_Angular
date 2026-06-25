@@ -35,12 +35,20 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label required" for="event_date">Data</label>
+            <label class="form-label required" for="event_date">Data de início</label>
             <input id="event_date" type="date" class="form-input"
               formControlName="event_date" />
             @if (form.controls.event_date.touched && form.controls.event_date.invalid) {
               <p class="field-error">A data é obrigatória.</p>
             }
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="end_date">Data de fim <span class="label-optional">(opcional)</span></label>
+            <input id="end_date" type="date" class="form-input"
+              formControlName="end_date"
+              [min]="minEndDate" [max]="maxEndDate" />
+            <p class="field-hint">Preenche só se o evento durar mais de um dia (máx. 7 dias).</p>
           </div>
 
           <div class="form-group">

@@ -92,6 +92,36 @@
         </div>
     </section>
 
+    @if (ultimasNoticias.length > 0) {
+    <section class="ultimas-noticias">
+        <div class="container">
+            <div class="ultimas-noticias__header">
+                <h2>Últimas Notícias</h2>
+                <a routerLink="/noticias" class="ultimas-noticias__ver-todas">Ver todas →</a>
+            </div>
+            <div class="ultimas-noticias__grid">
+                @for (n of ultimasNoticias; track n.id) {
+                    <a class="noticia-card" [routerLink]="['/noticias', n.id]">
+                        @if (n.images && n.images.length > 0) {
+                            <div class="noticia-card__img" [style.background-image]="'url(' + uploadsUrl + '/' + n.images[0] + ')'"></div>
+                        } @else {
+                            <div class="noticia-card__img noticia-card__img--placeholder">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                        }
+                        <div class="noticia-card__body">
+                            <span class="noticia-card__date">{{ formatDate(n.dateHour) }}</span>
+                            <h3 class="noticia-card__title">{{ n.title }}</h3>
+                            <p class="noticia-card__excerpt">{{ excerpt(n.content) }}</p>
+                            <span class="noticia-card__cta">Ler mais →</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+    }
+
     <section class="split-section" id="sad">
         <div class="container split-section__inner split-section__inner--reverse">
             <div class="split-section__text" appScrollReveal revealDirection="left">

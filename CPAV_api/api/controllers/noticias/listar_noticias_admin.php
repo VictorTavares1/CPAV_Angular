@@ -1,5 +1,6 @@
 <?php
 require_once "../../config/header.php";
+require_once "../../config/require_auth.php";
 require_once "../../config/database.php";
 require_once "../../models/noticia.php";
 

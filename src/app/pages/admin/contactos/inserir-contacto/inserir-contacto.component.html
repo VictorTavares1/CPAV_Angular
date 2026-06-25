@@ -1,0 +1,69 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/contactos" class="back-btn">← Voltar</a>
+
+  <h1>Adicionar Contacto</h1>
+
+  <div class="admin-form-container">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label class="form-label required" for="type">Tipo</label>
+        <select id="type" class="form-input" formControlName="type">
+          <option value="">-- Selecionar --</option>
+          <option value="Telefone Geral">Telefone Geral</option>
+          <option value="Telemóvel">Telemóvel</option>
+          <option value="Email">Email</option>
+          <option value="Morada">Morada</option>
+          <option value="Direção Geral">Direção Geral</option>
+        </select>
+        @if (form.controls.type.touched && form.controls.type.invalid) {
+          <p class="field-error">O tipo é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="value">Valor</label>
+        <input id="value" type="text" class="form-input"
+          formControlName="value" placeholder="Ex: 212 043 425, email@exemplo.pt..." />
+        @if (form.controls.value.touched && form.controls.value.errors?.['required']) {
+          <p class="field-error">O valor é obrigatório.</p>
+        }
+        @if (form.controls.value.touched && form.controls.value.errors?.['pattern']) {
+          <p class="field-error">Introduza apenas dígitos (sem espaços).</p>
+        }
+        @if (form.controls.value.touched && form.controls.value.errors?.['maxlength']) {
+          <p class="field-error">Máximo 9 dígitos.</p>
+        }
+        @if (form.controls.value.touched && form.controls.value.errors?.['email']) {
+          <p class="field-error">Email inválido.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">Ícone</label>
+        <div class="icon-picker">
+          @for (opt of iconOptions; track opt.cls) {
+            <button type="button" class="icon-option"
+              [class.is-selected]="form.controls.icon.value === opt.cls"
+              (click)="selectIcon(opt.cls)" [title]="opt.label">
+              <i [class]="opt.cls"></i>
+              <span>{{ opt.label }}</span>
+            </button>
+          }
+        </div>
+        @if (form.controls.icon.touched && form.controls.icon.invalid) {
+          <p class="field-error">Escolha um ícone.</p>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A inserir...' : 'Inserir Contacto' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

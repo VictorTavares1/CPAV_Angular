@@ -15,7 +15,6 @@ export class Contactos implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   instalacoes: FacilityItem[] = [];
-  departamentos: FacilityItem[] = [];
 
   horariosSecretaria = '';
   horariosSociais = '';
@@ -36,9 +35,5 @@ export class Contactos implements OnInit {
       this.cdr.markForCheck();
     });
 
-    this.facilitiesService.listar('departamento').subscribe(d => {
-      this.departamentos = d;
-      this.cdr.markForCheck();
-    });
   }
 }

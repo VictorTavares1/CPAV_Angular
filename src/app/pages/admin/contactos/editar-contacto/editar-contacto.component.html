@@ -12,8 +12,14 @@
 
         <div class="form-group">
           <label class="form-label required" for="type">Tipo</label>
-          <input id="type" type="text" class="form-input"
-            formControlName="type" placeholder="Ex: Telefone, Email, Morada" />
+          <select id="type" class="form-input" formControlName="type">
+            <option value="">-- Selecionar --</option>
+            <option value="Telefone Geral">Telefone Geral</option>
+            <option value="Telemóvel">Telemóvel</option>
+            <option value="Email">Email</option>
+            <option value="Morada">Morada</option>
+            <option value="Direção Geral">Direção Geral</option>
+          </select>
           @if (form.controls.type.touched && form.controls.type.invalid) {
             <p class="field-error">O tipo é obrigatório.</p>
           }
@@ -23,31 +29,35 @@
           <label class="form-label required" for="value">Valor</label>
           <input id="value" type="text" class="form-input"
             formControlName="value" placeholder="Ex: 212 043 425" />
-          @if (form.controls.value.touched && form.controls.value.invalid) {
+          @if (form.controls.value.touched && form.controls.value.errors?.['required']) {
             <p class="field-error">O valor é obrigatório.</p>
           }
-        </div>
-
-        <div class="form-group">
-          <label class="form-label required" for="icon">Ícone (FontAwesome)</label>
-          <input id="icon" type="text" class="form-input"
-            formControlName="icon" placeholder="Ex: fa-solid fa-phone" />
-          <p class="field-hint">Classe FontAwesome, ex: <code>fa-solid fa-phone</code>, <code>fa-solid fa-envelope</code></p>
-          @if (form.controls.icon.touched && form.controls.icon.invalid) {
-            <p class="field-error">O ícone é obrigatório.</p>
+          @if (form.controls.value.touched && form.controls.value.errors?.['pattern']) {
+            <p class="field-error">Introduza apenas dígitos (sem espaços).</p>
+          }
+          @if (form.controls.value.touched && form.controls.value.errors?.['maxlength']) {
+            <p class="field-error">Máximo 9 dígitos.</p>
+          }
+          @if (form.controls.value.touched && form.controls.value.errors?.['email']) {
+            <p class="field-error">Email inválido.</p>
           }
         </div>
 
         <div class="form-group">
-          <label class="form-label required" for="category">Onde aparece</label>
-          <select id="category" class="form-input" formControlName="category">
-            <option value="footer">Rodapé do site (Morada / Telefone / Email)</option>
-            <option value="rapido">Contactos Rápidos (página de contactos)</option>
-          </select>
-          <p class="field-hint">
-            <strong>Rodapé</strong>: aparece no fundo de todas as páginas.
-            <strong>Contactos Rápidos</strong>: aparece na lista da página de contactos.
-          </p>
+          <label class="form-label required">Ícone</label>
+          <div class="icon-picker">
+            @for (opt of iconOptions; track opt.cls) {
+              <button type="button" class="icon-option"
+                [class.is-selected]="form.controls.icon.value === opt.cls"
+                (click)="selectIcon(opt.cls)" [title]="opt.label">
+                <i [class]="opt.cls"></i>
+                <span>{{ opt.label }}</span>
+              </button>
+            }
+          </div>
+          @if (form.controls.icon.touched && form.controls.icon.invalid) {
+            <p class="field-error">Escolha um ícone.</p>
+          }
         </div>
 
         <div class="form-actions">

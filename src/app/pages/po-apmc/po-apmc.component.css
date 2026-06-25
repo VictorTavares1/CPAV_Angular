@@ -3,6 +3,18 @@
    Segue o sistema de design global definido em styles.css
    ============================================================ */
 
+/* Logo PO APMC no topo da página */
+.poapmc-logo-wrap {
+  text-align: center;
+  padding: 32px 0 8px;
+}
+
+.poapmc-logo {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+}
+
 /* Logo no hero */
 .poa-hero-logo {
   margin-bottom: 20px;

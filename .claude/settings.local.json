@@ -69,10 +69,20 @@
       "Bash(python3 _clean_sql.py)",
       "Bash(/c/xampp/php/php.exe \"/c/Users/jonny/OneDrive/Desktop/_clean_sql.php\")",
       "Bash(sed -n '360,365p' \"/c/Users/jonny/OneDrive/Desktop/centros_paroquiais.sql\")",
-      "Bash(grep -c \"INSERT INTO \\\\`\\\\\\(news\\\\|images\\\\|logs\\\\|reports\\\\|schedules\\\\\\)\\\\`\" \"/c/Users/jonny/OneDrive/Desktop/centros_paroquiais.sql\")"
+      "Bash(grep -c \"INSERT INTO \\\\`\\\\\\(news\\\\|images\\\\|logs\\\\|reports\\\\|schedules\\\\\\)\\\\`\" \"/c/Users/jonny/OneDrive/Desktop/centros_paroquiais.sql\")",
+      "Bash(npx tsc *)",
+      "Bash(ng build *)",
+      "Bash(curl -s \"http://localhost/CPAV_Angular/CPAV_api/api/controllers/noticias/listar_noticias.php\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{content_type}\\\\n\" \"http://localhost/CPAV_Angular/CPAV_api/uploads/camadas_seguranca.png\")",
+      "Bash(grep -E \"\\(component|admin\\)\\\\.ts$\")",
+      "Bash(Select-String -Path \"c:\\\\xampp\\\\htdocs\\\\CPAV_Angular\\\\src\\\\app\\\\pages\\\\admin\\\\page-contents\\\\page-contents-admin.component.css\" -Pattern \"edit-label|facilities-section\")",
+      "Bash(Select-Object -First 5)",
+      "Bash(ls src/app/guards/)",
+      "Bash(ls src/app/*.ts)"
     ],
     "additionalDirectories": [
-      "c:\\Users\\jonny\\OneDrive\\Desktop"
+      "c:\\Users\\jonny\\OneDrive\\Desktop",
+      "C:\\xampp\\htdocs\\CPAV\\images"
     ]
   }
 }

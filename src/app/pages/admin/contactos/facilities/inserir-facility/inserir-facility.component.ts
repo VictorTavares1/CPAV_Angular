@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FacilitiesService, FacilityCategory } from '../../../../../services/facilities.service';
 import { NotifyService } from '../../../../../services/notify.service';
 
@@ -11,11 +11,10 @@ import { NotifyService } from '../../../../../services/notify.service';
   templateUrl: './inserir-facility.component.html',
   styleUrl: './inserir-facility.component.css',
 })
-export class InserirFacilityComponent implements OnInit {
+export class InserirFacilityComponent {
   private readonly facilitiesService = inject(FacilitiesService);
   private readonly notify = inject(NotifyService);
   private readonly fb = inject(FormBuilder);
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   readonly form = this.fb.group({
@@ -23,9 +22,9 @@ export class InserirFacilityComponent implements OnInit {
     name:              ['', [Validators.required]],
     icon:              [''],
     address:           [''],
-    tel:               [''],
-    mobile:            [''],
-    email:             [''],
+    tel:               ['', [Validators.pattern(/^\d*$/), Validators.maxLength(9)]],
+    mobile:            ['', [Validators.pattern(/^\d*$/), Validators.maxLength(9)]],
+    email:             ['', [Validators.email]],
     responsavel_nome:  [''],
     responsavel_cargo: [''],
     linked_facility:   [''],
@@ -34,13 +33,6 @@ export class InserirFacilityComponent implements OnInit {
   });
 
   isSubmitting = false;
-
-  ngOnInit(): void {
-    const cat = this.route.snapshot.queryParamMap.get('category');
-    if (cat === 'departamento' || cat === 'instalacao') {
-      this.form.controls.category.setValue(cat);
-    }
-  }
 
   submit(): void {
     if (this.form.invalid) {

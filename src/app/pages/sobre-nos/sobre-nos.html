@@ -42,25 +42,32 @@
     <section class="section-card">
       <h2>A Nossa Equipa</h2>
       <p class="section-lead">
-        Conheça os responsáveis que lideram os diferentes serviços da nossa instituição.
+        Conheça os órgãos sociais que lideram a nossa instituição.
       </p>
 
-      <div class="team-grid">
-        @for (m of equipa; track m.nome) {
-          <div class="team-member">
-            <div class="team-photo">
-              <img
-                [src]="m.foto"
-                [alt]="m.nome"
-                (error)="onImgError($event)"
-              />
-            </div>
-            <h3 class="team-name">{{ m.nome }}</h3>
-            <p class="team-role">{{ m.cargo }}</p>
-            <p class="team-bio">{{ m.bio }}</p>
-            <p class="team-contact" [innerHTML]="m.contacto"></p>
-          </div>
-        }
+      <div class="orgaos-grid">
+
+        <div class="orgao-group">
+          <h3 class="orgao-title">Direção</h3>
+          <ul class="orgao-list">
+            <li><span class="orgao-cargo">Presidente</span><span class="orgao-nome">Padre Nuno Paulo Isidoro Pacheco</span></li>
+            <li><span class="orgao-cargo">Vice-Presidente</span><span class="orgao-nome">Luís Carlos Carmelino Alves Pereira</span></li>
+            <li><span class="orgao-cargo">Secretária</span><span class="orgao-nome">Carina Sofia Sousa Carrilho</span></li>
+            <li><span class="orgao-cargo">Tesoureira</span><span class="orgao-nome">Rita Susana Martins de Oliveira</span></li>
+            <li><span class="orgao-cargo">Vogal</span><span class="orgao-nome">Susana Isabel Esteves de Alzamora Ramires</span></li>
+          </ul>
+          <p class="orgao-email"><a href="mailto:dircspslav@hotmail.com">dircspslav&#64;hotmail.com</a></p>
+        </div>
+
+        <div class="orgao-group">
+          <h3 class="orgao-title">Conselho Fiscal</h3>
+          <ul class="orgao-list">
+            <li><span class="orgao-cargo">Presidente</span><span class="orgao-nome">Paula Cristina Couto Lopes da Silva</span></li>
+            <li><span class="orgao-cargo">Secretária</span><span class="orgao-nome">Judite Maria Cercas Cotovio</span></li>
+            <li><span class="orgao-cargo">Vogal</span><span class="orgao-nome">Rui Miguel Pinheiro Damas</span></li>
+          </ul>
+        </div>
+
       </div>
     </section>
 

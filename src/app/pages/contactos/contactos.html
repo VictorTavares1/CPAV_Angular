@@ -45,18 +45,25 @@
             </div>
         </section>
 
+        <!-- CONTACTO DA DIREÇÃO -->
+        <section class="section-card">
+            <h2>Contacto da Direção</h2>
+            <p class="section-lead">Para assuntos dirigidos diretamente à Direção da instituição:</p>
+            <p><i class="fas fa-envelope" style="color:#2c5aa0; margin-right:8px;"></i><a href="mailto:dircspslav@hotmail.com">dircspslav&#64;hotmail.com</a></p>
+        </section>
+
         <!-- TODAS AS INSTALAÇÕES -->
         <section class="section-card" id="instalacoes">
-            <h2>Todas as Nossas Instalações e Responsáveis</h2>
+            <h2>Todos os Nossos Equipamentos e Responsáveis</h2>
             <p class="section-lead">
-                Conheça todas as nossas instalações, os respetivos contactos e os responsáveis de cada espaço.
+                Conheça todos os nossos equipamentos, os respetivos contactos e os responsáveis de cada espaço.
             </p>
 
             <div class="info-table" style="width:100%">
                 <table style="width:100%;min-width:100%">
                     <thead>
                         <tr>
-                            <th style="min-width:180px">Instalação</th>
+                            <th style="min-width:180px">Equipamento</th>
                             <th style="min-width:220px">Morada</th>
                             <th style="min-width:200px">Contactos</th>
                             <th style="min-width:180px">Responsável</th>
@@ -79,11 +86,23 @@
                                 <td>{{ i.services }}</td>
                             </tr>
                         } @empty {
-                            <tr><td colspan="5" style="text-align:center;padding:20px">Sem instalações.</td></tr>
+                            <tr><td colspan="5" style="text-align:center;padding:20px">Sem equipamentos.</td></tr>
                         }
                     </tbody>
                 </table>
             </div>
+        </section>
+
+        <!-- LIVRO DE RECLAMAÇÕES -->
+        <section class="section-card">
+            <h2>Livro de Reclamações</h2>
+            <p class="section-lead">Pode apresentar uma reclamação através do Livro de Reclamações Eletrónico da ASAE.</p>
+            <a href="https://www.livroreclamacoes.pt/Pedido/Reclamacao"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn">
+                Aceder ao Livro de Reclamações
+            </a>
         </section>
 
         <!-- COMO CHEGAR -->
@@ -106,49 +125,6 @@
                     <li><strong>Comboio:</strong> Linha do Sado — Estação de Alhos Vedros</li>
                     <li><strong>Barco:</strong> Terreiro do Paço – Barreiro (com ligação a autocarros e comboios)</li>
                 </ul>
-            </div>
-        </section>
-
-        <!-- DEPARTAMENTOS -->
-        <section class="section-card">
-            <h2>Departamentos e Contactos</h2>
-            <p class="section-lead">
-                Para um contacto mais direto, pode dirigir-se aos seguintes departamentos.
-            </p>
-
-            <div class="contact-grid">
-                @for (d of departamentos; track d.id) {
-                    <div class="contact-card">
-                        <div class="contact-header">
-                            <div class="contact-icon">
-                                @if (d.icon) {
-                                    <i [class]="d.icon" style="font-size:20px"></i>
-                                } @else {
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                        <circle cx="12" cy="12" r="8" />
-                                    </svg>
-                                }
-                            </div>
-                            <div><h3 class="contact-title">{{ d.name }}</h3></div>
-                        </div>
-                        <div class="contact-content">
-                            @if (d.responsavel_nome) {
-                                <p><strong>Responsável:</strong> {{ d.responsavel_nome }}</p>
-                            }
-                            @if (d.linked_facility) {
-                                <p><strong>Instalação:</strong> {{ d.linked_facility }}</p>
-                            }
-                            @if (d.email) {
-                                <p><strong>Email:</strong> <a [href]="'mailto:' + d.email">{{ d.email }}</a></p>
-                            }
-                            @if (d.tel) {
-                                <p><strong>Tel:</strong> <a [href]="'tel:+351' + d.tel.replace(' ', '')">{{ d.tel }}</a></p>
-                            }
-                        </div>
-                    </div>
-                } @empty {
-                    <p>Sem departamentos.</p>
-                }
             </div>
         </section>
 

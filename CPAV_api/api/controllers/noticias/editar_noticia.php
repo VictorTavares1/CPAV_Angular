@@ -38,7 +38,9 @@ if (!$id || empty($title) || empty($content)) {
     exit;
 }
 
-$uploadDir    = __DIR__ . '/../../../uploads/';
+$uploadsBase  = __DIR__ . '/../../../uploads/';
+$uploadDir    = $uploadsBase . 'noticias/';
+if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 $maxSize      = 0.5 * 1024 * 1024;
 
@@ -58,9 +60,11 @@ if (isset($_FILES['images']) && is_array($_FILES['images']['name'])) {
     }
 }
 
-// Valida ficheiros antes de qualquer operação
+// Valida ficheiros antes de qualquer operação.
+// Usa o MIME real (lê os bytes), não o tipo enviado pelo cliente — falsificável.
 foreach ($ficheiros as $file) {
-    if (!in_array($file['type'], $allowedTypes)) {
+    $realMime = mime_content_type($file['tmp_name']);
+    if (!in_array($realMime, $allowedTypes, true)) {
         http_response_code(400);
         echo json_encode(["message" => "Formato inválido em '{$file['name']}'. Só JPG, PNG ou WEBP."]);
         exit;
@@ -87,8 +91,8 @@ if (!$noticia->editar($id, $title, $content)) {
 $log = new Log($db);
 foreach ($imagensRemover as $imgId) {
     $urlApagada = $noticia->apagarImagem($imgId);
-    if ($urlApagada && file_exists($uploadDir . $urlApagada)) {
-        @unlink($uploadDir . $urlApagada);
+    if ($urlApagada && file_exists($uploadsBase . $urlApagada)) {
+        @unlink($uploadsBase . $urlApagada);
         $log->inserir($_SESSION['idUser'], 9, $id, null, null, $urlApagada);
     }
 }
@@ -106,8 +110,12 @@ foreach ($ficheiros as $file) {
     $base = trim($base);
     if ($base === '') $base = 'imagem';
 
-    $ext       = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $ext       = strtolower($ext) ?: 'jpg';
+    $ext = match(mime_content_type($file['tmp_name'])) {
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/webp' => 'webp',
+        default      => 'jpg',
+    };
     $filename  = $base . '.' . $ext;
     $dest      = $uploadDir . $filename;
     $i = 1;
@@ -118,8 +126,8 @@ foreach ($ficheiros as $file) {
     }
 
     if (move_uploaded_file($file['tmp_name'], $dest)) {
-        $noticia->inserirImagem($id, $filename);
-        $novas[] = $filename;
+        $noticia->inserirImagem($id, 'noticias/' . $filename);
+        $novas[] = 'noticias/' . $filename;
         $log->inserir($_SESSION['idUser'], 10, $id, null, null, $filename);
     }
 }

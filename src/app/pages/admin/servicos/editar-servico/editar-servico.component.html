@@ -6,46 +6,79 @@
 
   @if (isLoading) {
     <p class="msg">A carregar...</p>
-  } @else {
-    <div class="admin-form-container">
-      <form [formGroup]="form" (ngSubmit)="submit()">
-
-        <div class="form-group">
-          <label class="form-label required" for="title">Título</label>
-          <input id="title" type="text" class="form-input"
-            formControlName="title" placeholder="Nome do serviço" />
-          @if (form.controls.title.touched && form.controls.title.invalid) {
-            <p class="field-error">O título é obrigatório.</p>
-          }
-        </div>
-
-        <div class="form-group">
-          <label class="form-label required" for="description">Descrição</label>
-          <textarea id="description" class="form-input form-textarea"
-            formControlName="description" placeholder="Descrição do serviço" rows="4"></textarea>
-          @if (form.controls.description.touched && form.controls.description.invalid) {
-            <p class="field-error">A descrição é obrigatória.</p>
-          }
-        </div>
-
-        <div class="form-group">
-          <label class="form-label required" for="icon_or_image">Ícone ou Imagem</label>
-          <input id="icon_or_image" type="text" class="form-input"
-            formControlName="icon_or_image" placeholder="Ex: fa-solid fa-child ou URL da imagem" />
-          <p class="field-hint">Classe FontAwesome ou caminho de imagem.</p>
-          @if (form.controls.icon_or_image.touched && form.controls.icon_or_image.invalid) {
-            <p class="field-error">O ícone ou imagem é obrigatório.</p>
-          }
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="submit-button" [disabled]="isSubmitting">
-            {{ isSubmitting ? 'A guardar...' : 'Guardar' }}
-          </button>
-        </div>
-
-      </form>
-    </div>
   }
+
+  <div class="admin-form-container" [class.is-hidden]="isLoading">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label class="form-label required" for="title">Título</label>
+        <input id="title" type="text" class="form-input"
+          formControlName="title" placeholder="Nome do serviço" />
+        @if (form.controls.title.touched && form.controls.title.invalid) {
+          <p class="field-error">O título é obrigatório.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required" for="description">Descrição</label>
+        <textarea id="description" class="form-input form-textarea"
+          formControlName="description" placeholder="Descrição do serviço" rows="4"></textarea>
+        @if (form.controls.description.touched && form.controls.description.invalid) {
+          <p class="field-error">A descrição é obrigatória.</p>
+        }
+      </div>
+
+      <!-- Imagem atual -->
+      @if (currentImage && !removeCurrentImage) {
+        <div class="form-group">
+          <label class="form-label">Imagem atual</label>
+          <div class="img-grid">
+            <div class="img-thumb">
+              <img [src]="imgUrl(currentImage)" alt="Imagem atual">
+              <button type="button" class="img-thumb__remove" (click)="toggleRemoveCurrent()" aria-label="Substituir">×</button>
+              <span class="img-thumb__name" [title]="currentImage">{{ currentImage }}</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Upload nova imagem -->
+      <div class="form-group">
+        <label class="form-label">{{ currentImage && !removeCurrentImage ? 'Substituir imagem' : 'Imagem' }}</label>
+        <div class="file-input-wrap">
+          <label class="file-btn" for="img">Escolher imagem</label>
+          <span class="file-name">
+            {{ preview ? preview.file.name : 'Nenhuma imagem selecionada' }}
+          </span>
+          <input id="img" type="file" class="file-input-hidden"
+            accept=".jpg,.jpeg,.png,.webp"
+            (change)="onFileChange($event)">
+        </div>
+        @if (fileError) {
+          <p class="field-error">{{ fileError }}</p>
+        } @else {
+          <p class="form-hint">JPG, PNG ou WEBP. Máx. 500kb.</p>
+        }
+
+        @if (preview) {
+          <div class="img-grid">
+            <div class="img-thumb">
+              <img [src]="preview.url" [alt]="preview.file.name">
+              <button type="button" class="img-thumb__remove" (click)="removePreview()" aria-label="Tirar">×</button>
+              <span class="img-thumb__name" [title]="preview.file.name">{{ preview.file.name }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'A guardar...' : 'Guardar alterações' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
 
 </section>

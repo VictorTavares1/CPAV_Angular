@@ -1,70 +1,12 @@
 <div class="page-title-bar">
   <div class="container">
     <h1>Serviço de Apoio Domiciliário (S.A.D.)</h1>
+    <p class="page-slogan">Cuidamos de quem já cuidou.</p>
   </div>
 </div>
 
 <main class="page-content">
   <div class="container">
-
-    <!-- O SAD NA INSTITUIÇÃO -->
-    <section class="section-card">
-      <h2>O Serviço de Apoio Domiciliário na Instituição</h2>
-      <p class="section-lead">
-        O S.A.D. é uma resposta social que visa apoiar pessoas idosas ou com dependência, garantindo-lhes cuidados personalizados no seu ambiente familiar, prevenindo situações de isolamento e promovendo o envelhecimento ativo e com dignidade.
-      </p>
-
-      <table class="info-table info-table--kv">
-        <tbody>
-          <tr>
-            <th>Público-Alvo</th>
-            <td>Idosos (a partir dos 65 anos) e pessoas com dependência física ou cognitiva</td>
-          </tr>
-          <tr>
-            <th>Horário</th>
-            <td>Segunda a Sexta-feira: 8h00 às 20h00 e Sábados: 9h00 às 13h00 (serviço de urgência)</td>
-          </tr>
-          <tr>
-            <th>Área de Intervenção</th>
-            <td>Alhos Vedros e freguesias limítrofes do concelho da Moita</td>
-          </tr>
-          <tr>
-            <th>Equipa</th>
-            <td>Assistentes operacionais, auxiliares de geriatria, coordenador técnico, psicólogo (apoio)</td>
-          </tr>
-          <tr>
-            <th>Objetivos</th>
-            <td>Manter as pessoas no seu ambiente familiar, prevenir institucionalização, promover autonomia e qualidade de vida</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- SERVIÇOS PRESTADOS -->
-    <section class="section-card">
-      <h2>Serviços Prestados</h2>
-      <div class="section-lead">
-        <p>O S.A.D. disponibiliza um conjunto abrangente de serviços adaptados às necessidades específicas de cada utente:</p>
-        <ul class="clean-list" style="margin-top: 12px;">
-          @for (s of servicosPrestados; track s.titulo) {
-            <li><strong>{{ s.titulo }}:</strong> {{ s.descricao }}</li>
-          }
-        </ul>
-      </div>
-    </section>
-
-    <!-- METODOLOGIA DE INTERVENÇÃO -->
-    <section class="section-card">
-      <h2>Metodologia de Intervenção</h2>
-      <div class="section-lead">
-        <p>O nosso trabalho baseia-se numa abordagem personalizada e centrada na pessoa:</p>
-        <ul class="clean-list" style="margin-top: 12px;">
-          @for (m of metodologia; track m.titulo) {
-            <li><strong>{{ m.titulo }}:</strong> {{ m.descricao }}</li>
-          }
-        </ul>
-      </div>
-    </section>
 
     <!-- EQUIPAMENTO DE COORDENAÇÃO -->
     <section class="section-card">
@@ -137,44 +79,68 @@
       }
     </section>
 
+    <!-- O SAD NA INSTITUIÇÃO -->
+    <section class="section-card">
+      <h2>O Serviço de Apoio Domiciliário na Instituição</h2>
+      <p class="section-lead">{{ descricaoGeral }}</p>
+
+      <table class="info-table info-table--kv">
+        <tbody>
+          <tr>
+            <th>Público-Alvo</th>
+            <td>{{ publicoAlvo }}</td>
+          </tr>
+          <tr>
+            <th>Horário</th>
+            <td>{{ horario }}</td>
+          </tr>
+          <tr>
+            <th>Área de Intervenção</th>
+            <td>{{ areaIntervencao }}</td>
+          </tr>
+          <tr>
+            <th>Equipa</th>
+            <td>{{ equipa }}</td>
+          </tr>
+          <tr>
+            <th>Objetivos</th>
+            <td>{{ objetivos }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SERVIÇOS PRESTADOS -->
+    @if (servicosPrestadosHtml) {
+    <section class="section-card">
+      <h2>Serviços Prestados</h2>
+      <div class="rich-text" [innerHTML]="servicosPrestadosHtml"></div>
+    </section>
+    }
+
+    <!-- METODOLOGIA DE INTERVENÇÃO -->
+    @if (metodologiaHtml) {
+    <section class="section-card">
+      <h2>Metodologia de Intervenção</h2>
+      <div class="rich-text" [innerHTML]="metodologiaHtml"></div>
+    </section>
+    }
+
     <!-- PROCESSO DE ADMISSÃO -->
+    @if (admissaoHtml) {
     <section class="section-card">
       <h2>Processo de Admissão</h2>
-      <div class="section-lead">
-        <p>O acesso ao S.A.D. segue um processo criterioso que garante a adequação do serviço às reais necessidades do utente:</p>
-
-        <div class="sad-info-box">
-          <h3 class="sad-info-box__titulo">Documentação Necessária</h3>
-          <ul class="clean-list" style="margin-top: 8px;">
-            @for (doc of docNecessaria; track doc) {
-              <li>{{ doc }}</li>
-            }
-          </ul>
-        </div>
-
-        <div class="sad-etapas">
-          <h3 class="sad-info-box__titulo">Etapas do Processo</h3>
-          <ol class="sad-ol">
-            @for (etapa of etapasProcesso; track etapa.titulo) {
-              <li><strong>{{ etapa.titulo }}:</strong> {{ etapa.descricao }}</li>
-            }
-          </ol>
-        </div>
-      </div>
+      <div class="rich-text" [innerHTML]="admissaoHtml"></div>
     </section>
+    }
 
     <!-- PERGUNTAS FREQUENTES -->
+    @if (faqHtml) {
     <section class="section-card">
       <h2>Perguntas Frequentes</h2>
-      <div class="sad-faq">
-        @for (item of faq; track item.pergunta; let last = $last) {
-          <div class="sad-faq__item" [class.sad-faq__item--last]="last">
-            <h4 class="sad-faq__q">{{ item.pergunta }}</h4>
-            <p class="sad-faq__a">{{ item.resposta }}</p>
-          </div>
-        }
-      </div>
+      <div class="rich-text" [innerHTML]="faqHtml"></div>
     </section>
+    }
 
     <!-- CONTACTOS E INFORMAÇÕES -->
     <section class="section-card">

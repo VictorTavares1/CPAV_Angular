@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { DashboardService } from '../../../services/dashboard.service';
@@ -14,7 +14,6 @@ import { DashboardService } from '../../../services/dashboard.service';
 export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
 
   counts = {
@@ -29,19 +28,6 @@ export class DashboardComponent implements OnInit {
     return this.authService.isSuperAdmin;
   }
 
-  get userEmail(): string {
-    return this.authService.currentUser?.email ?? '';
-  }
-
-  get userInitial(): string {
-    return this.userEmail.charAt(0).toUpperCase();
-  }
-
-  get userRoleLabel(): string {
-    const role = this.authService.currentUser?.role;
-    return role === 'super_admin' ? 'Super Administrador' : 'Administrador';
-  }
-
   ngOnInit(): void {
     forkJoin({
       noticias: this.dashboardService.getNoticiasCount(),
@@ -52,12 +38,6 @@ export class DashboardComponent implements OnInit {
     }).subscribe((counts) => {
       this.counts = counts;
       this.cdr.markForCheck();
-    });
-  }
-
-  logout(): void {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/admin/login']);
     });
   }
 }

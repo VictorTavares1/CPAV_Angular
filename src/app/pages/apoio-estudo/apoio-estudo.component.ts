@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PageContentsService } from '../../services/page-contents.service';
+import { FacilitiesService, FacilityServiceWithFacility } from '../../services/facilities.service';
 
 interface GalleryImage {
   file: string;
@@ -24,6 +26,18 @@ interface Building {
   images: GalleryImage[];
 }
 
+const MAP_URLS: Record<string, string> = {
+  'Sala Arco-Íris':
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d550.8381877360331!2d-9.0225692889697!3d38.64861950997912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1937fa9158d949%3A0x14e65847d550d2bd!2sCentro%20Social%20e%20Paroquial%20de%20S.%20Louren%C3%A7o%20de%20Alhos%20Vedros!5e0!3m2!1spt-PT!2spt!4v1769907260549!5m2!1spt-PT!2spt',
+};
+
+const GALLERY: Record<string, GalleryImage[]> = {
+  'Sala Arco-Íris': [
+    { file: 'salaArcoIris1.jpg', title: 'Espaço exterior', alt: 'Espaço exterior da Sala Arco-Íris' },
+    { file: 'salaArcoIris2.jpg', title: 'Sala de estudo', alt: 'Sala de estudo da Sala Arco-Íris' },
+  ],
+};
+
 @Component({
   selector: 'app-apoio-estudo',
   standalone: true,
@@ -31,90 +45,89 @@ interface Building {
   templateUrl: './apoio-estudo.component.html',
   styleUrls: ['./apoio-estudo.component.css']
 })
-export class ApoioEstudoComponent {
+export class ApoioEstudoComponent implements OnInit {
+  private readonly pageContentsService = inject(PageContentsService);
+  private readonly facilitiesService = inject(FacilitiesService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  descricaoGeral = 'A Sala Arco-Íris oferece um espaço estruturado e acolhedor onde crianças e jovens do 1º ao 9º ano podem desenvolver hábitos de estudo, reforçar conhecimentos e superar dificuldades escolares com o acompanhamento de profissionais qualificados.';
+  publicoAlvo = 'Crianças e jovens do 1º ao 9º ano de escolaridade';
+  horario = 'Segunda a Sexta-feira, das 14h30 às 19h30 (período escolar)';
+  disciplinas = 'Português, Matemática, Inglês, Ciências, História, e outras disciplinas';
+  equipa = 'Professores, educadores sociais, psicólogos de apoio';
+  objetivos = 'Reforçar competências escolares, desenvolver hábitos de estudo, apoiar alunos com dificuldades de aprendizagem';
+  metodologiaHtml = '';
+  inscricoesHtml = '';
+  faqHtml = '';
 
   activeTab = 'edificio1';
   lightboxVisible = false;
   lightboxImg = '';
   lightboxTitle = '';
 
-  buildings: Building[];
+  buildings: Building[] = [];
 
-  metodologia = [
-    { titulo: 'Plano Individualizado', descricao: 'Avaliação inicial para identificar necessidades específicas de cada aluno' },
-    { titulo: 'Acompanhamento Personalizado', descricao: 'Grupos reduzidos (máximo 8 alunos por técnico)' },
-    { titulo: 'Metodologias Ativas', descricao: 'Utilização de estratégias diversificadas e motivadoras' },
-    { titulo: 'Desenvolvimento de Competências', descricao: 'Foco em organização, planeamento e métodos de estudo' },
-    { titulo: 'Articulação com a Escola', descricao: 'Contacto regular com professores e diretores de turma' },
-    { titulo: 'Apoio Psicopedagógico', descricao: 'Acompanhamento de dificuldades de aprendizagem específicas' },
-    { titulo: 'Ambiente Estimulante', descricao: 'Espaço equipado com recursos didáticos adequados' },
-  ];
+  constructor(private sanitizer: DomSanitizer) {}
 
-  docInscricao = [
-    'Cartão de Cidadão do aluno',
-    'Cartão de Cidadão do encarregado de educação',
-    'Comprovativo de residência',
-    'Número de identificação fiscal (NIF)',
-    'Comprovativo de matrícula escolar',
-    'Horário escolar',
-    'Ficha médica atualizada',
-    '1 fotografia tipo passe',
-  ];
+  ngOnInit(): void {
+    this.pageContentsService.listar('apoio-estudo').subscribe(rows => {
+      const m = new Map(rows.map(r => [r.section_key, r.content_value]));
+      if (m.get('descricao_geral'))   this.descricaoGeral  = m.get('descricao_geral')!;
+      if (m.get('publico_alvo'))       this.publicoAlvo     = m.get('publico_alvo')!;
+      if (m.get('horario'))            this.horario         = m.get('horario')!;
+      if (m.get('disciplinas'))        this.disciplinas     = m.get('disciplinas')!;
+      if (m.get('equipa'))             this.equipa          = m.get('equipa')!;
+      if (m.get('objetivos'))          this.objetivos       = m.get('objetivos')!;
+      if (m.get('metodologia'))        this.metodologiaHtml = m.get('metodologia')!;
+      if (m.get('inscricoes'))         this.inscricoesHtml  = m.get('inscricoes')!;
+      if (m.get('faq'))                this.faqHtml         = m.get('faq')!;
+      this.cdr.markForCheck();
+    });
 
-  criteriosPrioridade = [
-    'Crianças com dificuldades de aprendizagem diagnosticadas',
-    'Alunos em risco de retenção',
-    'Famílias com baixos recursos económicos',
-    'Alunos referenciados pela escola',
-  ];
-
-  faq = [
-    {
-      pergunta: 'O apoio ao estudo inclui explicações individuais?',
-      resposta: 'Sim, para além do apoio em grupo, são disponibilizadas sessões individuais de reforço em disciplinas específicas conforme as necessidades de cada aluno.'
-    },
-    {
-      pergunta: 'Como é feita a articulação com a escola?',
-      resposta: 'Mantemos contacto regular com professores e diretores de turma, participamos em reuniões escolares e solicitamos informações sobre o progresso dos alunos.'
-    },
-    {
-      pergunta: 'O serviço funciona durante as férias escolares?',
-      resposta: 'Durante as férias oferecemos programas de férias com atividades lúdico-pedagógicas e workshops temáticos. O apoio ao estudo regular apenas funciona durante o período letivo.'
-    },
-    {
-      pergunta: 'Existem apoios financeiros para famílias carenciadas?',
-      resposta: 'Sim, através do Programa Operacional de Apoio às Pessoas Mais Carenciadas (PO APMC) e de protocolos com a Segurança Social, podemos apoiar famílias com dificuldades económicas.'
-    },
-  ];
-
-  constructor(private sanitizer: DomSanitizer) {
-    this.buildings = [
-      {
-        key: 'edificio1',
-        tab: 'Sala Arco-Íris',
-        name: 'Sala Arco-Íris - Apoio ao Estudo',
-        desc: 'Espaço dedicado ao acompanhamento escolar de crianças e jovens, promovendo hábitos de estudo, reforço das aprendizagens e desenvolvimento de competências essenciais para o sucesso educativo.',
-        table: [
-          { label: 'Designação', value: 'Sala Arco-Íris - Apoio ao Estudo' },
-          { label: 'Morada', value: 'Praça Almada Negreiros, Loja 6, Urbanização Bela Rosa, 2860-115 Alhos Vedros' },
-          { label: 'Telefone (Rede Fixa)', value: '211 628 848' },
-          { label: 'Email', value: 'arcoiris@cspslav.pt', href: 'mailto:arcoiris@cspslav.pt' },
-        ],
-        mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
-          'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d550.8381877360331!2d-9.0225692889697!3d38.64861950997912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1937fa9158d949%3A0x14e65847d550d2bd!2sCentro%20Social%20e%20Paroquial%20de%20S.%20Louren%C3%A7o%20de%20Alhos%20Vedros!5e0!3m2!1spt-PT!2spt!4v1769907260549!5m2!1spt-PT!2spt'
-        ),
-        note: null,
-        images: [
-          { file: 'salaArcoIris1.jpg', title: 'Espaço exterior', alt: 'Espaço exterior da Sala Arco-Íris' },
-          { file: 'salaArcoIris2.jpg', title: 'Sala de estudo', alt: 'Sala de estudo da Sala Arco-Íris' },
-        ],
+    this.facilitiesService.listarPorServico('apoio-estudo').subscribe(rows => {
+      if (rows.length > 0) {
+        this.buildings = rows.map((fs, i) => this.toBuilding(fs, i));
+        if (this.buildings.length > 0) this.activeTab = this.buildings[0].key;
+      } else {
+        this.buildings = this.buildFallback();
       }
-    ];
+      this.cdr.markForCheck();
+    });
   }
 
-  setTab(key: string): void {
-    this.activeTab = key;
+  private toBuilding(fs: FacilityServiceWithFacility, index: number): Building {
+    const table: BuildingRow[] = [{ label: 'Designação', value: fs.name }];
+    if (fs.address) table.push({ label: 'Morada', value: fs.address });
+    if (fs.tel)     table.push({ label: 'Telefone (Rede Fixa)', value: fs.tel });
+    if (fs.mobile)  table.push({ label: 'Telemóvel', value: fs.mobile });
+    if (fs.email)   table.push({ label: 'Email', value: fs.email, href: `mailto:${fs.email}` });
+
+    return {
+      key:    `edificio${index + 1}`,
+      tab:    fs.name,
+      name:   fs.name,
+      desc:   fs.description ?? '',
+      note:   fs.note,
+      table,
+      mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(MAP_URLS[fs.name] ?? ''),
+      images: GALLERY[fs.name] ?? [],
+    };
   }
+
+  private buildFallback(): Building[] {
+    return Object.keys(MAP_URLS).map((name, i) => ({
+      key:    `edificio${i + 1}`,
+      tab:    name,
+      name,
+      desc:   '',
+      note:   null,
+      table:  [{ label: 'Designação', value: name }],
+      mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(MAP_URLS[name]),
+      images: GALLERY[name] ?? [],
+    }));
+  }
+
+  setTab(key: string): void { this.activeTab = key; }
 
   openLightbox(src: string, title: string): void {
     this.lightboxImg = src;

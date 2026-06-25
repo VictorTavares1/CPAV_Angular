@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PageContentsService } from '../../services/page-contents.service';
+import { FacilitiesService, FacilityServiceWithFacility } from '../../services/facilities.service';
 
 interface GalleryImage {
   file: string;
@@ -24,115 +26,112 @@ interface Building {
   images: GalleryImage[];
 }
 
+const MAP_URLS: Record<string, string> = {
+  'Centro Social Nossa Senhora da Paz':
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d194.73420031388608!2d-9.007148273816933!3d38.65469259941962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19381b8976b8a5%3A0xdb0ad9fe8017c819!2scentro%20social%20da%20nossa%20sra.%20da%20paz!5e0!3m2!1spt-PT!2spt!4v1769898670192!5m2!1spt-PT!2spt',
+};
+
+const GALLERY: Record<string, GalleryImage[]> = {
+  'Centro Social Nossa Senhora da Paz': [
+    { file: 'sad1.jpg', title: 'Espaço exterior', alt: 'Espaço exterior do SAD' },
+    { file: 'sad2.jpg', title: 'Sala de atividades', alt: 'Sala de atividades do SAD' },
+    { file: 'sad3.jpg', title: 'Refeitório', alt: 'Refeitório do SAD' },
+    { file: 'sad4.jpg', title: 'Viatura Serviço de Apoio Domiciliário', alt: 'Viatura do Centro Social Paroquial de São Lourenço de Alhos Vedros' },
+  ],
+};
+
 @Component({
   selector: 'app-sad',
   standalone: true,
   templateUrl: './sad.component.html',
   styleUrls: ['./sad.component.css']
 })
-export class SadComponent {
+export class SadComponent implements OnInit {
+  private readonly pageContentsService = inject(PageContentsService);
+  private readonly facilitiesService = inject(FacilitiesService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  descricaoGeral = 'O S.A.D. é uma resposta social que visa apoiar pessoas idosas ou com dependência, garantindo-lhes cuidados personalizados no seu ambiente familiar, prevenindo situações de isolamento e promovendo o envelhecimento ativo e com dignidade.';
+  publicoAlvo = 'Idosos (a partir dos 65 anos) e pessoas com dependência física ou cognitiva';
+  horario = 'Segunda a Sexta-feira: 8h00 às 20h00 e Sábados: 9h00 às 13h00 (serviço de urgência)';
+  areaIntervencao = 'Alhos Vedros e freguesias limítrofes do concelho da Moita';
+  equipa = 'Assistentes operacionais, auxiliares de geriatria, coordenador técnico, psicólogo (apoio)';
+  objetivos = 'Manter as pessoas no seu ambiente familiar, prevenir institucionalização, promover autonomia e qualidade de vida';
+  servicosPrestadosHtml = '';
+  metodologiaHtml = '';
+  admissaoHtml = '';
+  faqHtml = '';
 
   activeTab = 'edificio1';
   lightboxVisible = false;
   lightboxImg = '';
   lightboxTitle = '';
 
-  buildings: Building[];
+  buildings: Building[] = [];
 
-  servicosPrestados = [
-    { titulo: 'Apoio Doméstico', descricao: 'Limpeza da casa, arrumações, lavagem e passagem de roupa' },
-    { titulo: 'Apoio na Alimentação', descricao: 'Preparação de refeições, apoio na alimentação quando necessário' },
-    { titulo: 'Cuidados Pessoais', descricao: 'Apoio na higiene pessoal, vestir/despir, cuidados de beleza' },
-    { titulo: 'Acompanhamento', descricao: 'Acompanhamento em consultas médicas, passeios, atividades sociais' },
-    { titulo: 'Apoio Administrativo', descricao: 'Ajuda na gestão de documentação, pagamentos, correspondência' },
-    { titulo: 'Vigilância e Companhia', descricao: 'Presença regular, prevenção de situações de risco e isolamento' },
-    { titulo: 'Estimulação Cognitiva', descricao: 'Atividades de memória, leitura, conversação, jogos' },
-    { titulo: 'Primeiros Socorros', descricao: 'Cuidados básicos de saúde e alerta para situações de emergência' },
-  ];
+  constructor(private sanitizer: DomSanitizer) {}
 
-  metodologia = [
-    { titulo: 'Avaliação Inicial', descricao: 'Visita domiciliária para avaliação das necessidades e definição do plano de intervenção' },
-    { titulo: 'Plano Individualizado', descricao: 'Elaboração de um plano de cuidados específico para cada utente' },
-    { titulo: 'Intervenção Regular', descricao: 'Visitas periódicas conforme estabelecido no plano individual' },
-    { titulo: 'Monitorização Contínua', descricao: 'Reavaliação regular das necessidades e ajuste do plano de intervenção' },
-    { titulo: 'Trabalho em Rede', descricao: 'Articulação com centros de saúde, serviços sociais, família e comunidade' },
-    { titulo: 'Formação Contínua', descricao: 'Equipa com formação específica em geriatria e apoio domiciliário' },
-  ];
+  ngOnInit(): void {
+    this.pageContentsService.listar('sad').subscribe(rows => {
+      const m = new Map(rows.map(r => [r.section_key, r.content_value]));
+      if (m.get('descricao_geral'))    this.descricaoGeral        = m.get('descricao_geral')!;
+      if (m.get('publico_alvo'))        this.publicoAlvo           = m.get('publico_alvo')!;
+      if (m.get('horario'))             this.horario               = m.get('horario')!;
+      if (m.get('area_intervencao'))    this.areaIntervencao       = m.get('area_intervencao')!;
+      if (m.get('equipa'))              this.equipa                = m.get('equipa')!;
+      if (m.get('objetivos'))           this.objetivos             = m.get('objetivos')!;
+      if (m.get('servicos_prestados'))  this.servicosPrestadosHtml = m.get('servicos_prestados')!;
+      if (m.get('metodologia'))         this.metodologiaHtml       = m.get('metodologia')!;
+      if (m.get('admissao'))            this.admissaoHtml          = m.get('admissao')!;
+      if (m.get('faq'))                 this.faqHtml               = m.get('faq')!;
+      this.cdr.markForCheck();
+    });
 
-  docNecessaria = [
-    'Cartão de Cidadão do utente e do representante legal (se aplicável)',
-    'Comprovativo de residência',
-    'Comprovativo de recursos económicos (pensão, reforma, outros rendimentos)',
-    'Relatório médico atualizado com diagnóstico e medicação',
-    'Declaração médica que ateste a necessidade de apoio domiciliário',
-    'Número de utente do Serviço Nacional de Saúde',
-    'Comprovativo de escalão de ação social (se aplicável)',
-  ];
-
-  etapasProcesso = [
-    { titulo: 'Contacto Inicial', descricao: 'Telefone ou visita ao equipamento de coordenação' },
-    { titulo: 'Avaliação Social', descricao: 'Entrevista para identificação de necessidades' },
-    { titulo: 'Visita Domiciliária', descricao: 'Avaliação do ambiente e condições do domicílio' },
-    { titulo: 'Análise Técnica', descricao: 'Estudo do caso pela equipa técnica' },
-    { titulo: 'Elaboração do Plano', descricao: 'Definição do plano individual de intervenção' },
-    { titulo: 'Aprovação e Início', descricao: 'Formalização do contrato e início do serviço' },
-  ];
-
-  faq = [
-    {
-      pergunta: 'Quem pode beneficiar do S.A.D.?',
-      resposta: 'Pessoas com 65 ou mais anos, ou pessoas com deficiência ou dependência comprovada, que residam na área de intervenção e necessitem de apoio para manter-se no seu domicílio.'
-    },
-    {
-      pergunta: 'O serviço tem custos para o utente?',
-      resposta: 'Sim, o serviço tem uma comparticipação financeira definida com base nos rendimentos do utente e no tipo de serviços prestados. São aplicados os escalões de ação social definidos pela Segurança Social.'
-    },
-    {
-      pergunta: 'Com que frequência são feitas as visitas?',
-      resposta: 'A frequência das visitas é definida no plano individual de cada utente, podendo variar desde visitas diárias a visitas semanais, conforme as necessidades identificadas.'
-    },
-    {
-      pergunta: 'O S.A.D. funciona aos fins-de-semana e feriados?',
-      resposta: 'O serviço regular funciona de segunda a sexta-feira. Aos sábados disponibilizamos serviço de urgência para situações específicas. Feriados têm regime especial.'
-    },
-    {
-      pergunta: 'Como é feita a articulação com a família?',
-      resposta: 'Mantemos contacto regular com a família através de reuniões periódicas, contacto telefónico e relatórios de acompanhamento. A família é considerada parte integrante do processo de cuidado.'
-    },
-  ];
-
-  constructor(private sanitizer: DomSanitizer) {
-    this.buildings = [
-      {
-        key: 'edificio1',
-        tab: 'Centro Social Nossa Senhora da Paz',
-        name: 'Centro Social Nossa Senhora da Paz',
-        desc: 'Equipamento que coordena o Serviço de Apoio Domiciliário na área de Alhos Vedros, proporcionando cuidados personalizados a idosos e pessoas com dependência.',
-        note: 'Este equipamento também inclui resposta de Pré-Escolar e C.A.T.L. (Centro de Atividades de Tempos Livres).',
-        table: [
-          { label: 'Designação', value: 'Centro Social Nossa Senhora da Paz' },
-          { label: 'Morada', value: 'Bairro da Quinta da Fonte da Prata, Rua Fernando Pessoa, n.º 10, Bloco Q, 2860-071 Alhos Vedros' },
-          { label: 'Telefone (Rede Fixa)', value: '212 892 676' },
-          { label: 'Telemóvel', value: '961 420 037' },
-          { label: 'Email', value: 'csnsp@hotmail.com', href: 'mailto:csnsp@hotmail.com' },
-          { label: 'Área de Intervenção', value: 'Alhos Vedros e áreas limítrofes' },
-        ],
-        mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
-          'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d194.73420031388608!2d-9.007148273816933!3d38.65469259941962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19381b8976b8a5%3A0xdb0ad9fe8017c819!2scentro%20social%20da%20nossa%20sra.%20da%20paz!5e0!3m2!1spt-PT!2spt!4v1769898670192!5m2!1spt-PT!2spt'
-        ),
-        images: [
-          { file: 'sad1.jpg', title: 'Espaço exterior', alt: 'Espaço exterior do SAD' },
-          { file: 'sad2.jpg', title: 'Sala de atividades', alt: 'Sala de atividades do SAD' },
-          { file: 'sad3.jpg', title: 'Refeitório', alt: 'Refeitório do SAD' },
-          { file: 'sad4.jpg', title: 'Viatura Serviço de Apoio Domiciliário', alt: 'Viatura do Centro Social Paroquial de São Lourenço de Alhos Vedros' },
-        ],
-      },
-    ];
+    this.facilitiesService.listarPorServico('sad').subscribe(rows => {
+      if (rows.length > 0) {
+        this.buildings = rows.map((fs, i) => this.toBuilding(fs, i));
+        if (this.buildings.length > 0) this.activeTab = this.buildings[0].key;
+      } else {
+        this.buildings = this.buildFallback();
+      }
+      this.cdr.markForCheck();
+    });
   }
 
-  setTab(key: string): void {
-    this.activeTab = key;
+  private toBuilding(fs: FacilityServiceWithFacility, index: number): Building {
+    const table: BuildingRow[] = [{ label: 'Designação', value: fs.name }];
+    if (fs.address) table.push({ label: 'Morada', value: fs.address });
+    if (fs.tel)     table.push({ label: 'Telefone (Rede Fixa)', value: fs.tel });
+    if (fs.mobile)  table.push({ label: 'Telemóvel', value: fs.mobile });
+    if (fs.email)   table.push({ label: 'Email', value: fs.email, href: `mailto:${fs.email}` });
+    table.push({ label: 'Área de Intervenção', value: 'Alhos Vedros e áreas limítrofes' });
+
+    return {
+      key:    `edificio${index + 1}`,
+      tab:    fs.name,
+      name:   fs.name,
+      desc:   fs.description ?? '',
+      note:   fs.note,
+      table,
+      mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(MAP_URLS[fs.name] ?? ''),
+      images: GALLERY[fs.name] ?? [],
+    };
   }
+
+  private buildFallback(): Building[] {
+    return Object.keys(MAP_URLS).map((name, i) => ({
+      key:    `edificio${i + 1}`,
+      tab:    name,
+      name,
+      desc:   '',
+      note:   null,
+      table:  [{ label: 'Designação', value: name }],
+      mapUrl: this.sanitizer.bypassSecurityTrustResourceUrl(MAP_URLS[name]),
+      images: GALLERY[name] ?? [],
+    }));
+  }
+
+  setTab(key: string): void { this.activeTab = key; }
 
   openLightbox(src: string, title: string): void {
     this.lightboxImg = src;

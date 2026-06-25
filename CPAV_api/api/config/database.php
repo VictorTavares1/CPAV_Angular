@@ -32,7 +32,12 @@ class Database {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->exec("set names utf8");
         } catch(PDOException $exception) {
-            echo "Erro na ligação: " . $exception->getMessage();
+            // Não expor detalhes técnicos ao cliente: registar no log do servidor
+            // e devolver uma resposta JSON genérica.
+            error_log("Erro de ligação à BD: " . $exception->getMessage());
+            http_response_code(500);
+            echo json_encode(["message" => "Erro de ligação à base de dados."]);
+            exit;
         }
         return $this->conn;
     }

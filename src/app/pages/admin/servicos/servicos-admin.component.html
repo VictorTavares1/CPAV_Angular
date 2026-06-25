@@ -43,7 +43,7 @@
               <tr>
                 <td>{{ s.title }}</td>
                 <td class="desc-cell">{{ s.description }}</td>
-                <td class="icon-cell">{{ s.icon_or_image }}</td>
+                <td class="icon-cell">{{ s.icon_or_image.split('/').at(-1) ?? s.icon_or_image }}</td>
                 <td>
                   <span class="status-badge" [class.status-active]="s.idState === 1" [class.status-inactive]="s.idState !== 1">
                     {{ s.idState === 1 ? 'Ativo' : 'Inativo' }}

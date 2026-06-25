@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { PageContentsService } from '../../services/page-contents.service';
 
 @Component({
   selector: 'app-po-apmc',
@@ -7,50 +8,33 @@ import { Component } from '@angular/core';
   templateUrl: './po-apmc.component.html',
   styleUrls: ['./po-apmc.component.css']
 })
-export class PoApmcComponent {
+export class PoApmcComponent implements OnInit {
+  private readonly pageContentsService = inject(PageContentsService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  descricaoGeral = 'O Programa Operacional de Apoio às Pessoas Mais Carenciadas pretende ser um instrumento de combate à pobreza e à exclusão social em Portugal.';
+  oQueEParagrafo = 'O PO APMC é um programa europeu cofinanciado pelo Fundo de Auxílio Europeu às Pessoas Mais Carenciadas (FEAD), que apoia a distribuição de alimentos e bens de consumo básico a pessoas em situação de carência.';
+  objetivosHtml = '';
+  comoFuncionaHtml = '';
+  comoSolicitarHtml = '';
+  faqHtml = '';
 
   lightboxVisible = false;
   lightboxImg = '';
   lightboxTitle = '';
 
-  objetivos = [
-    'Diminuir situações de vulnerabilidade',
-    'Promover a inclusão social',
-    'Reforçar as respostas das políticas públicas',
-  ];
-
-  tiposApoio = [
-    { titulo: 'Apoio Alimentar', descricao: 'Cabazes com produtos essenciais' },
-    { titulo: 'Bens de Consumo Básico', descricao: 'Produtos de higiene e limpeza' },
-    { titulo: 'Acompanhamento Social', descricao: 'Orientações e capacitação' },
-  ];
-
-  passosSolicitacao = [
-    { titulo: 'Contacte a nossa instituição', descricao: 'através dos contactos disponíveis no site' },
-    { titulo: 'Agende uma entrevista social', descricao: 'para avaliação da situação' },
-    { titulo: 'Apresente a documentação necessária', descricao: '(identificação, comprovativos de rendimento, etc.)' },
-    { titulo: 'Participe no processo de avaliação', descricao: 'conduzido pela equipa técnica' },
-    { titulo: 'Receba orientação', descricao: 'sobre o tipo de apoio disponível e condições de acesso' },
-  ];
-
-  faq = [
-    {
-      pergunta: 'Quem pode beneficiar do PO APMC?',
-      resposta: 'Pessoas e famílias em situação de carência económica comprovada, mediante avaliação social que considera diversos fatores como rendimentos, composição do agregado, despesas fixas e situação específica.'
-    },
-    {
-      pergunta: 'Com que frequência é distribuído o apoio alimentar?',
-      resposta: 'A distribuição regular ocorre semanalmente, às quartas-feiras. A periodicidade específica para cada beneficiário é definida com base na avaliação da situação.'
-    },
-    {
-      pergunta: 'O apoio inclui apenas alimentos?',
-      resposta: 'Não. Além do apoio alimentar, o programa pode incluir bens de consumo básico (produtos de higiene e limpeza) e medidas de acompanhamento social para capacitação e inclusão.'
-    },
-    {
-      pergunta: 'É necessário pagar algo pelo apoio recebido?',
-      resposta: 'Não, o apoio do PO APMC é totalmente gratuito para os beneficiários. O programa é financiado por fundos europeus e nacionais, gerido através de parcerias com instituições sociais.'
-    },
-  ];
+  ngOnInit(): void {
+    this.pageContentsService.listar('po-apmc').subscribe(rows => {
+      const m = new Map(rows.map(r => [r.section_key, r.content_value]));
+      if (m.get('descricao_geral'))    this.descricaoGeral  = m.get('descricao_geral')!;
+      if (m.get('o_que_e_paragrafo'))  this.oQueEParagrafo  = m.get('o_que_e_paragrafo')!;
+      if (m.get('objetivos'))          this.objetivosHtml   = m.get('objetivos')!;
+      if (m.get('como_funciona'))      this.comoFuncionaHtml = m.get('como_funciona')!;
+      if (m.get('como_solicitar'))     this.comoSolicitarHtml = m.get('como_solicitar')!;
+      if (m.get('faq'))                this.faqHtml         = m.get('faq')!;
+      this.cdr.markForCheck();
+    });
+  }
 
   openLightbox(src: string, title: string): void {
     this.lightboxImg = src;

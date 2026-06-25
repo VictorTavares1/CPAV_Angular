@@ -8,6 +8,7 @@ export interface EventoItem {
   id: number;
   title: string;
   event_date: string;
+  end_date: string | null;
   event_time: string;
   location: string;
 }
@@ -55,14 +56,14 @@ export class EventosService {
       .pipe(catchError(() => of([])));
   }
 
-  inserir(data: { title: string; event_date: string; event_time: string; idLocation: number }): Observable<{ message: string }> {
+  inserir(data: { title: string; event_date: string; end_date?: string; event_time: string; idLocation: number }): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiConfig.controllersUrl}/eventos/inserir_evento.php`,
       data
     );
   }
 
-  editar(data: { id: number; title: string; event_date: string; event_time: string }): Observable<{ message: string }> {
+  editar(data: { id: number; title: string; event_date: string; end_date?: string; event_time: string }): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiConfig.controllersUrl}/eventos/editar_evento.php`,
       data

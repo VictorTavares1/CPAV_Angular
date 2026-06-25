@@ -2,36 +2,19 @@
 
   <a routerLink="/admin/contactos" class="back-btn">← Voltar</a>
 
-  <h1>Inserir {{ form.controls.category.value === 'departamento' ? 'Departamento' : 'Instalação' }}</h1>
+  <h1>Inserir Equipamento</h1>
 
   <div class="admin-form-container">
     <form [formGroup]="form" (ngSubmit)="submit()">
 
       <div class="form-group">
-        <label class="form-label required" for="category">Categoria</label>
-        <select id="category" class="form-input" formControlName="category">
-          <option value="instalacao">Instalação (tabela "Todas as Nossas Instalações")</option>
-          <option value="departamento">Departamento (cartões "Departamentos e Contactos")</option>
-        </select>
-      </div>
-
-      <div class="form-group">
         <label class="form-label required" for="name">Nome</label>
         <input id="name" type="text" class="form-input" formControlName="name"
-          placeholder="Ex: Sede Principal, Centro Social, Direção e Administração..." />
+          placeholder="Ex: Sede Principal, Centro Social..." />
         @if (form.controls.name.touched && form.controls.name.invalid) {
           <p class="field-error">O nome é obrigatório.</p>
         }
       </div>
-
-      @if (form.controls.category.value === 'departamento') {
-        <div class="form-group">
-          <label class="form-label" for="icon">Ícone (FontAwesome)</label>
-          <input id="icon" type="text" class="form-input" formControlName="icon"
-            placeholder="Ex: fa-solid fa-graduation-cap" />
-          <p class="field-hint">Classe FontAwesome do ícone do cartão.</p>
-        </div>
-      }
 
       <div class="form-group">
         <label class="form-label" for="address">Morada</label>
@@ -42,18 +25,27 @@
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="tel">Telefone</label>
-          <input id="tel" type="text" class="form-input" formControlName="tel" placeholder="Ex: 212 043 425" />
+          <input id="tel" type="text" class="form-input" formControlName="tel" placeholder="Ex: 212043425" maxlength="9" />
+          @if (form.controls.tel.touched && form.controls.tel.invalid) {
+            <p class="field-error">Só dígitos, máx. 9 caracteres.</p>
+          }
         </div>
 
         <div class="form-group">
           <label class="form-label" for="mobile">Telemóvel</label>
-          <input id="mobile" type="text" class="form-input" formControlName="mobile" placeholder="Ex: 961 420 058" />
+          <input id="mobile" type="text" class="form-input" formControlName="mobile" placeholder="Ex: 961420058" maxlength="9" />
+          @if (form.controls.mobile.touched && form.controls.mobile.invalid) {
+            <p class="field-error">Só dígitos, máx. 9 caracteres.</p>
+          }
         </div>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="email">Email</label>
         <input id="email" type="email" class="form-input" formControlName="email" placeholder="Ex: nome@cspslav.pt" />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <p class="field-error">Email inválido.</p>
+        }
       </div>
 
       <div class="form-row">
@@ -62,31 +54,18 @@
           <input id="responsavel_nome" type="text" class="form-input" formControlName="responsavel_nome" />
         </div>
 
-        @if (form.controls.category.value === 'instalacao') {
-          <div class="form-group">
-            <label class="form-label" for="responsavel_cargo">Responsável (cargo)</label>
-            <input id="responsavel_cargo" type="text" class="form-input" formControlName="responsavel_cargo"
-              placeholder="Ex: Diretor Geral" />
-          </div>
-        }
+        <div class="form-group">
+          <label class="form-label" for="responsavel_cargo">Responsável (cargo)</label>
+          <input id="responsavel_cargo" type="text" class="form-input" formControlName="responsavel_cargo"
+            placeholder="Ex: Diretor Geral" />
+        </div>
       </div>
 
-      @if (form.controls.category.value === 'departamento') {
-        <div class="form-group">
-          <label class="form-label" for="linked_facility">Instalação associada</label>
-          <input id="linked_facility" type="text" class="form-input" formControlName="linked_facility"
-            placeholder="Ex: Sede Principal" />
-          <p class="field-hint">Nome da instalação a que este departamento pertence (aparece como "Contacto: ...").</p>
-        </div>
-      }
-
-      @if (form.controls.category.value === 'instalacao') {
-        <div class="form-group">
-          <label class="form-label" for="services">Serviços oferecidos</label>
-          <input id="services" type="text" class="form-input" formControlName="services"
-            placeholder="Ex: Pré-Escolar, CATL, Apoio Domiciliário" />
-        </div>
-      }
+      <div class="form-group">
+        <label class="form-label" for="services">Serviços oferecidos</label>
+        <input id="services" type="text" class="form-input" formControlName="services"
+          placeholder="Ex: Pré-Escolar, CATL, Apoio Domiciliário" />
+      </div>
 
       <div class="form-group">
         <label class="form-label" for="sort_order">Ordem</label>

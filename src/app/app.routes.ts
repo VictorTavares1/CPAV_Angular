@@ -102,6 +102,12 @@ export const routes: Routes = [
                     import('./pages/admin/eventos/inserir-evento/inserir-evento.component').then((m) => m.InserirEventoComponent),
             },
             {
+                path: 'eventos/localizacoes',
+                canActivate: [authGuard],
+                loadComponent: () =>
+                    import('./pages/admin/eventos/localizacoes/localizacoes-admin.component').then((m) => m.LocalizacoesAdminComponent),
+            },
+            {
                 path: 'eventos/editar/:id',
                 canActivate: [authGuard],
                 loadComponent: () =>
@@ -112,6 +118,12 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 loadComponent: () =>
                     import('./pages/admin/contactos/contactos-admin.component').then((m) => m.ContactosAdminComponent),
+            },
+            {
+                path: 'contactos/inserir',
+                canActivate: [authGuard],
+                loadComponent: () =>
+                    import('./pages/admin/contactos/inserir-contacto/inserir-contacto.component').then((m) => m.InserirContactoComponent),
             },
             {
                 path: 'contactos/editar/:id',

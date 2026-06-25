@@ -4,19 +4,147 @@
 
   <div class="admin-header">
     <h1>Conteúdo de Páginas</h1>
+    <p class="page-hint">Edite os textos que aparecem nas páginas públicas do site.</p>
   </div>
 
   @if (isLoading) {
     <p class="table-empty">A carregar...</p>
   } @else {
-    @for (page of pages; track page) {
-      <div class="page-section">
-        <h2 class="page-title">{{ pageLabel(page) }}</h2>
-        @for (item of contentsByPage(page); track item.id) {
+
+    <div class="editor-layout">
+
+      <!-- NAV lateral -->
+      <nav class="page-nav">
+        <div class="nav-group">
+          <span class="nav-group-label">Gerais</span>
+          @for (page of pagesGerais; track page) {
+            <button type="button" class="nav-item"
+              [class.active]="selectedPage === page"
+              (click)="selectedPage = page">
+              {{ pageLabel(page) }}
+            </button>
+          }
+        </div>
+        <div class="nav-group">
+          <span class="nav-group-label">Valências</span>
+          @for (page of pagesServicos; track page) {
+            <button type="button" class="nav-item"
+              [class.active]="selectedPage === page"
+              (click)="selectedPage = page">
+              {{ pageLabel(page) }}
+            </button>
+          }
+        </div>
+        @if (pagesOutras.length > 0) {
+          <div class="nav-group">
+            <span class="nav-group-label">Outras</span>
+            @for (page of pagesOutras; track page) {
+              <button type="button" class="nav-item"
+                [class.active]="selectedPage === page"
+                (click)="selectedPage = page">
+                {{ pageLabel(page) }}
+              </button>
+            }
+          </div>
+        }
+      </nav>
+
+      <!-- CONTEÚDO da página selecionada -->
+      <div class="page-content">
+        <h2 class="page-title">{{ pageLabel(selectedPage) }}</h2>
+
+        <!-- Equipamentos da valência — aparecem primeiro, tal como na página pública -->
+        @if (isServicePage(selectedPage) && facilities.length > 0) {
+          <h3 class="facilities-section-title">Equipamentos</h3>
+          @for (f of facilities; track f.id) {
+            <div class="content-card">
+              <div class="content-header">
+                <span class="content-label">{{ f.name }}</span>
+              </div>
+
+              @if (!facilityEditState[f.id].editing) {
+                <div class="facility-view">
+                  <div class="facility-row"><span class="facility-key">Designação</span><span>{{ f.name }}</span></div>
+                  <div class="facility-row"><span class="facility-key">Morada</span><span>{{ f.address || '—' }}</span></div>
+                  <div class="facility-row"><span class="facility-key">Telefone</span><span>{{ f.tel || '—' }}</span></div>
+                  <div class="facility-row"><span class="facility-key">Telemóvel</span><span>{{ f.mobile || '—' }}</span></div>
+                  <div class="facility-row"><span class="facility-key">Email</span><span>{{ f.email || '—' }}</span></div>
+                  <div class="facility-row"><span class="facility-key">Descrição</span><span>{{ f.description || '—' }}</span></div>
+                  <div class="facility-row"><span class="facility-key">Nota</span><span>{{ f.note || '—' }}</span></div>
+                </div>
+                <div class="content-actions">
+                  <button type="button" class="table-btn edit" (click)="startEditFacility(f)">Editar</button>
+                </div>
+              } @else {
+                <div class="facility-edit-grid">
+                  <div class="facility-edit-field">
+                    <label class="edit-label">Designação</label>
+                    <input class="edit-textarea" [(ngModel)]="facilityEditState[f.id].name" placeholder="Nome do equipamento"
+                      [class.input-error]="facilityFieldError(f.id, 'name')" />
+                    @if (facilityFieldError(f.id, 'name')) {
+                      <span class="field-error-msg">{{ facilityFieldError(f.id, 'name') }}</span>
+                    }
+                  </div>
+                  <div class="facility-edit-field">
+                    <label class="edit-label">Morada</label>
+                    <textarea class="edit-textarea" [(ngModel)]="facilityEditState[f.id].address" rows="2"></textarea>
+                  </div>
+                  <div class="facility-edit-field--half">
+                    <label class="edit-label">Telefone</label>
+                    <input class="edit-textarea" [(ngModel)]="facilityEditState[f.id].tel" maxlength="9" placeholder="212000000"
+                      [class.input-error]="facilityFieldError(f.id, 'tel')" />
+                    @if (facilityFieldError(f.id, 'tel')) {
+                      <span class="field-error-msg">{{ facilityFieldError(f.id, 'tel') }}</span>
+                    }
+                  </div>
+                  <div class="facility-edit-field--half">
+                    <label class="edit-label">Telemóvel</label>
+                    <input class="edit-textarea" [(ngModel)]="facilityEditState[f.id].mobile" maxlength="9" placeholder="961000000"
+                      [class.input-error]="facilityFieldError(f.id, 'mobile')" />
+                    @if (facilityFieldError(f.id, 'mobile')) {
+                      <span class="field-error-msg">{{ facilityFieldError(f.id, 'mobile') }}</span>
+                    }
+                  </div>
+                  <div class="facility-edit-field">
+                    <label class="edit-label">Email</label>
+                    <input class="edit-textarea" [(ngModel)]="facilityEditState[f.id].email" type="text"
+                      [class.input-error]="facilityFieldError(f.id, 'email')" />
+                    @if (facilityFieldError(f.id, 'email')) {
+                      <span class="field-error-msg">{{ facilityFieldError(f.id, 'email') }}</span>
+                    }
+                  </div>
+                  <div class="facility-edit-field">
+                    <label class="edit-label">Descrição (mostrada na página)</label>
+                    <textarea class="edit-textarea" [(ngModel)]="facilityEditState[f.id].description" rows="3"
+                      placeholder="Descrição do equipamento nesta página…"></textarea>
+                  </div>
+                  <div class="facility-edit-field">
+                    <label class="edit-label">Nota (rodapé da tabela)</label>
+                    <textarea class="edit-textarea" [(ngModel)]="facilityEditState[f.id].note" rows="2"
+                      placeholder="Ex: Este equipamento também tem resposta de CATL…"></textarea>
+                  </div>
+                </div>
+                <div class="content-actions">
+                  <button type="button" class="table-btn save"
+                    [disabled]="facilityEditState[f.id].saving"
+                    (click)="saveFacility(f)">
+                    {{ facilityEditState[f.id].saving ? 'A guardar...' : 'Guardar' }}
+                  </button>
+                  <button type="button" class="table-btn cancel" (click)="cancelEditFacility(f)">Cancelar</button>
+                </div>
+              }
+            </div>
+          }
+        }
+
+        <!-- Campos de texto da página -->
+        @if (isServicePage(selectedPage) && contentsByPage(selectedPage).length > 0) {
+          <h3 class="facilities-section-title">Conteúdo da Página</h3>
+        }
+        @for (item of contentsByPage(selectedPage); track item.id) {
           <div class="content-card">
             <div class="content-header">
               <span class="content-label">{{ labelFor(item.section_key) }}</span>
-              <span class="content-key">{{ item.section_key }}</span>
             </div>
 
             @if (!editState[item.id].editing) {
@@ -34,11 +162,7 @@
                   <div [attr.id]="'quill-editor-' + item.id" class="quill-editor-container"></div>
                 </div>
               } @else {
-                <textarea
-                  class="edit-textarea"
-                  [(ngModel)]="editState[item.id].value"
-                  rows="3">
-                </textarea>
+                <textarea class="edit-textarea" [(ngModel)]="editState[item.id].value" rows="3"></textarea>
               }
               <div class="content-actions">
                 <button type="button" class="table-btn save" [disabled]="editState[item.id].saving" (click)="save(item)">
@@ -50,7 +174,9 @@
           </div>
         }
       </div>
-    }
+
+    </div>
+
   }
 
 </section>

@@ -23,7 +23,7 @@ export class Footer implements OnInit {
   }
 
   iconType(icon: string): 'phone' | 'email' | 'location' | 'other' {
-    if (icon.includes('phone')) return 'phone';
+    if (icon.includes('phone') || icon.includes('mobile')) return 'phone';
     if (icon.includes('envelope') || icon.includes('mail')) return 'email';
     if (icon.includes('location') || icon.includes('map') || icon.includes('marker')) return 'location';
     return 'other';
@@ -34,5 +34,9 @@ export class Footer implements OnInit {
     if (t === 'phone') return `tel:+351${c.value.replace(/\s/g, '')}`;
     if (t === 'email') return `mailto:${c.value}`;
     return null;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

@@ -28,7 +28,8 @@ if (empty($title) || empty($content)) {
     exit;
 }
 
-$uploadDir    = __DIR__ . '/../../../uploads/';
+$uploadDir    = __DIR__ . '/../../../uploads/noticias/';
+if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 $maxSize      = 0.5 * 1024 * 1024; // 500 KB
 
@@ -56,9 +57,12 @@ if (!empty($ficheiros) && !is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
 
-// Valida todos antes de gravar nada
+// Valida todos antes de gravar nada.
+// Usa o MIME real do ficheiro (lê os bytes), não o tipo enviado pelo cliente,
+// que é falsificável e permitiria gravar um .php disfarçado de imagem.
 foreach ($ficheiros as $file) {
-    if (!in_array($file['type'], $allowedTypes)) {
+    $realMime = mime_content_type($file['tmp_name']);
+    if (!in_array($realMime, $allowedTypes, true)) {
         http_response_code(400);
         echo json_encode(["message" => "Formato inválido em '{$file['name']}'. Só JPG, PNG ou WEBP."]);
         exit;
@@ -89,8 +93,12 @@ foreach ($ficheiros as $file) {
     $base = trim($base);
     if ($base === '') $base = 'imagem';
 
-    $ext       = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $ext       = strtolower($ext) ?: 'jpg';
+    $ext = match(mime_content_type($file['tmp_name'])) {
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/webp' => 'webp',
+        default      => 'jpg',
+    };
     $filename  = $base . '.' . $ext;
     $dest      = $uploadDir . $filename;
     $i = 1;
@@ -101,8 +109,8 @@ foreach ($ficheiros as $file) {
     }
 
     if (move_uploaded_file($file['tmp_name'], $dest)) {
-        $noticia->inserirImagem($idNoticia, $filename);
-        $gravados[] = $filename;
+        $noticia->inserirImagem($idNoticia, 'noticias/' . $filename);
+        $gravados[] = 'noticias/' . $filename;
     }
 }
 

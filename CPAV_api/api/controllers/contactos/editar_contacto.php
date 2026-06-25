@@ -11,23 +11,36 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode(file_get_contents("php://input"), true);
+
+$id       = intval($data['id']       ?? 0);
+$type     = trim($data['type']       ?? '');
+$value    = trim($data['value']      ?? '');
+$icon     = trim($data['icon']       ?? '');
+$category = trim($data['category']   ?? 'footer');
+
+if (!in_array($category, ['footer', 'rapido'], true)) {
+    $category = 'footer';
+}
+
+if (mb_strlen($type) > 100 || mb_strlen($value) > 255 || mb_strlen($icon) > 100) {
+    http_response_code(400);
+    echo json_encode(["message" => "Um dos campos excede o comprimento máximo permitido."]);
+    exit;
+}
 
 if(
-    !empty($data->id) &&
-    !empty($data->type) &&
-    !empty($data->value) &&
-    !empty($data->icon)
+    $id > 0 &&
+    !empty($type) &&
+    !empty($value)
 ) {
     $database = new Database();
     $db = $database->getConnection();
 
     $contacto = new Contacto($db);
 
-    $category = !empty($data->category) ? $data->category : 'footer';
-    if($contacto->editar($data->id, $data->type, $data->value, $data->icon, $category)) {
-        $log = new Log($db);
-        $log->inserir($_SESSION['idUser'], 14, null, null, null, $data->type);
+    if($contacto->editar($id, $type, $value, $icon, $category)) {
+        try { (new Log($db))->inserir($_SESSION['idUser'], 14, null, null, null, $type); } catch (\Throwable $e) { error_log($e->getMessage()); }
         http_response_code(200);
         echo json_encode(["message" => "Contacto atualizado com sucesso."]);
     } else {

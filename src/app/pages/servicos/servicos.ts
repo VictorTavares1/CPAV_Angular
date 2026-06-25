@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Servicos as ServicosService, ServicoItem } from '../../services/servicos';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { ApiConfigService } from '../../services/api-config.service';
 
 @Component({
   selector: 'app-servicos',
@@ -12,6 +13,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 })
 export class Servicos implements OnInit {
   private readonly servicosService = inject(ServicosService);
+  private readonly apiConfig = inject(ApiConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   servicos: ServicoItem[] = [];
@@ -29,6 +31,12 @@ export class Servicos implements OnInit {
         this.cdr.markForCheck();
       },
     });
+  }
+
+  imgUrl(icon: string): string {
+    if (!icon) return '';
+    if (icon.startsWith('http://') || icon.startsWith('https://') || icon.startsWith('/')) return icon;
+    return `${this.apiConfig.uploadsUrl}/${icon}`;
   }
 
   /** Mapeia o título do serviço para a rota da respetiva página de detalhe. */

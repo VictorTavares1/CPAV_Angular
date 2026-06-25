@@ -71,12 +71,22 @@
     <div class="footer-simple__bottom">
         <div class="container footer-simple__bottom-inner">
             <p>© 2026 Centro Social Paroquial de São Lourenço de Alhos Vedros</p>
-            <a class="footer-simple__top" href="#top">
+            <a class="footer-livro-reclamacoes"
+               href="https://www.livroreclamacoes.pt/Pedido/Reclamacao"
+               target="_blank"
+               rel="noopener noreferrer">
+                Livro de Reclamações
+            </a>
+            <button type="button" class="footer-simple__top" (click)="scrollToTop()">
                 <svg viewBox="0 0 24 24" fill="none">
                     <path d="M12 5l7 7-1.6 1.6L12 8.2 6.6 13.6 5 12l7-7z" fill="currentColor" />
                 </svg>
                 Topo
-            </a>
+            </button>
+        </div>
+        <div class="container footer-dev">
+            <img src="/images/aesa-logo.png" alt="Agrupamento de Escolas de Santo André" class="footer-dev__logo" />
+            <span>Desenvolvido por alunos da Escola Secundária de Santo André</span>
         </div>
     </div>
 </footer>

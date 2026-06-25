@@ -1,0 +1,83 @@
+<section class="admin-page">
+
+  <a routerLink="/admin/eventos" class="back-btn">← Voltar a Eventos</a>
+
+  <h1>Gerir Localizações de Eventos</h1>
+  <p class="section-hint">Locais onde os eventos decorrem. Uma localização desativada deixa de aparecer na lista ao criar/editar eventos.</p>
+
+  <!-- Formulário de nova localização -->
+  <div class="inserir-bar">
+    <input
+      type="text"
+      class="filter-input"
+      placeholder="Nome da nova localização..."
+      [(ngModel)]="novoNome"
+      (keydown.enter)="inserir()"
+    />
+    <button type="button" class="insert-btn" (click)="inserir()" [disabled]="isInserting">
+      {{ isInserting ? 'A adicionar...' : '+ Adicionar' }}
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <p class="table-empty">A carregar...</p>
+  } @else {
+    <div class="admin-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (localizacoes.length === 0) {
+            <tr><td colspan="3" class="table-empty">Sem localizações.</td></tr>
+          } @else {
+            @for (loc of localizacoes; track loc.id) {
+              <tr>
+                <td>
+                  @if (editState[loc.id].editing) {
+                    <input type="text" class="filter-input" style="width:100%"
+                      [(ngModel)]="editState[loc.id].value"
+                      (keydown.enter)="save(loc)"
+                      (keydown.escape)="cancelEdit(loc)" />
+                  } @else {
+                    <strong>{{ loc.name }}</strong>
+                  }
+                </td>
+                <td>
+                  <span class="status-badge"
+                    [class.status-active]="loc.idState === 1"
+                    [class.status-inactive]="loc.idState !== 1">
+                    {{ loc.idState === 1 ? 'Ativa' : 'Inativa' }}
+                  </span>
+                </td>
+                <td class="actions">
+                  @if (editState[loc.id].editing) {
+                    <button type="button" class="table-btn save"
+                      [disabled]="editState[loc.id].saving"
+                      (click)="save(loc)">
+                      {{ editState[loc.id].saving ? 'A guardar...' : 'Guardar' }}
+                    </button>
+                    <button type="button" class="table-btn cancel" (click)="cancelEdit(loc)">Cancelar</button>
+                  } @else {
+                    <button type="button" class="table-btn edit" (click)="startEdit(loc)">Editar</button>
+                    <button type="button" class="table-btn"
+                      [class.deactivate]="loc.idState === 1"
+                      [class.activate]="loc.idState !== 1"
+                      (click)="toggle(loc)">
+                      {{ loc.idState === 1 ? 'Desativar' : 'Ativar' }}
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</section>

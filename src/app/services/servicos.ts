@@ -57,6 +57,14 @@ export class Servicos {
     );
   }
 
+  editarComImagem(formData: FormData): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiConfig.controllersUrl}/servicos/editar_servico.php`,
+      formData,
+      { withCredentials: true }
+    );
+  }
+
   toggle(id: number): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiConfig.controllersUrl}/servicos/toggle_servico.php`,

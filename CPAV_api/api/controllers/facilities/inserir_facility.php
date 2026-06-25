@@ -19,6 +19,12 @@ if (empty($data['category']) || empty($data['name'])) {
     exit;
 }
 
+if (mb_strlen($data['name']) > 150 || mb_strlen($data['email'] ?? '') > 150) {
+    http_response_code(400);
+    echo json_encode(["message" => "Um dos campos excede o comprimento máximo permitido."]);
+    exit;
+}
+
 $payload = [
     'category'          => $data['category'],
     'name'              => $data['name'],

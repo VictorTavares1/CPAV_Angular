@@ -91,7 +91,7 @@ export class EditarNoticiaComponent {
   }
 
   imgUrl(filename: string): string {
-    return `${this.uploadsUrl}/${encodeURIComponent(filename)}`;
+    return `${this.uploadsUrl}/${filename.split('/').map(p => encodeURIComponent(p)).join('/')}`;
   }
 
   toggleRemoveExisting(index: number): void {

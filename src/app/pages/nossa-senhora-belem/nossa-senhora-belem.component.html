@@ -7,37 +7,6 @@
 <main class="page-content">
   <div class="container">
 
-    <!-- Informação geral -->
-    <section class="section-card">
-      <h2>O Centro Social Nossa Senhora de Belém</h2>
-      <p class="section-lead">
-        Localizado na Urbanização Vila Rosa, o Centro Social Nossa Senhora de Belém é uma resposta social da instituição que visa apoiar a comunidade local através de diversos serviços adaptados às necessidades das famílias de Alhos Vedros.
-      </p>
-
-      <table class="info-table info-table--kv">
-        <tbody>
-          <tr><th>Público-Alvo</th><td>Famílias, crianças, jovens, adultos e idosos da comunidade</td></tr>
-          <tr><th>Horário de Funcionamento</th><td>Segunda a Sexta-feira, das 9h00 às 17h00</td></tr>
-          <tr><th>Serviços Disponíveis</th><td>Salas polivalentes, refeitório, apoio social, atividades comunitárias</td></tr>
-          <tr><th>Equipa</th><td>Técnicos sociais, auxiliares, voluntários</td></tr>
-          <tr><th>Objetivos</th><td>Promover a inclusão social, apoiar famílias vulneráveis, fomentar o desenvolvimento comunitário</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Serviços e Atividades -->
-    <section class="section-card">
-      <h2>Serviços e Atividades</h2>
-      <div class="section-lead">
-        <p>O centro desenvolve diversas atividades e serviços para a comunidade:</p>
-        <ul class="clean-list nsb-servicos-list">
-          @for (s of servicos; track s.titulo) {
-            <li><strong>{{ s.titulo }}:</strong> {{ s.descricao }}</li>
-          }
-        </ul>
-      </div>
-    </section>
-
     <!-- Gallery tabs -->
     <section class="section-card">
       <h2>Equipamento</h2>
@@ -104,33 +73,45 @@
       }
     </section>
 
+    <!-- Informação geral -->
+    <section class="section-card">
+      <h2>O Centro Social Nossa Senhora de Belém</h2>
+      <p class="section-lead">{{ descricaoGeral }}</p>
+
+      <table class="info-table info-table--kv">
+        <tbody>
+          <tr><th>Público-Alvo</th><td>{{ publicoAlvo }}</td></tr>
+          <tr><th>Horário de Funcionamento</th><td>{{ horario }}</td></tr>
+          <tr><th>Serviços Disponíveis</th><td>{{ servicosDisponiveis }}</td></tr>
+          <tr><th>Equipa</th><td>{{ equipa }}</td></tr>
+          <tr><th>Objetivos</th><td>{{ objetivos }}</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Serviços e Atividades -->
+    @if (servicosAtividadesHtml) {
+    <section class="section-card">
+      <h2>Serviços e Atividades</h2>
+      <div class="rich-text" [innerHTML]="servicosAtividadesHtml"></div>
+    </section>
+    }
+
     <!-- Inscrições -->
+    @if (inscricoesHtml) {
     <section class="section-card">
       <h2>Inscrições</h2>
-      <p>Para beneficiar dos serviços do Centro Social Nossa Senhora de Belém, pode contactar diretamente a instituição através dos contactos acima indicados ou dirigir-se às instalações durante o horário de funcionamento.</p>
-
-      <div class="nsb-info-box">
-        <p><strong>Documentação necessária para inscrição:</strong></p>
-        <ul class="clean-list nsb-doc-list">
-          @for (doc of docInscricao; track doc) {
-            <li>{{ doc }}</li>
-          }
-        </ul>
-      </div>
+      <div class="rich-text" [innerHTML]="inscricoesHtml"></div>
     </section>
+    }
 
     <!-- FAQ -->
+    @if (faqHtml) {
     <section class="section-card">
       <h2>Perguntas Frequentes</h2>
-      <div class="nsb-faq">
-        @for (item of faq; track item.pergunta; let last = $last) {
-          <div class="nsb-faq__item" [class.nsb-faq__item--last]="last">
-            <h4 class="nsb-faq__q">{{ item.pergunta }}</h4>
-            <p class="nsb-faq__a">{{ item.resposta }}</p>
-          </div>
-        }
-      </div>
+      <div class="rich-text" [innerHTML]="faqHtml"></div>
     </section>
+    }
 
   </div>
 </main>

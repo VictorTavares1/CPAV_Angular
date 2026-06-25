@@ -32,8 +32,25 @@ export class InserirEventoComponent implements OnInit {
     title:      ['', [Validators.required]],
     idLocation: ['', [Validators.required]],
     event_date: ['', [Validators.required, dataFuturaValidator]],
+    end_date:   [''],
     event_time: ['', [Validators.required]],
   });
+
+  get minEndDate(): string {
+    const d = this.form.controls.event_date.value;
+    if (!d) return this.today;
+    const next = new Date(d + 'T00:00:00');
+    next.setDate(next.getDate() + 1);
+    return next.toISOString().split('T')[0];
+  }
+
+  get maxEndDate(): string {
+    const d = this.form.controls.event_date.value;
+    if (!d) return '';
+    const max = new Date(d + 'T00:00:00');
+    max.setDate(max.getDate() + 7);
+    return max.toISOString().split('T')[0];
+  }
 
   localizacoes: LocalizacaoItem[] = [];
   isSubmitting = false;
@@ -53,9 +70,11 @@ export class InserirEventoComponent implements OnInit {
 
     this.isSubmitting = true;
 
+    const end = this.form.controls.end_date.value || undefined;
     this.eventosService.inserir({
       title:      this.form.controls.title.value ?? '',
       event_date: this.form.controls.event_date.value ?? '',
+      ...(end ? { end_date: end } : {}),
       event_time: this.form.controls.event_time.value ?? '',
       idLocation: Number(this.form.controls.idLocation.value),
     }).subscribe({

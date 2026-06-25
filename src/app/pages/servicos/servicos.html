@@ -25,7 +25,7 @@
                 @for (s of servicos; track s.id; let i = $index) {
                     <article class="servico-card-img" [appScrollReveal]="i * 60">
                         <a class="servico-card-img__link" [routerLink]="routeFor(s.title)">
-                            <img class="servico-card-img__media" [src]="s.icon_or_image" [alt]="s.title">
+                            <img class="servico-card-img__media" [src]="imgUrl(s.icon_or_image)" [alt]="s.title">
                             <span class="servico-card-img__overlay"></span>
                             <div class="servico-card-img__content">
                                 <h3 class="servico-card-img__title">{{ s.title }}</h3>

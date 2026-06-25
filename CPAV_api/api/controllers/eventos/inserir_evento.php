@@ -27,12 +27,28 @@ if(
         exit;
     }
 
+    $end_date = !empty($data->end_date) ? $data->end_date : null;
+    if ($end_date) {
+        $endDay = DateTime::createFromFormat('Y-m-d', $end_date);
+        if (!$endDay || $endDay <= $eventDay) {
+            http_response_code(400);
+            echo json_encode(["message" => "A data de fim deve ser posterior à data de início."]);
+            exit;
+        }
+        $maxEnd = (clone $eventDay)->modify('+7 days');
+        if ($endDay > $maxEnd) {
+            http_response_code(400);
+            echo json_encode(["message" => "A duração máxima de um evento é 1 semana (7 dias)."]);
+            exit;
+        }
+    }
+
     $database = new Database();
     $db = $database->getConnection();
 
     $evento = new Evento($db);
 
-    $idEvento = $evento->inserir($data->title, $data->event_date, $data->event_time, $data->idLocation);
+    $idEvento = $evento->inserir($data->title, $data->event_date, $end_date, $data->event_time, $data->idLocation);
     if($idEvento) {
         $log = new Log($db);
         $log->inserir($_SESSION['idUser'], 6, null, null, $idEvento);

@@ -1,78 +1,12 @@
 <div class="page-title-bar">
     <div class="container">
         <h1>C.A.T.L. - Centro de Atividades de Tempos Livres</h1>
+        <p class="page-slogan">Juntos caminhamos, brincamos e crescemos.</p>
     </div>
 </div>
 
 <main class="page-content">
     <div class="container">
-
-        <!-- O CATL NA INSTITUIÇÃO -->
-        <section class="section-card">
-            <h2>O C.A.T.L. na Instituição</h2>
-            <p class="section-lead">
-                O Centro de Atividades de Tempos Livres oferece um espaço seguro e educativo para crianças fora do
-                horário escolar, combinando apoio pedagógico com atividades recreativas, desportivas e culturais.
-            </p>
-            <table class="info-table info-table--kv">
-                <tbody>
-                    <tr>
-                        <th>Público-Alvo</th>
-                        <td>Crianças do 1º ciclo (6 aos 10 anos)</td>
-                    </tr>
-                    <tr>
-                        <th>Horário</th>
-                        <td>Das 7h30 às 19h30 (período escolar)<br>Das 8h00 às 19h00 (férias escolares)</td>
-                    </tr>
-                    <tr>
-                        <th>Componentes</th>
-                        <td>Apoio ao estudo, refeições, atividades lúdicas, desportivas, expressões artísticas</td>
-                    </tr>
-                    <tr>
-                        <th>Equipa</th>
-                        <td>Educadores(as), auxiliares de ação educativa, monitores especializados em atividades de tempos livres</td>
-                    </tr>
-                    <tr>
-                        <th>Objetivos</th>
-                        <td>Promover o desenvolvimento social, emocional e cognitivo; apoiar as famílias no cuidado das crianças</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- PROJETO PEDAGÓGICO -->
-        <section class="section-card">
-            <h2>Projeto Pedagógico</h2>
-            <div class="section-lead">
-                <p>O nosso projeto educativo baseia-se nos seguintes princípios fundamentais:</p>
-                <ul class="clean-list" style="margin-top: 12px;">
-                    <li><strong>Apoio Escolar Integrado:</strong> Espaço para realização de trabalhos de casa e apoio às aprendizagens escolares</li>
-                    <li><strong>Desenvolvimento Social:</strong> Promoção de competências sociais através de jogos cooperativos e atividades em grupo</li>
-                    <li><strong>Educação para a Saúde:</strong> Hábitos de higiene, alimentação saudável e atividade física regular</li>
-                    <li><strong>Criatividade e Expressão:</strong> Atividades artísticas, musicais e dramáticas que estimulam a criatividade</li>
-                    <li><strong>Educação Ambiental:</strong> Contacto com a natureza e sensibilização para a proteção do ambiente</li>
-                    <li><strong>Participação Familiar:</strong> Envolvimento ativo das famílias no desenvolvimento das crianças</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- ATIVIDADES PRINCIPAIS -->
-        <section class="section-card">
-            <h2>Atividades Principais</h2>
-            <div class="section-lead">
-                <p>O C.A.T.L. desenvolve um plano de atividades diversificado que inclui:</p>
-                <ul class="clean-list" style="margin-top: 12px;">
-                    <li>Apoio ao estudo e realização de trabalhos de casa</li>
-                    <li>Atividades lúdico-pedagógicas</li>
-                    <li>Expressão plástica, dramática e musical</li>
-                    <li>Desporto e jogos cooperativos</li>
-                    <li>Educação para a saúde e cidadania</li>
-                    <li>Atividades ao ar livre e contacto com a natureza</li>
-                    <li>Celebração de datas festivas e tradicionais</li>
-                    <li>Visitas de estudo e passeios pedagógicos</li>
-                </ul>
-            </div>
-        </section>
 
         <!-- EQUIPAMENTOS / TABS -->
         <section class="section-card">
@@ -150,59 +84,67 @@
             }
         </section>
 
+        <!-- O CATL NA INSTITUIÇÃO -->
+        <section class="section-card">
+            <h2>O C.A.T.L. na Instituição</h2>
+            <p class="section-lead">{{ descricaoGeral }}</p>
+            <table class="info-table info-table--kv">
+                <tbody>
+                    <tr>
+                        <th>Público-Alvo</th>
+                        <td>{{ publicoAlvo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Horário</th>
+                        <td>{{ horario }}</td>
+                    </tr>
+                    <tr>
+                        <th>Componentes</th>
+                        <td>{{ componentes }}</td>
+                    </tr>
+                    <tr>
+                        <th>Equipa</th>
+                        <td>{{ equipa }}</td>
+                    </tr>
+                    <tr>
+                        <th>Objetivos</th>
+                        <td>{{ objetivos }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- PROJETO PEDAGÓGICO -->
+        @if (projetoPedagogicoHtml) {
+        <section class="section-card">
+            <h2>Projeto Pedagógico</h2>
+            <div class="rich-text" [innerHTML]="projetoPedagogicoHtml"></div>
+        </section>
+        }
+
+        <!-- ATIVIDADES PRINCIPAIS -->
+        @if (atividadesPrincipaisHtml) {
+        <section class="section-card">
+            <h2>Atividades Principais</h2>
+            <div class="rich-text" [innerHTML]="atividadesPrincipaisHtml"></div>
+        </section>
+        }
+
         <!-- INSCRIÇÕES -->
+        @if (inscricoesHtml) {
         <section class="section-card">
             <h2>Inscrições</h2>
-            <div style="margin-top: 20px;">
-                <p>Para mais informações sobre vagas, inscrições e valores, contacte diretamente os equipamentos através
-                    dos contactos acima indicados ou visite as instalações.</p>
-                <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);">
-                    <p style="margin: 0;"><strong>Documentação necessária para inscrição:</strong></p>
-                    <ul class="clean-list" style="margin-top: 8px;">
-                        <li>Cartão de Cidadão da criança</li>
-                        <li>Cartão de Cidadão do encarregado de educação</li>
-                        <li>Comprovativo de residência</li>
-                        <li>Comprovativo de escalão de Ação Social Escolar</li>
-                        <li>Declaração médica de vacinas em dia</li>
-                        <li>Número de identificação fiscal (NIF) da criança</li>
-                        <li>2 fotografias tipo passe</li>
-                    </ul>
-                </div>
-            </div>
+            <div class="rich-text" [innerHTML]="inscricoesHtml"></div>
         </section>
+        }
 
         <!-- FAQ -->
+        @if (faqHtml) {
         <section class="section-card">
             <h2>Perguntas Frequentes</h2>
-            <div class="faq-list">
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">Qual é a idade para ingressar no C.A.T.L.?</h4>
-                    <p class="faq-answer">O C.A.T.L. destina-se a crianças do 1º ciclo, ou seja, dos 6 aos 10 anos de idade.</p>
-                </div>
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">O C.A.T.L. funciona durante as férias escolares?</h4>
-                    <p class="faq-answer">Sim, o C.A.T.L. funciona durante todo o ano, incluindo férias escolares e interrupções letivas, com um horário adaptado e programação especial de atividades.</p>
-                </div>
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">As refeições estão incluídas?</h4>
-                    <p class="faq-answer">Sim, o serviço inclui lanche durante o período escolar e almoço e lanche durante as férias e interrupções letivas, seguindo orientações de alimentação saudável.</p>
-                </div>
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">Como é feito o apoio ao estudo?</h4>
-                    <p class="faq-answer">O apoio ao estudo é realizado diariamente por educadores/monitores que acompanham as crianças na realização dos trabalhos de casa e na consolidação das aprendizagens escolares.</p>
-                </div>
-
-                <div class="faq-entry faq-entry--last">
-                    <h4 class="faq-question">Há transporte disponível?</h4>
-                    <p class="faq-answer">O serviço de transporte está disponível em alguns equipamentos. Consulte diretamente cada equipamento para informações específicas sobre rotas e horários de transporte.</p>
-                </div>
-
-            </div>
+            <div class="rich-text" [innerHTML]="faqHtml"></div>
         </section>
+        }
 
     </div>
 </main>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EventosService, EventoItem } from '../../services/eventos.service';
+import { LocaizacoesService } from '../../services/localizacoes.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
@@ -14,6 +15,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 })
 export class Eventos {
   private readonly eventosService = inject(EventosService);
+  private readonly localizacoesService = inject(LocaizacoesService);
 
   readonly perPage = 12;
 
@@ -27,12 +29,15 @@ export class Eventos {
     this.eventosService.listar().pipe(catchError(() => of([] as EventoItem[])))
   );
 
+  private readonly allLocations = toSignal(
+    this.localizacoesService.listar().pipe(catchError(() => of([])))
+  );
+
   readonly loading = computed(() => this.allEventos() === undefined);
 
-  readonly locations = computed(() => {
-    const all = this.allEventos() ?? [];
-    return [...new Set(all.map(e => e.location).filter(Boolean))].sort();
-  });
+  readonly locations = computed(() =>
+    (this.allLocations() ?? []).map(l => l.name)
+  );
 
   readonly filtered = computed(() => {
     const all  = this.allEventos() ?? [];
@@ -42,10 +47,11 @@ export class Eventos {
     const loc  = this.selectedLoc();
 
     return all.filter(e => {
+      const eEnd = e.end_date ?? e.event_date;
       if (q   && !e.title.toLowerCase().includes(q) && !e.location?.toLowerCase().includes(q)) return false;
-      if (from && e.event_date < from) return false;
-      if (to   && e.event_date > to)   return false;
-      if (loc  && e.location !== loc)  return false;
+      if (from && eEnd < from)       return false;
+      if (to   && e.event_date > to) return false;
+      if (loc  && e.location !== loc) return false;
       return true;
     });
   });
@@ -83,6 +89,13 @@ export class Eventos {
     if (!d) return '';
     const [y, m, day] = d.split('-');
     return `${day}/${m}/${y}`;
+  }
+
+  fmtDateRange(e: EventoItem): string {
+    if (!e.end_date) return this.fmtDate(e.event_date);
+    const [, ms, ds] = e.event_date.split('-');
+    const [, me, de] = e.end_date.split('-');
+    return `${ds}/${ms} – ${de}/${me}`;
   }
 
   fmtTime(t: string): string {

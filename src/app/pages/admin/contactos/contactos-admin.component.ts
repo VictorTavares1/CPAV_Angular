@@ -35,7 +35,6 @@ export class ContactosAdminComponent implements OnInit {
   contactos: ContactoItemAdmin[] = [];
   facilities: FacilityItemAdmin[] = [];
 
-  sedeFields: PageField[] = [];
   horariosFields: PageField[] = [];
   pageEdit: Record<number, PageEditState> = {};
 
@@ -46,15 +45,9 @@ export class ContactosAdminComponent implements OnInit {
   searchQuery = '';
   selectedStatus = '';
 
-  private readonly sedeKeys = ['sede_morada', 'sede_tel_geral', 'sede_tel_movel', 'sede_email', 'sede_responsavel'];
   private readonly horariosKeys = ['horarios_secretaria', 'horarios_sociais', 'horarios_pre_catl'];
 
   private readonly labels: Record<string, string> = {
-    sede_morada:         'Morada',
-    sede_tel_geral:      'Telefone Geral',
-    sede_tel_movel:      'Telefone Móvel',
-    sede_email:          'Email',
-    sede_responsavel:    'Responsável',
     horarios_secretaria: 'Secretaria (Sede)',
     horarios_sociais:    'Serviços Sociais',
     horarios_pre_catl:   'Pré-Escolar e CATL',
@@ -84,7 +77,6 @@ export class ContactosAdminComponent implements OnInit {
       rows.forEach(r => {
         this.pageEdit[r.id] = { editing: false, value: r.content_value, saving: false };
       });
-      this.sedeFields = this.buildFields(rows, this.sedeKeys);
       this.horariosFields = this.buildFields(rows, this.horariosKeys);
       this.loadingPages = false;
       this.cdr.markForCheck();
@@ -111,6 +103,7 @@ export class ContactosAdminComponent implements OnInit {
   // ---- Contactos ----
   get filtered(): ContactoItemAdmin[] {
     return this.contactos.filter(c => {
+      if (c.category === 'rapido') return false; // removidos da página pública
       const q = this.searchQuery.toLowerCase();
       const matchSearch = !q || c.type.toLowerCase().includes(q) || c.value.toLowerCase().includes(q);
       const matchStatus = !this.selectedStatus ||
@@ -170,13 +163,9 @@ export class ContactosAdminComponent implements OnInit {
     });
   }
 
-  // ---- Facilities (Instalações + Departamentos) ----
+  // ---- Facilities (Equipamentos) ----
   get instalacoes(): FacilityItemAdmin[] {
     return this.facilities.filter(f => f.category === 'instalacao');
-  }
-
-  get departamentos(): FacilityItemAdmin[] {
-    return this.facilities.filter(f => f.category === 'departamento');
   }
 
   async toggleFacility(f: FacilityItemAdmin): Promise<void> {

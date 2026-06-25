@@ -19,6 +19,22 @@ if(!empty($data->id)) {
 
     $evento = new Evento($db);
 
+    $row = $evento->lerPorId($data->id);
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode(["message" => "Evento não encontrado."]);
+        exit;
+    }
+
+    // Impede reativar eventos cuja data (ou data de fim) já passou
+    $isInactive  = (int)($row['idState'] ?? 1) !== 1;
+    $relevantDate = !empty($row['end_date']) ? $row['end_date'] : $row['event_date'];
+    if ($isInactive && $relevantDate < date('Y-m-d')) {
+        http_response_code(400);
+        echo json_encode(["message" => "Não é possível reativar um evento cuja data já passou."]);
+        exit;
+    }
+
     if($evento->toggleState($data->id)) {
         $log = new Log($db);
         $log->inserir($_SESSION['idUser'], 8, null, null, $data->id);

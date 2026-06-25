@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RelatorioItemAdmin, RelatoriosService, TipoItem } from '../../../services/relatorios.service';
 import { NotifyService } from '../../../services/notify.service';
 
@@ -15,6 +16,7 @@ export class RelatoriosAdminComponent implements OnInit {
   private readonly relatoriosService = inject(RelatoriosService);
   private readonly notify = inject(NotifyService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   relatorios: RelatorioItemAdmin[] = [];
   tipos: TipoItem[] = [];
@@ -30,12 +32,12 @@ export class RelatoriosAdminComponent implements OnInit {
 
   load(): void {
     this.isLoading = true;
-    this.relatoriosService.listarAdmin().subscribe(rows => {
+    this.relatoriosService.listarAdmin().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(rows => {
       this.relatorios = rows;
       this.isLoading = false;
       this.cdr.markForCheck();
     });
-    this.relatoriosService.lerTipos().subscribe(tipos => {
+    this.relatoriosService.lerTipos().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(tipos => {
       this.tipos = tipos;
       this.cdr.markForCheck();
     });

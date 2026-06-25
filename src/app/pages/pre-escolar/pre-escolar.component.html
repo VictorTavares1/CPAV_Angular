@@ -1,61 +1,12 @@
 <div class="page-title-bar">
     <div class="container">
         <h1>Pré-Escolar</h1>
+        <p class="page-slogan">Laços que os ligam! Quando brincamos com a imaginação.</p>
     </div>
 </div>
 
 <main class="page-content">
     <div class="container">
-
-        <!-- Informação Geral -->
-        <section class="section-card">
-            <h2>O Pré-Escolar na Instituição</h2>
-            <p class="section-lead">
-                A nossa instituição assegura a resposta de Pré-Escolar em dois equipamentos distintos, promovendo o
-                desenvolvimento integral da criança através de uma pedagogia ativa, lúdica e centrada nas necessidades
-                individuais de cada criança.
-            </p>
-            <table class="info-table info-table--kv">
-                <tbody>
-                    <tr>
-                        <th>Público-Alvo</th>
-                        <td>Crianças dos 3 aos 6 anos</td>
-                    </tr>
-                    <tr>
-                        <th>Horário</th>
-                        <td>Das 7h30 às 19h30 (segunda a sexta-feira)</td>
-                    </tr>
-                    <tr>
-                        <th>Componentes</th>
-                        <td>Atividades pedagógicas, refeições (pequeno-almoço, almoço e lanche), recreio, descanso</td>
-                    </tr>
-                    <tr>
-                        <th>Equipa</th>
-                        <td>Educadoras(es) de infância, auxiliares de ação educativa, técnicos especializados</td>
-                    </tr>
-                    <tr>
-                        <th>Objetivos</th>
-                        <td>Promover autonomia, socialização, desenvolvimento psicomotor e aprendizagens significativas</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- Projeto Pedagógico -->
-        <section class="section-card">
-            <h2>Projeto Pedagógico</h2>
-            <div class="section-lead">
-                <p>O nosso projeto educativo baseia-se nos seguintes princípios fundamentais:</p>
-                <ul class="clean-list" style="margin-top: 12px;">
-                    <li><strong>Desenvolvimento Integral:</strong> Atendimento harmonioso às dimensões físicas, emocionais, sociais e cognitivas</li>
-                    <li><strong>Brincar como Aprendizagem:</strong> Valorização do jogo e da brincadeira como principais veículos de aprendizagem</li>
-                    <li><strong>Individualização:</strong> Respeito pelo ritmo e características únicas de cada criança</li>
-                    <li><strong>Inclusão:</strong> Criação de ambientes acolhedores e adaptados a todas as crianças</li>
-                    <li><strong>Participação Familiar:</strong> Envolvimento ativo das famílias no processo educativo</li>
-                    <li><strong>Contacto com a Natureza:</strong> Promoção de atividades ao ar livre e educação ambiental</li>
-                </ul>
-            </div>
-        </section>
 
         <!-- Equipamentos com Tabs -->
         <section class="section-card">
@@ -97,7 +48,7 @@
                         </table>
 
                         <div class="building-map">
-                            <iframe [src]="getSafeUrl(b.mapSrc)" loading="lazy"
+                            <iframe [src]="b.mapSrc" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
                             </iframe>
                         </div>
@@ -133,52 +84,59 @@
             }
         </section>
 
+        <!-- Informação Geral -->
+        <section class="section-card">
+            <h2>O Pré-Escolar na Instituição</h2>
+            <p class="section-lead">{{ descricaoGeral }}</p>
+            <table class="info-table info-table--kv">
+                <tbody>
+                    <tr>
+                        <th>Público-Alvo</th>
+                        <td>{{ publicoAlvo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Horário</th>
+                        <td>{{ horario }}</td>
+                    </tr>
+                    <tr>
+                        <th>Componentes</th>
+                        <td>{{ componentes }}</td>
+                    </tr>
+                    <tr>
+                        <th>Equipa</th>
+                        <td>{{ equipa }}</td>
+                    </tr>
+                    <tr>
+                        <th>Objetivos</th>
+                        <td>{{ objetivos }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Projeto Pedagógico -->
+        @if (projetoPedagogicoHtml) {
+        <section class="section-card">
+            <h2>Projeto Pedagógico</h2>
+            <div class="rich-text" [innerHTML]="projetoPedagogicoHtml"></div>
+        </section>
+        }
+
         <!-- Inscrições -->
+        @if (inscricoesHtml) {
         <section class="section-card">
             <h2>Inscrições</h2>
-            <p>Para mais informações sobre vagas, inscrições e valores, contacte diretamente os nossos estabelecimentos
-                através dos contactos acima indicados ou visite as instalações durante o horário de funcionamento.</p>
-            <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);">
-                <p style="margin: 0;"><strong>Documentação necessária para inscrição:</strong></p>
-                <ul class="clean-list" style="margin-top: 8px;">
-                    <li>Cartão de Cidadão da criança</li>
-                    <li>Cartão de Cidadão do encarregado de educação</li>
-                    <li>Comprovativo de residência</li>
-                    <li>Boletim de vacinas atualizado</li>
-                    <li>Número de identificação fiscal (NIF) da criança</li>
-                    <li>Número de utente do Serviço Nacional de Saúde</li>
-                    <li>2 fotografias tipo passe</li>
-                </ul>
-            </div>
+            <div class="rich-text" [innerHTML]="inscricoesHtml"></div>
         </section>
+        }
 
         <!-- FAQs -->
+        @if (faqHtml) {
         <section class="section-card">
             <h2>Perguntas Frequentes</h2>
-            <div class="faq-list">
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">Que idade deve ter a criança para ingressar no Pré-Escolar?</h4>
-                    <p class="faq-answer">As crianças podem ingressar a partir dos 3 anos de idade, desde que já tenham adquirido autonomia nas rotinas básicas de higiene e alimentação.</p>
-                </div>
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">As crianças fazem sesta durante o dia?</h4>
-                    <p class="faq-answer">Sim, todas as crianças têm período de descanso após o almoço, adequado à idade e necessidades individuais de cada uma.</p>
-                </div>
-
-                <div class="faq-entry">
-                    <h4 class="faq-question">Como é feita a comunicação com as famílias?</h4>
-                    <p class="faq-answer">Através de contactos diretos com as educadoras, reuniões periódicas, agenda diária e plataformas digitais de comunicação.</p>
-                </div>
-
-                <div class="faq-entry faq-entry--last">
-                    <h4 class="faq-question">Que tipo de refeições são servidas?</h4>
-                    <p class="faq-answer">Servimos pequeno-almoço, almoço e lanche, seguindo as orientações da Direção-Geral da Saúde para ementas escolares saudáveis e equilibradas.</p>
-                </div>
-
-            </div>
+            <div class="rich-text" [innerHTML]="faqHtml"></div>
         </section>
+        }
 
     </div>
 </main>
