@@ -20,6 +20,8 @@
       <option value="1">Ativo</option>
       <option value="2">Inativo</option>
     </select>
+    <input type="date" class="filter-date" [(ngModel)]="dateFrom" [attr.max]="dateTo || null" (ngModelChange)="resetPage()" aria-label="De" />
+    <input type="date" class="filter-date" [(ngModel)]="dateTo"   [attr.min]="dateFrom || null" (ngModelChange)="resetPage()" aria-label="Até" />
     <button type="button" class="filter-clear-btn" (click)="clearFilters()">Limpar</button>
   </div>
 

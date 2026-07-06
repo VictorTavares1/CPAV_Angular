@@ -52,7 +52,7 @@ class Evento {
     $stmt->bindParam(":title", $title);
     $stmt->bindParam(":event_date", $event_date);
     $stmt->bindValue(":end_date", $end_date ?: null, $end_date ? PDO::PARAM_STR : PDO::PARAM_NULL);
-    $stmt->bindParam(":event_time", $event_time);
+    $stmt->bindValue(":event_time", $event_time ?: null, $event_time ? PDO::PARAM_STR : PDO::PARAM_NULL);
     $stmt->bindParam(":idLocation", $idLocation);
 
     if ($stmt->execute()) {
@@ -81,7 +81,7 @@ public function editar($id, $title, $event_date, $end_date, $event_time) {
     $stmt->bindParam(":title", $title);
     $stmt->bindParam(":event_date", $event_date);
     $stmt->bindValue(":end_date", $end_date ?: null, $end_date ? PDO::PARAM_STR : PDO::PARAM_NULL);
-    $stmt->bindParam(":event_time", $event_time);
+    $stmt->bindValue(":event_time", $event_time ?: null, $event_time ? PDO::PARAM_STR : PDO::PARAM_NULL);
 
     return $stmt->execute();
 }

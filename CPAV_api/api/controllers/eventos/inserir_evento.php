@@ -16,7 +16,7 @@ $data = json_decode(file_get_contents("php://input"));
 if(
     !empty($data->title) &&
     !empty($data->event_date) &&
-    !empty($data->event_time) &&
+    (!empty($data->event_time) || !empty($data->end_date)) &&
     !empty($data->idLocation)
 ) {
     $today    = new DateTime('today');
@@ -33,6 +33,11 @@ if(
         if (!$endDay || $endDay <= $eventDay) {
             http_response_code(400);
             echo json_encode(["message" => "A data de fim deve ser posterior à data de início."]);
+            exit;
+        }
+        if ($endDay < $today) {
+            http_response_code(400);
+            echo json_encode(["message" => "A data de fim não pode ser uma data já passada."]);
             exit;
         }
         $maxEnd = (clone $eventDay)->modify('+7 days');

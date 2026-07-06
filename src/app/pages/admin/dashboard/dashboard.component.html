@@ -89,7 +89,7 @@
             </svg>
           </div>
           <div class="dash-card-body">
-            <h3>Gerir Localizações</h3>
+            <h3>Gerir Localizações <span class="dash-badge">{{ counts.localizacoes }}</span></h3>
             <p>Adicionar ou editar os locais dos eventos</p>
           </div>
         </a>
@@ -108,8 +108,12 @@
               </svg>
             </div>
             <div class="dash-card-body">
-              <h3>Gerir Contactos <span class="dash-badge">{{ counts.contactos }}</span></h3>
-              <p>Editar, ativar ou desativar contactos</p>
+              <h3>Gerir Contactos</h3>
+              <p>
+                <span class="dash-badge">{{ counts.contactos }}</span> contacto(s) &nbsp;·&nbsp;
+                <span class="dash-badge">3</span> horário(s) &nbsp;·&nbsp;
+                <span class="dash-badge">{{ counts.instalacoes }}</span> equipamento(s)
+              </p>
             </div>
           </a>
         </div>
@@ -194,7 +198,7 @@
               </svg>
             </div>
             <div class="dash-card-body">
-              <h3>Gerir Utilizadores</h3>
+              <h3>Gerir Utilizadores <span class="dash-badge">{{ counts.utilizadores }}</span></h3>
               <p>Criar, editar e desativar contas de acesso ao painel</p>
             </div>
           </a>

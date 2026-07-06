@@ -52,9 +52,17 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label required" for="event_time">Hora</label>
+            <label class="form-label" [class.required]="!form.controls.end_date.value" for="event_time">
+              Hora
+              @if (form.controls.end_date.value) {
+                <span class="label-optional">(opcional)</span>
+              }
+            </label>
             <input id="event_time" type="time" class="form-input"
               formControlName="event_time" />
+            @if (form.controls.end_date.value) {
+              <p class="field-hint">Hora de início do primeiro dia (opcional em eventos multi-dia).</p>
+            }
             @if (form.controls.event_time.touched && form.controls.event_time.invalid) {
               <p class="field-error">A hora é obrigatória.</p>
             }

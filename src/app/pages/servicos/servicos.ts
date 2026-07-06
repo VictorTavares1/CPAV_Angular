@@ -45,7 +45,7 @@ export class Servicos implements OnInit {
     if (t.includes('pré-escolar') || t.includes('pre-escolar')) return '/servicos/pre-escolar';
     if (t.includes('catl') || t.includes('tempos livres')) return '/servicos/catl';
     if (t.includes('domiciliário') || t.includes('domiciliario') || t.includes('sad')) return '/servicos/sad';
-    if (t.includes('paragem')) return '/servicos/paragem';
+    if (t.includes('paragem') || t.includes('p.a.r.a.g.e.m') || t.includes('comunitário') || t.includes('comunitario')) return '/servicos/paragem';
     if (t.includes('estudo')) return '/servicos/apoio-estudo';
     if (t.includes('belém') || t.includes('belem')) return '/servicos/nossa-senhora-belem';
     return '/servicos';

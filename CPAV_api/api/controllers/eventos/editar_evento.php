@@ -17,15 +17,21 @@ if(
     !empty($data->id) &&
     !empty($data->title) &&
     !empty($data->event_date) &&
-    !empty($data->event_time)
+    (!empty($data->event_time) || !empty($data->end_date))
 ) {
     $end_date = !empty($data->end_date) ? $data->end_date : null;
     if ($end_date) {
+        $today    = new DateTime('today');
         $eventDay = DateTime::createFromFormat('Y-m-d', $data->event_date);
         $endDay   = DateTime::createFromFormat('Y-m-d', $end_date);
         if (!$endDay || !$eventDay || $endDay <= $eventDay) {
             http_response_code(400);
             echo json_encode(["message" => "A data de fim deve ser posterior à data de início."]);
+            exit;
+        }
+        if ($endDay < $today) {
+            http_response_code(400);
+            echo json_encode(["message" => "A data de fim não pode ser uma data já passada."]);
             exit;
         }
         $maxEnd = (clone $eventDay)->modify('+7 days');

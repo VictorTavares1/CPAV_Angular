@@ -436,7 +436,8 @@ h1 {
 }
 
 .filter-input,
-.filter-select {
+.filter-select,
+.filter-date {
   padding: 9px 12px;
   border-radius: var(--radius);
   border: 1px solid var(--medium-gray);
@@ -452,7 +453,8 @@ h1 {
 }
 
 .filter-input:focus,
-.filter-select:focus {
+.filter-select:focus,
+.filter-date:focus {
   outline: none;
   border-color: var(--primary);
 }

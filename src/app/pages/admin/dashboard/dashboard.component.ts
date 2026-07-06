@@ -22,6 +22,9 @@ export class DashboardComponent implements OnInit {
     servicos: 0,
     contactos: 0,
     relatorios: 0,
+    instalacoes: 0,
+    localizacoes: 0,
+    utilizadores: 0,
   };
 
   get isSuperAdmin(): boolean {
@@ -35,6 +38,9 @@ export class DashboardComponent implements OnInit {
       servicos: this.dashboardService.getServicosCount(),
       contactos: this.dashboardService.getContactosCount(),
       relatorios: this.dashboardService.getRelatoriosCount(),
+      instalacoes: this.dashboardService.getInstalacoesCount(),
+      localizacoes: this.dashboardService.getLocalizacoesCount(),
+      utilizadores: this.dashboardService.getUsersCount(),
     }).subscribe((counts) => {
       this.counts = counts;
       this.cdr.markForCheck();

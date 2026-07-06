@@ -21,6 +21,8 @@ export class NoticiasAdminComponent implements OnInit {
 
   searchQuery = '';
   selectedStatus = '';
+  dateFrom = '';
+  dateTo = '';
 
   currentPage = 1;
   readonly perPage = 10;
@@ -52,7 +54,10 @@ export class NoticiasAdminComponent implements OnInit {
       const matchStatus = !this.selectedStatus ||
         (this.selectedStatus === '1' && n.idState === 1) ||
         (this.selectedStatus === '2' && n.idState !== 1);
-      return matchSearch && matchStatus;
+      const d = n.dateHour ? n.dateHour.substring(0, 10) : '';
+      const matchFrom = !this.dateFrom || (!!d && d >= this.dateFrom);
+      const matchTo   = !this.dateTo   || (!!d && d <= this.dateTo);
+      return matchSearch && matchStatus && matchFrom && matchTo;
     });
   }
 
@@ -101,6 +106,8 @@ export class NoticiasAdminComponent implements OnInit {
   clearFilters(): void {
     this.searchQuery = '';
     this.selectedStatus = '';
+    this.dateFrom = '';
+    this.dateTo = '';
     this.resetPage();
   }
 }

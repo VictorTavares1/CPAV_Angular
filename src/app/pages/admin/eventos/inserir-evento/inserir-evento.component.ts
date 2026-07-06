@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventosService, LocalizacaoItem } from '../../../../services/eventos.service';
@@ -19,7 +20,8 @@ function dataFuturaValidator(control: AbstractControl): ValidationErrors | null 
   templateUrl: './inserir-evento.component.html',
   styleUrl: './inserir-evento.component.css',
 })
-export class InserirEventoComponent implements OnInit {
+export class InserirEventoComponent implements OnInit, OnDestroy {
+  private endDateSub?: Subscription;
   private readonly eventosService = inject(EventosService);
   private readonly notify = inject(NotifyService);
   private readonly fb = inject(FormBuilder);
@@ -32,7 +34,7 @@ export class InserirEventoComponent implements OnInit {
     title:      ['', [Validators.required]],
     idLocation: ['', [Validators.required]],
     event_date: ['', [Validators.required, dataFuturaValidator]],
-    end_date:   [''],
+    end_date:   ['', [dataFuturaValidator]],
     event_time: ['', [Validators.required]],
   });
 
@@ -60,6 +62,21 @@ export class InserirEventoComponent implements OnInit {
       this.localizacoes = l;
       this.cdr.markForCheck();
     });
+
+    this.endDateSub = this.form.controls.end_date.valueChanges.subscribe(val => {
+      const timeCtrl = this.form.controls.event_time;
+      if (val) {
+        timeCtrl.clearValidators();
+      } else {
+        timeCtrl.setValidators([Validators.required]);
+      }
+      timeCtrl.updateValueAndValidity({ emitEvent: false });
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.endDateSub?.unsubscribe();
   }
 
   submit(): void {
